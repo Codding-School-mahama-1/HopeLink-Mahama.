@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpFeed - Smart Charity Donation Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+        }
+        .pulse-donate {
+            animation: pulse-glow 5s infinite;
+        }
+        .active-nav-item {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .mobile-menu-open {
+            transform: translateX(0);
+        }
+        .mobile-menu-closed {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="font-['Inter'] bg-white dark:bg-gray-900 transition-colors duration-300">
+    <!-- Sticky Navigation Bar -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md transition-all duration-300 border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo + Brand Name -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center space-x-2 group">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">HelpFeed</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links (Center) -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Home</a>
+                    <a href="#how-it-works" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">How It Works</a>
+                    <a href="#campaigns" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Campaigns</a>
+                    <a href="#transparency" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Transparency</a>
+                    <a href="#impact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Impact Stories</a>
+                    <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">About Us</a>
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Language Switcher -->
+                    <div class="relative group">
+                        <button id="language-toggle" class="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                            <span class="fi fi-gb rounded-sm"></span>
+                            <span>EN</span>
+                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200 dark:border-gray-700">
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <span class="fi fi-fr mr-2"></span>
+                                <span>Français</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <span class="fi fi-sa mr-2"></span>
+                                <span>العربية</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <span class="fi fi-ke mr-2"></span>
+                                <span>Kiswahili</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <span class="fi fi-es mr-2"></span>
+                                <span>Español</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Dark/Light Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <i data-lucide="sun" class="h-5 w-5 block dark:hidden"></i>
+                        <i data-lucide="moon" class="h-5 w-5 hidden dark:block"></i>
+                    </button>
+
+                    <!-- Login / Sign Up -->
+                    <button id="auth-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                        Login / Sign Up
+                    </button>
+
+                    <!-- Donate Now Button -->
+                    <a href="#donate" class="px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium rounded-lg pulse-donate hover:from-red-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105">
+                        Donate Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white dark:bg-gray-900 md:hidden mobile-menu-closed transition-transform duration-300">
+        <div class="flex flex-col h-full pt-20 pb-6 px-6">
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-xl font-bold text-gray-900 dark:text-white">Menu</span>
+                <button id="mobile-menu-close" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                    <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+            </div>
+            
+            <div class="flex flex-col space-y-6 mb-8">
+                <a href="#home" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+                <a href="#how-it-works" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How It Works</a>
+                <a href="#campaigns" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Campaigns</a>
+                <a href="#transparency" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Transparency</a>
+                <a href="#impact" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Impact Stories</a>
+                <a href="#about" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
+                <a href="#get-involved" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Get Involved</a>
+                <a href="#contact" class="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
+            </div>
+            
+            <div class="mt-auto space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700 dark:text-gray-300">Language</span>
+                    <select class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg px-3 py-2">
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="ar">العربية</option>
+                        <option value="sw">Kiswahili</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700 dark:text-gray-300">Theme</span>
+                    <button id="mobile-theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                        <i data-lucide="sun" class="h-5 w-5 block dark:hidden"></i>
+                        <i data-lucide="moon" class="h-5 w-5 hidden dark:block"></i>
+                    </button>
+                </div>
+                
+                <button id="mobile-auth-toggle" class="w-full py-3 text-center bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    Login / Sign Up
+                </button>
+                
+                <a href="#donate" class="block w-full py-3 text-center bg-gradient-to-r from-red-500 to-orange-500 text-white font-medium rounded-lg pulse-donate hover:from-red-600 hover:to-orange-600 transition-all duration-300">
+                    Donate Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Sign Up Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 opacity-0 invisible transition-all duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full mx-4 transform scale-95 transition-transform duration-300">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Join HelpFeed</h3>
+                    <button id="close-auth-modal" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        <i data-lucide="x" class="h-5 w-5"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Select your role to continue</p>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <button class="role-option p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+                            <i data-lucide="heart" class="h-8 w-8 mx-auto mb-2 text-blue-500"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">I am a Donor</span>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">I want to help people in need</p>
+                        </button>
+                        <button class="role-option p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+                            <i data-lucide="users" class="h-8 w-8 mx-auto mb-2 text-green-500"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">I am an NGO</span>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">I represent an organization</p>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="h-px bg-gray-200 dark:bg-gray-700 flex-1"></div>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">Or continue with</span>
+                        <div class="h-px bg-gray-200 dark:bg-gray-700 flex-1"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="p-3 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <i data-lucide="mail" class="h-5 w-5 text-gray-700 dark:text-gray-300"></i>
+                        </button>
+                        <button class="p-3 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <i data-lucide="facebook" class="h-5 w-5 text-blue-600"></i>
+                        </button>
+                        <button class="p-3 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <i data-lucide="smartphone" class="h-5 w-5 text-gray-700 dark:text-gray-300"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                    <i data-lucide="shield" class="h-4 w-4 text-green-500"></i>
+                    <span>Secure by SSL / Verified Platform</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section (for navbar transparency demo) -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Empowering Generosity. Transforming Lives.</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">HelpFeed connects donors with verified causes to ensure transparency and maximize impact for every person in need.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#campaigns" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">Explore Campaigns</a>
+                <a href="#how-it-works" class="px-6 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Sections (for scroll demo) -->
+    <section id="how-it-works" class="py-16 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="search" class="h-8 w-8 text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Discover Causes</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Browse verified campaigns and choose where to make an impact.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shield-check" class="h-8 w-8 text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Donate Securely</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Make safe, transparent donations with real-time tracking.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="trending-up" class="h-8 w-8 text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Track Impact</h3>
+                    <p class="text-gray-600 dark:text-gray-400">See how your donation transforms lives with full transparency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            // Refresh icons to ensure correct ones are shown
+            lucide.createIcons();
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+
+        // Check for saved theme preference or respect OS setting
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('mobile-menu-closed');
+            mobileMenu.classList.add('mobile-menu-open');
+        });
+        
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('mobile-menu-open');
+            mobileMenu.classList.add('mobile-menu-closed');
+        });
+
+        // Auth modal functionality
+        const authToggle = document.getElementById('auth-toggle');
+        const mobileAuthToggle = document.getElementById('mobile-auth-toggle');
+        const closeAuthModal = document.getElementById('close-auth-modal');
+        const authModal = document.getElementById('auth-modal');
+        const roleOptions = document.querySelectorAll('.role-option');
+        
+        function openAuthModal() {
+            authModal.classList.remove('opacity-0', 'invisible');
+            setTimeout(() => {
+                authModal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+        
+        function closeAuthModalFunc() {
+            authModal.querySelector('div').classList.add('scale-95');
+            authModal.classList.add('opacity-0', 'invisible');
+        }
+        
+        authToggle.addEventListener('click', openAuthModal);
+        mobileAuthToggle.addEventListener('click', openAuthModal);
+        closeAuthModal.addEventListener('click', closeAuthModalFunc);
+        
+        // Close modal when clicking outside
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                closeAuthModalFunc();
+            }
+        });
+        
+        // Role selection in auth modal
+        roleOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                roleOptions.forEach(opt => {
+                    opt.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+                });
+                option.classList.add('border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'dark:bg-gray-900', 'shadow-md');
+                navbar.classList.remove('bg-white/90', 'dark:bg-gray-900/90');
+            } else {
+                navbar.classList.remove('bg-white', 'dark:bg-gray-900', 'shadow-md');
+                navbar.classList.add('bg-white/90', 'dark:bg-gray-900/90');
+            }
+        });
+
+        // Active nav item highlighting (simplified for demo)
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            // In a real implementation, you would use Intersection Observer
+            // to detect which section is in view and highlight the corresponding nav item
+        });
+    </script>
+
+    <!-- Add flag icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css">
+</body>
+</html>
