@@ -4,131 +4,579 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - HopeLink Mahama</title>
-    <link rel="stylesheet" href="main css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            blue: '#3B82F6',
+                            green: '#10B981',
+                            yellow: '#FBBF24',
+                            light: '#FEF3C7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.success {
+            background-color: #10B981;
+        }
+        .notification.error {
+            background-color: #EF4444;
+        }
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-menu.active {
+            display: block;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #4B5563;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .dropdown-content a:hover {
+            background-color: #F3F4F6;
+            color: #3B82F6;
+        }
+        .map-container {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        .logo-icon i {
+            color: white;
+            font-size: 20px;
+        }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html">HopeLink Mahama</a>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <!-- Professional Logo -->
+                    <div class="logo-container">
+                        <div class="logo-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="logo-text">HopeLink Mahama</div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-600 hover:text-primary-blue transition">Home</a>
+                    
+                    <!-- Programs Dropdown -->
+                    <div class="dropdown">
+                        <button class="text-gray-600 hover:text-primary-blue transition flex items-center">
+                            Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="hunger-help.html">Hunger Help</a>
+                            <a href="youth-empowerment.html">Youth Empowerment</a>
+                            <a href="mental-wellness.html">Mental Wellness</a>
+                        </div>
+                    </div>
+                    
+                    <a href="about-us.html" class="text-gray-600 hover:text-primary-blue transition">About</a>
+                    <a href="get-involved.html" class="text-gray-600 hover:text-primary-blue transition">Get Involved</a>
+                    
+                    <!-- News & Updates -->
+                    <div class="dropdown">
+                        <button class="text-gray-600 hover:text-primary-blue transition flex items-center">
+                            News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="news.html">Latest News</a>
+                            <a href="events.html">Upcoming Events</a>
+                            <a href="stories.html">Success Stories</a>
+                        </div>
+                    </div>
+                    
+                    <a href="contact.html" class="text-primary-blue font-semibold border-b-2 border-primary-blue">Contact</a>
+                    
+                    <!-- Advertisement -->
+                    <div class="dropdown">
+                        <button class="bg-primary-yellow text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center">
+                            Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="volunteer.html">Volunteer</a>
+                            <a href="careers.html">Careers</a>
+                            <a href="partnerships.html">Partnerships</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button onclick="openModal('donateModal')" class="bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition">
+                        Donate Now
+                    </button>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="hunger-help.html" class="nav-link">Hunger Help</a>
-                <a href="education-access.html" class="nav-link">Education Access</a>
-                <a href="women-safety.html" class="nav-link">Women Safety</a>
-                <a href="youth-empowerment.html" class="nav-link">Youth Empowerment</a>
-                <a href="health-hygiene.html" class="nav-link">Health & Hygiene</a>
-                <a href="mental-wellness.html" class="nav-link">Mental Wellness</a>
-                <a href="about-us.html" class="nav-link">About Us</a>
-                <a href="get-involved.html" class="nav-link">Get Involved</a>
-                <a href="contact.html" class="nav-link active">Contact</a>
-            </div>
-            <div class="nav-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="mobile-menu">
+                <div class="px-4 py-2 space-y-3">
+                    <a href="index.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Home</a>
+                    
+                    <div class="py-2">
+                        <button class="flex items-center justify-between w-full text-gray-600 hover:text-primary-blue transition">
+                            <span>Programs</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="pl-4 mt-2 space-y-2 hidden" id="mobileProgramsMenu">
+                            <a href="hunger-help.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Hunger Help</a>
+                            <a href="youth-empowerment.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Youth Empowerment</a>
+                            <a href="mental-wellness.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Mental Wellness</a>
+                        </div>
+                    </div>
+                    
+                    <a href="about.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">About</a>
+                    <a href="get-involved.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Get Involved</a>
+                    
+                    <div class="py-2">
+                        <button class="flex items-center justify-between w-full text-gray-600 hover:text-primary-blue transition">
+                            <span>News & Updates</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="pl-4 mt-2 space-y-2 hidden" id="mobileNewsMenu">
+                            <a href="news.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Latest News</a>
+                            <a href="events.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Upcoming Events</a>
+                            <a href="stories.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Success Stories</a>
+                        </div>
+                    </div>
+                    
+                    <a href="contact.html" class="block py-2 text-primary-blue font-semibold border-l-4 border-primary-blue pl-2">Contact</a>
+                    
+                    <div class="py-2">
+                        <button class="flex items-center justify-between w-full text-gray-600 hover:text-primary-blue transition">
+                            <span>Opportunities</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="pl-4 mt-2 space-y-2 hidden" id="mobileOpportunitiesMenu">
+                            <a href="volunteer.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Volunteer</a>
+                            <a href="careers.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Careers</a>
+                            <a href="partnerships.html" class="block py-1 text-gray-600 hover:text-primary-blue transition">Partnerships</a>
+                        </div>
+                    </div>
+                    
+                    <button onclick="openModal('donateModal')" class="w-full bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition text-left">
+                        Donate Now
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Page Hero -->
-    <section class="page-hero">
-        <div class="container">
-            <h1>Contact Us</h1>
-            <p>Get in touch with HopeLink Mahama - we're here to help and listen</p>
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div class="flex items-center">
+            <i id="notificationIcon" class="fas fa-check-circle mr-2"></i>
+            <span id="notificationMessage">Action completed successfully!</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary-blue to-primary-green">
+        <div class="max-w-7xl mx-auto px-4 text-center text-white">
+            <div class="fade-in">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">Contact HopeLink Mahama</h1>
+                <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+                    We're here to help, listen, and connect. Reach out to us for support, information, or partnership opportunities.
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- Page Content -->
-    <section class="page-content">
-        <div class="container">
-            <div class="content-grid">
+    <!-- Contact Form & Information -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12">
                 <!-- Contact Form -->
-                <div class="content-card">
-                    <h2>Send us a Message</h2>
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <label for="contact-name">Your Name</label>
-                            <input type="text" id="contact-name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-email">Email Address</label>
-                            <input type="email" id="contact-email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-phone">Phone Number</label>
-                            <input type="tel" id="contact-phone" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-subject">Subject</label>
-                            <select id="contact-subject" class="form-control" required>
-                                <option value="">Select subject</option>
-                                <option value="general">General Inquiry</option>
-                                <option value="support">Need Support</option>
-                                <option value="volunteer">Volunteering</option>
-                                <option value="donation">Donation</option>
-                                <option value="partnership">Partnership</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-message">Message</label>
-                            <textarea id="contact-message" class="form-control" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
+                <div class="fade-in">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Send us a Message</h2>
+                        <form id="contactForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">First Name *</label>
+                                    <input type="text" id="firstName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Last Name *</label>
+                                    <input type="text" id="lastName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" id="phone" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2">Subject *</label>
+                                <select id="subject" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Need Support</option>
+                                    <option value="volunteer">Volunteering</option>
+                                    <option value="donation">Donation</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 mb-2">Message *</label>
+                                <textarea id="message" rows="5" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue"></textarea>
+                            </div>
+                            
+                            <div class="pt-4">
+                                <button type="submit" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                                    <i class="fas fa-paper-plane mr-2"></i> Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
+                
                 <!-- Contact Information -->
-                <div class="content-card">
-                    <h2>Contact Information</h2>
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <h3>📍 Location</h3>
-                            <p>Mahama Refugee Camp<br>Kirehe District, Rwanda</p>
+                <div class="fade-in">
+                    <div class="space-y-8">
+                        <div class="bg-primary-light p-6 rounded-2xl">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Contact Information</h2>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center mt-1 mr-4">
+                                        <i class="fas fa-map-marker-alt text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">📍 Location</h3>
+                                        <p class="text-gray-600">Mahama Refugee Camp<br>Kirehe District, Rwanda</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-green rounded-full flex items-center justify-center mt-1 mr-4">
+                                        <i class="fas fa-phone text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">📞 Phone</h3>
+                                        <p class="text-gray-600">General Inquiries: +250 788 123 456</p>
+                                        <p class="text-gray-600">Emergency: +250 788 555 456</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-yellow rounded-full flex items-center justify-center mt-1 mr-4">
+                                        <i class="fas fa-envelope text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">📧 Email</h3>
+                                        <p class="text-gray-600">info@hopelinkmahama.org</p>
+                                        <p class="text-gray-600">support@hopelinkmahama.org</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mt-1 mr-4">
+                                        <i class="fas fa-clock text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">🕒 Office Hours</h3>
+                                        <p class="text-gray-600">Monday - Friday: 8:00 AM - 5:00 PM</p>
+                                        <p class="text-gray-600">Saturday: 9:00 AM - 1:00 PM</p>
+                                        <p class="text-gray-600">Emergency services available 24/7</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="contact-item">
-                            <h3>📞 Phone</h3>
-                            <p>General Inquiries: +250 788 123 456</p>
-                            <p>Emergency: +250 788 555 456</p>
-                        </div>
-                        <div class="contact-item">
-                            <h3>📧 Email</h3>
-                            <p>info@hopelinkmahama.org</p>
-                            <p>support@hopelinkmahama.org</p>
-                        </div>
-                        <div class="contact-item">
-                            <h3>🕒 Office Hours</h3>
-                            <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                            <p>Saturday: 9:00 AM - 1:00 PM</p>
-                            <p>Emergency services available 24/7</p>
+                        
+                        <!-- Quick Actions -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
+                            <div class="space-y-3">
+                                <button onclick="openModal('volunteerModal')" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                                    <i class="fas fa-hands-helping mr-2"></i> Become a Volunteer
+                                </button>
+                                <button onclick="openModal('donateModal')" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                                    <i class="fas fa-donate mr-2"></i> Make a Donation
+                                </button>
+                                <button onclick="openModal('partnerModal')" class="w-full bg-primary-yellow text-gray-800 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center justify-center">
+                                    <i class="fas fa-handshake mr-2"></i> Partner With Us
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Emergency Contacts -->
-            <div class="content-section">
-                <h2>Emergency Contacts</h2>
-                <div class="content-grid">
-                    <div class="content-card">
-                        <h3>🚨 Immediate Danger</h3>
-                        <p>If you are in immediate danger or need urgent help:</p>
-                        <a href="tel:+250788555456" class="btn btn-emergency">Call Emergency: +250 788 555 456</a>
+    <!-- Emergency Contacts -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Emergency Contacts</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Immediate help when you need it most</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-4 bg-red-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">🚨 Immediate Danger</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">If you are in immediate danger or need urgent help:</p>
+                        <button onclick="callEmergency('+250788555456')" class="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600 transition flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i> Call Emergency: +250 788 555 456
+                        </button>
                     </div>
-                    <div class="content-card">
-                        <h3>💙 Mental Health Crisis</h3>
-                        <p>For emotional support and mental health emergencies:</p>
-                        <a href="tel:+250788555789" class="btn btn-emergency">Crisis Support: +250 788 555 789</a>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-4 bg-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-heart text-blue-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">💙 Mental Health Crisis</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">For emotional support and mental health emergencies:</p>
+                        <button onclick="callEmergency('+250788555789')" class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i> Crisis Support: +250 788 555 789
+                        </button>
                     </div>
-                    <div class="content-card">
-                        <h3>🛡️ Women's Safety</h3>
-                        <p>Confidential support for gender-based violence:</p>
-                        <a href="tel:+250788555123" class="btn btn-emergency">GBV Hotline: +250 788 555 123</a>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-4 bg-purple-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-shield-alt text-purple-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">🛡️ Women's Safety</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Confidential support for gender-based violence:</p>
+                        <button onclick="callEmergency('+250788555123')" class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i> GBV Hotline: +250 788 555 123
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-4 bg-orange-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-child text-orange-500 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">👶 Children's Safety</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Protection and support for children in danger:</p>
+                        <button onclick="callEmergency('+250788555999')" class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i> Child Safety: +250 788 555 999
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Map -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Location</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Find us at Mahama Refugee Camp in Kirehe District, Rwanda</p>
+            </div>
+
+            <div class="fade-in">
+                <div class="map-container">
+                    <!-- Placeholder for map - in a real implementation, you would embed Google Maps or similar -->
+                    <div class="bg-gradient-to-br from-primary-blue to-primary-green h-96 flex items-center justify-center text-white text-center">
+                        <div>
+                            <i class="fas fa-map-marked-alt text-6xl mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Mahama Refugee Camp</h3>
+                            <p class="text-lg">Kirehe District, Rwanda</p>
+                            <button onclick="openModal('directionsModal')" class="mt-4 bg-white text-primary-blue px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
+                                Get Directions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Quick answers to common questions</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <h3 class="text-lg font-semibold text-gray-800">How can I get immediate help for food assistance?</h3>
+                        <i class="fas fa-chevron-down text-primary-blue"></i>
+                    </button>
+                    <div class="faq-answer p-6 border-t border-gray-200 hidden">
+                        <p class="text-gray-600">You can visit our Hunger Help center at the main camp during operating hours (8 AM - 5 PM) or call our emergency food hotline at +250 788 555 456 for urgent needs outside of these hours.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <h3 class="text-lg font-semibold text-gray-800">What youth programs are currently available?</h3>
+                        <i class="fas fa-chevron-down text-primary-blue"></i>
+                    </button>
+                    <div class="faq-answer p-6 border-t border-gray-200 hidden">
+                        <p class="text-gray-600">We currently offer digital skills training, leadership development workshops, career counseling, and entrepreneurship programs. Visit our Youth Empowerment center for more information and registration.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <h3 class="text-lg font-semibold text-gray-800">How can I volunteer with HopeLink Mahama?</h3>
+                        <i class="fas fa-chevron-down text-primary-blue"></i>
+                    </button>
+                    <div class="faq-answer p-6 border-t border-gray-200 hidden">
+                        <p class="text-gray-600">We welcome volunteers in various capacities including teaching, administrative support, community outreach, and technical assistance. Please fill out our volunteer application form or visit our office to discuss opportunities.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <h3 class="text-lg font-semibold text-gray-800">Are your mental health services confidential?</h3>
+                        <i class="fas fa-chevron-down text-primary-blue"></i>
+                    </button>
+                    <div class="faq-answer p-6 border-t border-gray-200 hidden">
+                        <p class="text-gray-600">Yes, all our mental health services are completely confidential. Our trained counselors provide a safe, non-judgmental space for you to share your concerns and receive support.</p>
                     </div>
                 </div>
             </div>
@@ -136,44 +584,684 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>HopeLink Mahama</h3>
-                    <p>Connecting children, women, and youth in Mahama Camp to food, safety, education, and hope through technology.</p>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="logo-container mb-4">
+                        <div class="logo-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="logo-text">HopeLink Mahama</div>
+                    </div>
+                    <p class="text-gray-400">
+                        Empowering refugees through technology and innovation in Mahama Camp, Rwanda.
+                    </p>
                 </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="hunger-help.html">Hunger Help</a></li>
-                        <li><a href="education-access.html">Education Access</a></li>
-                        <li><a href="women-safety.html">Women Safety</a></li>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="get-involved.html" class="text-gray-400 hover:text-white transition">Get Involved</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="youth-empowerment.html">Youth Empowerment</a></li>
-                        <li><a href="health-hygiene.html">Health & Hygiene</a></li>
-                        <li><a href="mental-wellness.html">Mental Wellness</a></li>
-                        <li><a href="about-us.html">About Us</a></li>
-                    </ul>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            Mahama Camp, Kirehe District, Rwanda
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            hopelink.mahama@gmail.com
+                        </p>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h4>Contact Us</h4>
-                    <p>Mahama Refugee Camp, Rwanda</p>
-                    <p>Email: info@hopelinkmahama.org</p>
-                    <p>Phone: +250 788 123 456</p>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary-blue transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 HopeLink Mahama. All rights reserved.</p>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 HopeLink Mahama — Empowering Refugees Through Innovation.</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/js/main.js"></script>
+    <!-- Modals -->
+    <!-- Donation Modal -->
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Make a Donation</h3>
+                <button onclick="closeModal('donateModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="donationForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Donation Amount</label>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="10">$10</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="25">$25</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="50">$50</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="100">$100</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="250">$250</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition" data-amount="500">$500</button>
+                    </div>
+                    <input type="number" id="customAmount" placeholder="Custom Amount" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="donorName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="donorEmail" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Payment Method</label>
+                    <select id="paymentMethod" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                        <option value="credit">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition">
+                        Process Donation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Volunteer Modal -->
+    <div id="volunteerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Become a Volunteer</h3>
+                <button onclick="closeModal('volunteerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="volunteerForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">First Name</label>
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Last Name</label>
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Area of Interest</label>
+                    <select class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                        <option value="">Select an area</option>
+                        <option value="teaching">Teaching/Tutoring</option>
+                        <option value="tech">Technology Support</option>
+                        <option value="outreach">Community Outreach</option>
+                        <option value="fundraising">Fundraising</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Partner Modal -->
+    <div id="partnerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Partner With Us</h3>
+                <button onclick="closeModal('partnerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="partnerForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Organization Name</label>
+                    <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Contact Person</label>
+                    <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Type of Partnership</label>
+                    <select class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                        <option value="">Select partnership type</option>
+                        <option value="financial">Financial Support</option>
+                        <option value="technical">Technical Assistance</option>
+                        <option value="volunteer">Volunteer Program</option>
+                        <option value="resource">Resource Sharing</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Message</label>
+                    <textarea rows="4" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue"></textarea>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-primary-yellow text-gray-800 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition">
+                        Send Partnership Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Directions Modal -->
+    <div id="directionsModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Get Directions</h3>
+                <button onclick="closeModal('directionsModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <p class="text-gray-600">HopeLink Mahama is located at the Mahama Refugee Camp in Kirehe District, Eastern Province of Rwanda.</p>
+                
+                <div class="bg-primary-light p-4 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">📍 From Kigali:</h4>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                        <li>Take the Kigali-Rwamagana road east</li>
+                        <li>Continue to Kayonza district</li>
+                        <li>Take the road to Kirehe district</li>
+                        <li>Follow signs to Mahama Refugee Camp</li>
+                        <li>Look for HopeLink Mahama signage at the camp entrance</li>
+                    </ol>
+                </div>
+                
+                <div class="bg-primary-light p-4 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">🚌 Public Transport:</h4>
+                    <p class="text-gray-700">Take a bus from Kigali to Kirehe, then a local taxi or motorcycle to Mahama Camp.</p>
+                </div>
+                
+                <div class="pt-4">
+                    <button onclick="openNavigationApp()" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Open in Navigation App
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS with your user ID
+        (function(){
+            emailjs.init("user_your_user_id_here"); // You need to replace this with your actual EmailJS user ID
+        })();
+
+        // ========== MODAL MANAGEMENT ==========
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside content
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ========== MOBILE MENU ==========
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            
+            if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Mobile submenu toggle
+        document.querySelectorAll('#mobileMenu button').forEach(button => {
+            button.addEventListener('click', function() {
+                const menuId = this.textContent.trim().toLowerCase().replace(/\s+/g, '') + 'menu';
+                const submenu = document.getElementById('mobile' + menuId.charAt(0).toUpperCase() + menuId.slice(1));
+                if (submenu) {
+                    submenu.classList.toggle('hidden');
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-chevron-down')) {
+                        icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                    } else {
+                        icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    }
+                }
+            });
+        });
+
+        // ========== NOTIFICATION SYSTEM ==========
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            // Set notification content and style
+            notificationMessage.textContent = message;
+            notification.className = 'notification ' + type;
+            
+            if (type === 'success') {
+                notificationIcon.className = 'fas fa-check-circle mr-2';
+            } else {
+                notificationIcon.className = 'fas fa-exclamation-circle mr-2';
+            }
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        // ========== FORM HANDLING ==========
+        // Contact form - sends email using EmailJS
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Validate form
+            if (!firstName || !lastName || !email || !subject || !message) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+            submitButton.disabled = true;
+            
+            // Prepare email parameters
+            const templateParams = {
+                from_name: `${firstName} ${lastName}`,
+                from_email: email,
+                phone: phone || 'Not provided',
+                subject: subject,
+                message: message,
+                to_email: 'aliabdalla09zx@gmail.com'
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('service_your_service_id', 'template_your_template_id', templateParams)
+                .then(function(response) {
+                    showNotification(`Thank you ${firstName}! Your message has been sent successfully. We'll respond within 24 hours.`);
+                    document.getElementById('contactForm').reset();
+                }, function(error) {
+                    console.error('Failed to send email:', error);
+                    showNotification('Sorry, there was an error sending your message. Please try again later.', 'error');
+                })
+                .finally(function() {
+                    // Reset button state
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                });
+        });
+
+        // Donation form - processes donation
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get donation amount
+            let amount = document.getElementById('customAmount').value;
+            if (!amount) {
+                // Check if a preset amount was selected
+                const selectedAmount = document.querySelector('.donation-amount.active');
+                if (selectedAmount) {
+                    amount = selectedAmount.getAttribute('data-amount');
+                }
+            }
+            
+            if (!amount || amount <= 0) {
+                showNotification('Please select or enter a valid donation amount', 'error');
+                return;
+            }
+            
+            const name = document.getElementById('donorName').value;
+            const email = document.getElementById('donorEmail').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            
+            if (!name || !email) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            submitButton.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // In a real application, you would integrate with a payment processor here
+                showNotification(`Thank you for your donation of $${amount}! A receipt has been sent to ${email}.`);
+                closeModal('donateModal');
+                
+                // Reset form
+                document.getElementById('donationForm').reset();
+                document.querySelectorAll('.donation-amount').forEach(btn => {
+                    btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+                });
+                
+                // Reset button state
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }, 2000);
+        });
+
+        // Volunteer form
+        document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would send this data to a server
+            showNotification('Thank you for your volunteer application! We will contact you soon.');
+            closeModal('volunteerModal');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Partner form
+        document.getElementById('partnerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would send this data to a server
+            showNotification('Thank you for your partnership request! Our team will review it and contact you.');
+            closeModal('partnerModal');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Donation amount buttons
+        document.querySelectorAll('.donation-amount').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.donation-amount').forEach(btn => {
+                    btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active', 'bg-primary-blue', 'text-white');
+                
+                // Clear custom amount
+                document.getElementById('customAmount').value = '';
+            });
+        });
+
+        // Clear preset amount when custom amount is entered
+        document.getElementById('customAmount').addEventListener('input', function() {
+            document.querySelectorAll('.donation-amount').forEach(btn => {
+                btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+            });
+        });
+
+        // ========== EMERGENCY CALL FUNCTIONALITY ==========
+        function callEmergency(phoneNumber) {
+            if (confirm(`Are you sure you want to call ${phoneNumber}? This is for emergencies only.`)) {
+                // In a real application, this would initiate a phone call
+                showNotification(`Calling ${phoneNumber}... Please use your phone to complete the call.`);
+                // Simulate call initiation
+                setTimeout(() => {
+                    showNotification('If this were a real phone, the call would be connecting now.');
+                }, 1000);
+            }
+        }
+
+        // ========== FAQ FUNCTIONALITY ==========
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                if (icon.classList.contains('fa-chevron-down')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                } else {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                }
+            });
+        });
+
+        // ========== NAVIGATION FUNCTIONALITY ==========
+        function openNavigationApp() {
+            // In a real application, this would open Google Maps or similar
+            showNotification('Opening navigation app with directions to Mahama Refugee Camp...');
+            closeModal('directionsModal');
+        }
+
+        // ========== UTILITY FUNCTIONS ==========
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // ========== ANIMATIONS ==========
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Observe fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add click handlers for social media links in footer
+            document.querySelectorAll('footer a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        showNotification('This would open the social media page in a real application', 'success');
+                    }
+                });
+            });
+
+            // Initialize all forms with validation
+            const allForms = document.querySelectorAll('form');
+            allForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    // Additional form validation could be added here
+                });
+            });
+
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // ========== ADDITIONAL FEATURES ==========
+        // Contact form auto-save
+        let contactFormData = {};
+        
+        document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                contactFormData[this.id] = this.value;
+                localStorage.setItem('contactFormData', JSON.stringify(contactFormData));
+            });
+        });
+
+        // Load saved form data on page load
+        window.addEventListener('load', function() {
+            const savedData = localStorage.getItem('contactFormData');
+            if (savedData) {
+                contactFormData = JSON.parse(savedData);
+                Object.keys(contactFormData).forEach(id => {
+                    const field = document.getElementById(id);
+                    if (field) {
+                        field.value = contactFormData[id];
+                    }
+                });
+            }
+        });
+
+        // Clear saved form data on successful submission
+        document.getElementById('contactForm').addEventListener('submit', function() {
+            localStorage.removeItem('contactFormData');
+            contactFormData = {};
+        });
+
+        // Page view tracking
+        window.addEventListener('load', function() {
+            // In a real app, this would send page view data to analytics
+            console.log('HopeLink Mahama contact page loaded');
+        });
+
+        // Emergency contact quick dial
+        function quickDial(number) {
+            window.location.href = `tel:${number}`;
+        }
+
+        // Copy email to clipboard
+        function copyEmail(email) {
+            navigator.clipboard.writeText(email).then(() => {
+                showNotification('Email address copied to clipboard!');
+            });
+        }
+
+        // Share contact page
+        function shareContactPage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Contact HopeLink Mahama',
+                    text: 'Get in touch with HopeLink Mahama for support and information',
+                    url: window.location.href,
+                })
+                .then(() => showNotification('Thank you for sharing!'))
+                .catch(error => console.log('Error sharing:', error));
+            } else {
+                showNotification('Sharing is not supported on this browser');
+            }
+        }
+
+        // Real-time form validation
+        document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value) {
+                    this.classList.add('border-red-500');
+                } else {
+                    this.classList.remove('border-red-500');
+                }
+                
+                if (this.type === 'email' && this.value && !isValidEmail(this.value)) {
+                    this.classList.add('border-red-500');
+                }
+            });
+            
+            field.addEventListener('input', function() {
+                if (this.value) {
+                    this.classList.remove('border-red-500');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
