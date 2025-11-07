@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahama Refugee Camp - Information Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .arabic-text {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+        }
+        .kinyarwanda-text {
+            font-family: 'Inter', sans-serif;
+        }
+        .language-flag {
+            width: 24px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 8px;
+            background-size: cover;
+            border-radius: 2px;
+        }
+        .flag-en {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(%23s)"><path d="M0,0 v30 h60 v-30 z" fill="%2300247f"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="%23fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(%23t)" stroke="%23cf142b" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="%23fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="%23cf142b" stroke-width="6"/></g></svg>');
+        }
+        .flag-ar {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><path d="M0,0 h60 v10 h-60 z" fill="%23ce1126"/><path d="M0,10 h60 v10 h-60 z" fill="%23fff"/><path d="M0,20 h60 v10 h-60 z" fill="%23000000"/><path d="M30,15 a5,5 0 1,0 0,-0.01 z" fill="%23000000" opacity="0"/><text x="30" y="15" text-anchor="middle" fill="%23000" font-size="10" font-weight="bold">ﷲ</text></svg>');
+        }
+        .flag-rw {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><path d="M0,0 h60 v15 h-60 z" fill="%2300a1de"/><path d="M0,15 h60 v10 h-60 z" fill="%23fad201"/><path d="M0,25 h60 v5 h-60 z" fill="%2300a1de"/><path d="M0,15 l20,10 l-20,0 z" fill="%23e5be01"/><path d="M0,15 l20,-10 l0,10 z" fill="%23248d3d"/></svg>');
+        }
+        .section {
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-hands-helping text-white text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-bold text-gray-800" data-translate="site_title">Mahama Camp</h1>
+                        <p class="text-xs text-gray-500" data-translate="site_subtitle">Refugee Support Center</p>
+                    </div>
+                </div>
+
+                <!-- Language Selector -->
+                <div class="relative group">
+                    <button id="languageToggle" class="flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
+                        <span class="language-flag flag-en" id="currentFlag"></span>
+                        <span id="currentLanguage">English</span>
+                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">
+                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option" data-lang="en">
+                            <span class="language-flag flag-en"></span>
+                            <span>English</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option arabic-text" data-lang="ar">
+                            <span class="language-flag flag-ar"></span>
+                            <span>العربية</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option kinyarwanda-text" data-lang="rw">
+                            <span class="language-flag flag-rw"></span>
+                            <span>Kinyarwanda</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="mt-4">
+                <ul class="flex space-x-6 overflow-x-auto">
+                    <li><a href="#home" class="nav-link text-blue-600 font-medium border-b-2 border-blue-600 pb-2" data-translate="nav_home">Home</a></li>
+                    <li><a href="#announcements" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_announcements">Announcements</a></li>
+                    <li><a href="#events" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_events">Events</a></li>
+                    <li><a href="#services" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_services">Services</a></li>
+                    <li><a href="#emergency" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_emergency">Emergency</a></li>
+                    <li><a href="#contact" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="section bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4" data-translate="hero_title">Mahama Refugee Camp Information Portal</h1>
+            <p class="text-xl max-w-2xl mx-auto mb-8" data-translate="hero_subtitle">Your central source for events, announcements, and essential services in the camp</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#events" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition" data-translate="hero_btn_events">View Upcoming Events</a>
+                <a href="#announcements" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-400 transition" data-translate="hero_btn_announcements">Important Announcements</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section id="announcements" class="section py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800" data-translate="announcements_title">Important Announcements</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium" data-translate="view_all">View All</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Announcement 1 -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-yellow-100 p-2 rounded-lg">
+                            <i class="fas fa-exclamation-circle text-yellow-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800" data-translate="announcement1_title">Health Check-up Campaign</h3>
+                            <p class="text-gray-600 mt-2" data-translate="announcement1_desc">Free medical check-ups available at the health center from Monday to Friday, 8 AM - 4 PM.</p>
+                            <span class="inline-block mt-3 text-sm text-yellow-700 font-medium" data-translate="posted">Posted: 2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Announcement 2 -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800" data-translate="announcement2_title">Food Distribution Schedule</h3>
+                            <p class="text-gray-600 mt-2" data-translate="announcement2_desc">New food distribution schedule effective from next week. Check the notice board for details.</p>
+                            <span class="inline-block mt-3 text-sm text-blue-700 font-medium" data-translate="posted">Posted: 1 week ago</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Announcement 3 -->
+                <div class="bg-green-50 border-l-4 border-green-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-green-100 p-2 rounded-lg">
+                            <i class="fas fa-calendar-check text-green-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800" data-translate="announcement3_title">Education Program Registration</h3>
+                            <p class="text-gray-600 mt-2" data-translate="announcement3_desc">Registration for adult literacy and vocational training programs is now open.</p>
+                            <span class="inline-block mt-3 text-sm text-green-700 font-medium" data-translate="posted">Posted: 3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="section py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800" data-translate="events_title">Upcoming Events</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium" data-translate="view_calendar">View Calendar</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-blue-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">15</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800" data-translate="event1_title">Community Meeting</h3>
+                        <p class="text-gray-600 text-sm mt-2" data-translate="event1_desc">Monthly community gathering to discuss camp issues and solutions.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">10:00 AM - 12:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm" data-translate="event1_location">Community Hall</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-green-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">18</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800" data-translate="event2_title">Youth Sports Day</h3>
+                        <p class="text-gray-600 text-sm mt-2" data-translate="event2_desc">Football and volleyball tournaments for youth aged 12-18.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">2:00 PM - 5:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm" data-translate="event2_location">Sports Field</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-purple-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">22</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800" data-translate="event3_title">Women's Skill Workshop</h3>
+                        <p class="text-gray-600 text-sm mt-2" data-translate="event3_desc">Handicraft and sewing skills training session for women.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">9:00 AM - 1:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm" data-translate="event3_location">Vocational Center</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-red-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">25</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800" data-translate="event4_title">Health & Hygiene Session</h3>
+                        <p class="text-gray-600 text-sm mt-2" data-translate="event4_desc">Educational session on maintaining hygiene and preventing diseases.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">3:00 PM - 4:30 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm" data-translate="event4_location">Health Center</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8" data-translate="services_title">Available Services</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-stethoscope text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2" data-translate="service1_title">Health Services</h3>
+                    <p class="text-gray-600" data-translate="service1_desc">Medical consultations, emergency care, maternal health, and immunization services.</p>
+                    <a href="#" class="inline-block mt-4 text-blue-600 font-medium" data-translate="learn_more">Learn More →</a>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-graduation-cap text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2" data-translate="service2_title">Education</h3>
+                    <p class="text-gray-600" data-translate="service2_desc">Primary education, adult literacy programs, and vocational training opportunities.</p>
+                    <a href="#" class="inline-block mt-4 text-blue-600 font-medium" data-translate="learn_more">Learn More →</a>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-utensils text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2" data-translate="service3_title">Food Distribution</h3>
+                    <p class="text-gray-600" data-translate="service3_desc">Regular food distribution points and nutrition support for vulnerable groups.</p>
+                    <a href="#" class="inline-block mt-4 text-blue-600 font-medium" data-translate="learn_more">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+    <section id="emergency" class="section py-12 bg-red-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8" data-translate="emergency_title">Emergency Contacts</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Contact 1 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-red-200 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-ambulance text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2" data-translate="emergency1_title">Medical Emergency</h3>
+                    <p class="text-gray-600 mb-4" data-translate="emergency1_desc">For urgent medical assistance</p>
+                    <a href="tel:+250788123456" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-red-700 transition" data-translate="call_now">Call Now</a>
+                </div>
+                
+                <!-- Contact 2 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-blue-200 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2" data-translate="emergency2_title">Security</h3>
+                    <p class="text-gray-600 mb-4" data-translate="emergency2_desc">Camp security and protection</p>
+                    <a href="tel:+250788654321" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-blue-700 transition" data-translate="call_now">Call Now</a>
+                </div>
+                
+                <!-- Contact 3 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-green-200 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fire-extinguisher text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2" data-translate="emergency3_title">Fire Emergency</h3>
+                    <p class="text-gray-600 mb-4" data-translate="emergency3_desc">In case of fire outbreak</p>
+                    <a href="tel:+250788987654" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-green-700 transition" data-translate="call_now">Call Now</a>
+                </div>
+                
+                <!-- Contact 4 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-yellow-200 text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-life-ring text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2" data-translate="emergency4_title">Camp Management</h3>
+                    <p class="text-gray-600 mb-4" data-translate="emergency4_desc">Administrative issues</p>
+                    <a href="tel:+250788456789" class="bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-yellow-700 transition" data-translate="call_now">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact-form" class="section py-12 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center" data-translate="contact_form_title">Contact Us</h2>
+            
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+                <form id="contactForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2" data-translate="name_label">Your Name</label>
+                            <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2" data-translate="email_label">Your Email</label>
+                            <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2" data-translate="subject_label">Subject</label>
+                        <input type="text" name="subject" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2" data-translate="message_label">Message</label>
+                        <textarea name="message" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition" data-translate="send_message">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="section bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-translate="about_title">About Mahama Camp</h3>
+                    <p class="text-gray-400" data-translate="about_desc">Mahama Refugee Camp provides shelter, protection, and assistance to refugees, ensuring their basic needs are met with dignity and respect.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-translate="quick_links">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_home">Home</a></li>
+                        <li><a href="#events" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_events">Events</a></li>
+                        <li><a href="#announcements" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_announcements">Announcements</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_services">Services</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-translate="contact_info">Contact Information</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span data-translate="contact_address">Mahama Refugee Camp, Kirehe District, Rwanda</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 mr-3"></i>
+                            <span>+250 788 123 456</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3"></i>
+                            <span>info@mahamacamp.org</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Language Selector -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-translate="language">Language</h3>
+                    <div class="flex flex-col space-y-2">
+                        <a href="#" class="flex items-center text-gray-400 hover:text-white transition language-option" data-lang="en">
+                            <span class="language-flag flag-en mr-2"></span>
+                            <span>English</span>
+                        </a>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-white transition language-option arabic-text" data-lang="ar">
+                            <span class="language-flag flag-ar mr-2"></span>
+                            <span>العربية</span>
+                        </a>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-white transition language-option kinyarwanda-text" data-lang="rw">
+                            <span class="language-flag flag-rw mr-2"></span>
+                            <span>Kinyarwanda</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p data-translate="copyright">&copy; 2023 Mahama Refugee Camp. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 flex justify-between">
+        <a href="#home" class="nav-link flex flex-col items-center text-blue-600">
+            <i class="fas fa-home"></i>
+            <span class="text-xs mt-1" data-translate="nav_home">Home</span>
+        </a>
+        <a href="#events" class="nav-link flex flex-col items-center text-gray-600">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="text-xs mt-1" data-translate="nav_events">Events</span>
+        </a>
+        <a href="#announcements" class="nav-link flex flex-col items-center text-gray-600">
+            <i class="fas fa-bullhorn"></i>
+            <span class="text-xs mt-1" data-translate="nav_announcements">Ads</span>
+        </a>
+        <a href="#contact" class="nav-link flex flex-col items-center text-gray-600">
+            <i class="fas fa-phone"></i>
+            <span class="text-xs mt-1" data-translate="nav_contact">Contact</span>
+        </a>
+    </div>
+
+    <script>
+        // Translation dictionary
+        const translations = {
+            en: {
+                // Navigation
+                "nav_home": "Home",
+                "nav_announcements": "Announcements",
+                "nav_events": "Events",
+                "nav_services": "Services",
+                "nav_emergency": "Emergency",
+                "nav_contact": "Contact",
+                
+                // Site Info
+                "site_title": "Mahama Camp",
+                "site_subtitle": "Refugee Support Center",
+                
+                // Hero Section
+                "hero_title": "Mahama Refugee Camp Information Portal",
+                "hero_subtitle": "Your central source for events, announcements, and essential services in the camp",
+                "hero_btn_events": "View Upcoming Events",
+                "hero_btn_announcements": "Important Announcements",
+                
+                // Announcements
+                "announcements_title": "Important Announcements",
+                "view_all": "View All",
+                "announcement1_title": "Health Check-up Campaign",
+                "announcement1_desc": "Free medical check-ups available at the health center from Monday to Friday, 8 AM - 4 PM.",
+                "announcement2_title": "Food Distribution Schedule",
+                "announcement2_desc": "New food distribution schedule effective from next week. Check the notice board for details.",
+                "announcement3_title": "Education Program Registration",
+                "announcement3_desc": "Registration for adult literacy and vocational training programs is now open.",
+                "posted": "Posted: 2 days ago",
+                
+                // Events
+                "events_title": "Upcoming Events",
+                "view_calendar": "View Calendar",
+                "event1_title": "Community Meeting",
+                "event1_desc": "Monthly community gathering to discuss camp issues and solutions.",
+                "event1_location": "Community Hall",
+                "event2_title": "Youth Sports Day",
+                "event2_desc": "Football and volleyball tournaments for youth aged 12-18.",
+                "event2_location": "Sports Field",
+                "event3_title": "Women's Skill Workshop",
+                "event3_desc": "Handicraft and sewing skills training session for women.",
+                "event3_location": "Vocational Center",
+                "event4_title": "Health & Hygiene Session",
+                "event4_desc": "Educational session on maintaining hygiene and preventing diseases.",
+                "event4_location": "Health Center",
+                
+                // Services
+                "services_title": "Available Services",
+                "service1_title": "Health Services",
+                "service1_desc": "Medical consultations, emergency care, maternal health, and immunization services.",
+                "service2_title": "Education",
+                "service2_desc": "Primary education, adult literacy programs, and vocational training opportunities.",
+                "service3_title": "Food Distribution",
+                "service3_desc": "Regular food distribution points and nutrition support for vulnerable groups.",
+                "learn_more": "Learn More →",
+                
+                // Emergency
+                "emergency_title": "Emergency Contacts",
+                "emergency1_title": "Medical Emergency",
+                "emergency1_desc": "For urgent medical assistance",
+                "emergency2_title": "Security",
+                "emergency2_desc": "Camp security and protection",
+                "emergency3_title": "Fire Emergency",
+                "emergency3_desc": "In case of fire outbreak",
+                "emergency4_title": "Camp Management",
+                "emergency4_desc": "Administrative issues",
+                "call_now": "Call Now",
+                
+                // Contact Form
+                "contact_form_title
