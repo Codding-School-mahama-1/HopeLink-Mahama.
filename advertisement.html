@@ -10,6 +10,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         .arabic-text {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -36,73 +37,314 @@
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><path d="M0,0 h60 v15 h-60 z" fill="%2300a1de"/><path d="M0,15 h60 v10 h-60 z" fill="%23fad201"/><path d="M0,25 h60 v5 h-60 z" fill="%2300a1de"/><path d="M0,15 l20,10 l-20,0 z" fill="%23e5be01"/><path d="M0,15 l20,-10 l0,10 z" fill="%23248d3d"/></svg>');
         }
         .section {
-            scroll-margin-top: 100px;
+            scroll-margin-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        .news-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+        
+        /* Enhanced Navigation Styles */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+        .primary-blue { color: #3b82f6; }
+        .bg-primary-blue { background-color: #3b82f6; }
+        .primary-green { color: #10b981; }
+        .bg-primary-green { background-color: #10b981; }
+        .primary-yellow { color: #f59e0b; }
+        .bg-primary-yellow { background-color: #f59e0b; }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 100;
+            top: 100%;
+            left: 0;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .mobile-menu {
+            display: none;
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+        }
+        .mobile-dropdown-content {
+            display: none;
+            padding-left: 1rem;
+        }
+        .mobile-dropdown.active .mobile-dropdown-content {
+            display: block;
+        }
+        
+        .ad-container {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #92400e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Header Section -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Enhanced Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50 transition-all duration-300" id="mainNav">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
                 <div class="flex items-center">
-                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                        <i class="fas fa-hands-helping text-white text-lg"></i>
+                    <!-- Enhanced Logo -->
+                    <div class="flex items-center">
+                        <div class="bg-gradient-to-r from-blue-600 to-green-500 p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-xl text-gray-800">HopeLink</div>
+                            <div class="text-xs text-green-500 font-semibold">Mahama Refugee Camp</div>
+                        </div>
                     </div>
-                    <div class="ml-3">
-                        <h1 class="text-xl font-bold text-gray-800" data-translate="site_title">Mahama Camp</h1>
-                        <p class="text-xs text-gray-500" data-translate="site_subtitle">Refugee Support Center</p>
+                </div>
+                
+                <!-- Advertisement in Navigation -->
+                <!-- <div class="hidden lg:flex">
+                    <div class="ad-container">
+                        <i class="fas fa-star"></i>
+                        <span>Support our mission - Donate today!</span>
+                    </div>
+                </div> -->
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    
+                    <!-- Programs Dropdown -->
+                    <div class="dropdown relative">
+                        <button class="dropdown-btn text-gray-600 hover:text-blue-600 transition duration-300 flex items-center" data-dropdown="programs">
+                            Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content" id="programs-dropdown">
+                            <a href="#services" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Health Services</a>
+                            <a href="#services" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Education</a>
+                            <a href="#services" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Food Distribution</a>
+                        </div>
+                    </div>
+                    
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#get-involved" class="text-gray-600 hover:text-blue-600 transition duration-300">Get Involved</a>
+                    
+                    <!-- News & Updates -->
+                    <div class="dropdown relative">
+                        <button class="dropdown-btn text-gray-600 hover:text-blue-600 transition duration-300 flex items-center" data-dropdown="news">
+                            News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content" id="news-dropdown">
+                            <a href="#news" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Community News</a>
+                            <a href="#events" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Upcoming Events</a>
+                            <a href="#announcements" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Announcements</a>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="text-blue-600 font-semibold border-b-2 border-blue-600">Contact</a>
+                    
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button id="languageToggle" class="flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
+                            <span class="language-flag flag-en" id="currentFlag"></span>
+                            <span id="currentLanguage">English</span>
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option" data-lang="en">
+                                <span class="language-flag flag-en"></span>
+                                <span>English</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option arabic-text" data-lang="ar">
+                                <span class="language-flag flag-ar"></span>
+                                <span>العربية</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option kinyarwanda-text" data-lang="rw">
+                                <span class="language-flag flag-rw"></span>
+                                <span>Kinyarwanda</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Opportunities -->
+                    <div class="dropdown relative">
+                        <button class="dropdown-btn bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition duration-300 flex items-center" data-dropdown="opportunities">
+                            Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-content" id="opportunities-dropdown">
+                            <a href="#volunteer" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Volunteer</a>
+                            <a href="#careers" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Careers</a>
+                            <a href="#partnerships" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Partnerships</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Language Selector -->
-                <div class="relative group">
-                    <button id="languageToggle" class="flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
-                        <span class="language-flag flag-en" id="currentFlag"></span>
-                        <span id="currentLanguage">English</span>
-                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
                     </button>
-                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">
-                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option" data-lang="en">
-                            <span class="language-flag flag-en"></span>
-                            <span>English</span>
-                        </a>
-                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option arabic-text" data-lang="ar">
-                            <span class="language-flag flag-ar"></span>
-                            <span>العربية</span>
-                        </a>
-                        <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 language-option kinyarwanda-text" data-lang="rw">
-                            <span class="language-flag flag-rw"></span>
-                            <span>Kinyarwanda</span>
-                        </a>
-                    </div>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-blue-600 transition">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
                 </div>
             </div>
-
-            <!-- Navigation -->
-            <nav class="mt-4">
-                <ul class="flex space-x-6 overflow-x-auto">
-                    <li><a href="#home" class="nav-link text-blue-600 font-medium border-b-2 border-blue-600 pb-2" data-translate="nav_home">Home</a></li>
-                    <li><a href="#announcements" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_announcements">Announcements</a></li>
-                    <li><a href="#events" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_events">Events</a></li>
-                    <li><a href="#services" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_services">Services</a></li>
-                    <li><a href="#emergency" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_emergency">Emergency</a></li>
-                    <li><a href="#contact" class="nav-link text-gray-600 hover:text-blue-600 pb-2" data-translate="nav_contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="home" class="section bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl font-bold mb-4" data-translate="hero_title">Mahama Refugee Camp Information Portal</h1>
-            <p class="text-xl max-w-2xl mx-auto mb-8" data-translate="hero_subtitle">Your central source for events, announcements, and essential services in the camp</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="#events" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition" data-translate="hero_btn_events">View Upcoming Events</a>
-                <a href="#announcements" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-400 transition" data-translate="hero_btn_announcements">Important Announcements</a>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="mobile-menu">
+                <div class="px-4 py-2 space-y-3">
+                    <a href="#home" class="block py-2 text-blue-600 font-semibold border-b border-gray-200 transition">Home</a>
+                    
+                    <!-- Programs Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-blue-600 transition flex items-center justify-between">
+                            Programs <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="#services" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Health Services</a>
+                            <a href="#services" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Education</a>
+                            <a href="#services" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Food Distribution</a>
+                        </div>
+                    </div>
+                    
+                    <a href="#about" class="block py-2 text-gray-600 hover:text-blue-600 transition">About</a>
+                    <a href="#get-involved" class="block py-2 text-gray-600 hover:text-blue-600 transition">Get Involved</a>
+                    
+                    <!-- News & Updates Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-blue-600 transition flex items-center justify-between">
+                            News & Updates <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="#news" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Community News</a>
+                            <a href="#events" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Upcoming Events</a>
+                            <a href="#announcements" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Announcements</a>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="block py-2 text-blue-600 font-semibold border-b-2 border-blue-600 transition">Contact</a>
+                    
+                    <!-- Language Selector Mobile -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-blue-600 transition flex items-center justify-between">
+                            Language <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="#" class="flex items-center py-2 text-gray-600 hover:text-blue-600 transition pl-4 language-option" data-lang="en">
+                                <span class="language-flag flag-en mr-2"></span>
+                                <span>English</span>
+                            </a>
+                            <a href="#" class="flex items-center py-2 text-gray-600 hover:text-blue-600 transition pl-4 language-option arabic-text" data-lang="ar">
+                                <span class="language-flag flag-ar mr-2"></span>
+                                <span>العربية</span>
+                            </a>
+                            <a href="#" class="flex items-center py-2 text-gray-600 hover:text-blue-600 transition pl-4 language-option kinyarwanda-text" data-lang="rw">
+                                <span class="language-flag flag-rw mr-2"></span>
+                                <span>Kinyarwanda</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Opportunities Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 bg-yellow-400 text-gray-800 rounded-lg font-semibold hover:bg-yellow-300 transition flex items-center justify-between px-4">
+                            Opportunities <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="#volunteer" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Volunteer</a>
+                            <a href="#careers" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Careers</a>
+                            <a href="#partnerships" class="block py-2 text-gray-600 hover:text-blue-600 transition pl-4">Partnerships</a>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 text-left flex items-center">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                    </button>
+                </div>
             </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Background Video -->
+    <section id="home" class="section relative min-h-screen flex items-center justify-center pt-20">
+        <video autoplay muted loop class="video-background">
+            <source src="./Intercamp competitions in Mahama Refugee Camp(720P_HD).mp4" type="video/mp4">
+            <!-- Fallback image if video doesn't load -->
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 text-white" data-translate="hero_title">Mahama Refugee Camp Information Portal</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white" data-translate="hero_subtitle">Your central source for events, announcements, and essential services in the camp</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#events" class="bg-white text-blue-700 px-8 py-4 rounded-lg font-medium hover:bg-blue-50 transition text-lg" data-translate="hero_btn_events">View Upcoming Events</a>
+                <a href="#announcements" class="bg-blue-500 text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-400 transition text-lg" data-translate="hero_btn_announcements">Important Announcements</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#announcements" class="text-white text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </section>
 
@@ -160,8 +402,96 @@
         </div>
     </section>
 
+    <!-- New Community News Section -->
+    <section id="news" class="section py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800" data-translate="news_title">Community News</h2>
+                <button id="addNewsBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" data-translate="add_news">
+                    Add News
+                </button>
+            </div>
+            
+            <!-- News Form -->
+            <div id="newsForm" class="news-form p-6 rounded-lg shadow-lg mb-8 hidden">
+                <h3 class="text-xl font-bold mb-4" data-translate="submit_news">Submit Community News</h3>
+                <form id="communityNewsForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2" data-translate="news_title_label">Title</label>
+                            <input type="text" id="newsTitle" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2" data-translate="news_author_label">Your Name</label>
+                            <input type="text" id="newsAuthor" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" data-translate="news_content_label">Content</label>
+                        <textarea id="newsContent" rows="4" class="w-full p-3 border border-gray-300 rounded-lg" required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelNewsBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition" data-translate="cancel">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition" data-translate="submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- News Feed -->
+            <div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Sample News Item 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-gray-800 text-lg">Community Garden Success</h3>
+                            <span class="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Our community garden has produced its first harvest! Fresh vegetables are now available for families in need.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-blue-600 font-medium">By: John D.</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-blue-500">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="far fa-comment"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample News Item 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-gray-800 text-lg">Youth Football Tournament</h3>
+                            <span class="text-xs text-gray-500">1 day ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">The youth football tournament was a great success! Over 50 young people participated and showed amazing sportsmanship.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-blue-600 font-medium">By: Sarah M.</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-blue-500">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="far fa-comment"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Events Section -->
-    <section id="events" class="section py-12 bg-gray-50">
+    <section id="events" class="section py-12 bg-white">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-800" data-translate="events_title">Upcoming Events</h2>
@@ -261,13 +591,13 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section py-12 bg-white">
+    <section id="services" class="section py-12 bg-gray-50">
         <div class="container mx-auto px-4">
             <h2 class="text-2xl font-bold text-gray-800 mb-8" data-translate="services_title">Available Services</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Service 1 -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-stethoscope text-blue-600 text-xl"></i>
                     </div>
@@ -277,7 +607,7 @@
                 </div>
                 
                 <!-- Service 2 -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-graduation-cap text-green-600 text-xl"></i>
                     </div>
@@ -287,7 +617,7 @@
                 </div>
                 
                 <!-- Service 3 -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-utensils text-purple-600 text-xl"></i>
                     </div>
@@ -312,7 +642,7 @@
                     </div>
                     <h3 class="font-bold text-gray-800 mb-2" data-translate="emergency1_title">Medical Emergency</h3>
                     <p class="text-gray-600 mb-4" data-translate="emergency1_desc">For urgent medical assistance</p>
-                    <a href="tel:+250788123456" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-red-700 transition" data-translate="call_now">Call Now</a>
+                    <a href="tel:+250795096038" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-red-700 transition" data-translate="call_now">Call Now</a>
                 </div>
                 
                 <!-- Contact 2 -->
@@ -348,37 +678,6 @@
         </div>
     </section>
 
-    <!-- Contact Form Section -->
-    <section id="contact-form" class="section py-12 bg-blue-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center" data-translate="contact_form_title">Contact Us</h2>
-            
-            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-                <form id="contactForm" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-700 mb-2" data-translate="name_label">Your Name</label>
-                            <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 mb-2" data-translate="email_label">Your Email</label>
-                            <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2" data-translate="subject_label">Subject</label>
-                        <input type="text" name="subject" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2" data-translate="message_label">Message</label>
-                        <textarea name="message" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition" data-translate="send_message">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer id="contact" class="section bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4">
@@ -393,11 +692,12 @@
                 <div>
                     <h3 class="text-lg font-bold mb-4" data-translate="quick_links">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#home" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_home">Home</a></li>
-                        <li><a href="#events" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_events">Events</a></li>
-                        <li><a href="#announcements" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_announcements">Announcements</a></li>
-                        <li><a href="#services" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_services">Services</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white transition nav-link" data-translate="nav_contact">Contact Us</a></li>
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#events" class="text-gray-400 hover:text-white transition">Events</a></li>
+                        <li><a href="#announcements" class="text-gray-400 hover:text-white transition">Announcements</a></li>
+                        <li><a href="#news" class="text-gray-400 hover:text-white transition">Community News</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
                     </ul>
                 </div>
                 
@@ -446,26 +746,6 @@
         </div>
     </footer>
 
-    <!-- Mobile Bottom Navigation -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 flex justify-between">
-        <a href="#home" class="nav-link flex flex-col items-center text-blue-600">
-            <i class="fas fa-home"></i>
-            <span class="text-xs mt-1" data-translate="nav_home">Home</span>
-        </a>
-        <a href="#events" class="nav-link flex flex-col items-center text-gray-600">
-            <i class="fas fa-calendar-alt"></i>
-            <span class="text-xs mt-1" data-translate="nav_events">Events</span>
-        </a>
-        <a href="#announcements" class="nav-link flex flex-col items-center text-gray-600">
-            <i class="fas fa-bullhorn"></i>
-            <span class="text-xs mt-1" data-translate="nav_announcements">Ads</span>
-        </a>
-        <a href="#contact" class="nav-link flex flex-col items-center text-gray-600">
-            <i class="fas fa-phone"></i>
-            <span class="text-xs mt-1" data-translate="nav_contact">Contact</span>
-        </a>
-    </div>
-
     <script>
         // Translation dictionary
         const translations = {
@@ -473,6 +753,7 @@
                 // Navigation
                 "nav_home": "Home",
                 "nav_announcements": "Announcements",
+                "nav_news": "Community News",
                 "nav_events": "Events",
                 "nav_services": "Services",
                 "nav_emergency": "Emergency",
@@ -498,6 +779,16 @@
                 "announcement3_title": "Education Program Registration",
                 "announcement3_desc": "Registration for adult literacy and vocational training programs is now open.",
                 "posted": "Posted: 2 days ago",
+                
+                // News Section
+                "news_title": "Community News",
+                "add_news": "Add News",
+                "submit_news": "Submit Community News",
+                "news_title_label": "Title",
+                "news_author_label": "Your Name",
+                "news_content_label": "Content",
+                "cancel": "Cancel",
+                "submit": "Submit",
                 
                 // Events
                 "events_title": "Upcoming Events",
@@ -537,5 +828,332 @@
                 "emergency4_desc": "Administrative issues",
                 "call_now": "Call Now",
                 
-                // Contact Form
-                "contact_form_title
+                // Footer
+                "about_title": "About Mahama Camp",
+                "about_desc": "Mahama Refugee Camp provides shelter, protection, and assistance to refugees, ensuring their basic needs are met with dignity and respect.",
+                "quick_links": "Quick Links",
+                "contact_info": "Contact Information",
+                "contact_address": "Mahama Refugee Camp, Kirehe District, Rwanda",
+                "language": "Language",
+                "copyright": "© 2023 Mahama Refugee Camp. All rights reserved."
+            },
+            ar: {
+                // Navigation
+                "nav_home": "الرئيسية",
+                "nav_announcements": "الإعلانات",
+                "nav_news": "أخبار المجتمع",
+                "nav_events": "الفعاليات",
+                "nav_services": "الخدمات",
+                "nav_emergency": "الطوارئ",
+                "nav_contact": "اتصل بنا",
+                
+                // Site Info
+                "site_title": "مخيم مهما",
+                "site_subtitle": "مركز دعم اللاجئين",
+                
+                // Hero Section
+                "hero_title": "بوابة معلومات مخيم مهما للاجئين",
+                "hero_subtitle": "مصدرك المركزي للفعاليات والإعلانات والخدمات الأساسية في المخيم",
+                "hero_btn_events": "عرض الفعاليات القادمة",
+                "hero_btn_announcements": "إعلانات هامة",
+                
+                // Announcements
+                "announcements_title": "إعلانات هامة",
+                "view_all": "عرض الكل",
+                "announcement1_title": "حملة الفحص الصحي",
+                "announcement1_desc": "فحوصات طبية مجانية متاحة في المركز الصحي من الإثنين إلى الجمعة، من 8 صباحاً إلى 4 مساءً.",
+                "announcement2_title": "جدول توزيع الغذاء",
+                "announcement2_desc": "جدول جديد لتوزيع الغذاء ساري المفعول بدءاً من الأسبوع القادم. تحقق من لوحة الإعلانات للتفاصيل.",
+                "announcement3_title": "تسجيل برنامج التعليم",
+                "announcement3_desc": "التسجيل لبرامج محو الأمية للكبار والتدريب المهني مفتوح الآن.",
+                "posted": "نشر: منذ يومين",
+                
+                // News Section
+                "news_title": "أخبار المجتمع",
+                "add_news": "إضافة خبر",
+                "submit_news": "إرسال خبر مجتمعي",
+                "news_title_label": "العنوان",
+                "news_author_label": "اسمك",
+                "news_content_label": "المحتوى",
+                "cancel": "إلغاء",
+                "submit": "إرسال",
+                
+                // Events
+                "events_title": "الفعاليات القادمة",
+                "view_calendar": "عرض التقويم",
+                "event1_title": "اجتماع المجتمع",
+                "event1_desc": "تجمع مجتمعي شهري لمناقشة قضايا المخيم والحلول.",
+                "event1_location": "قاعة المجتمع",
+                "event2_title": "يوم الرياضة للشباب",
+                "event2_desc": "بطولات كرة القدم والكرة الطائرة للشباب aged 12-18.",
+                "event2_location": "ملعب الرياضة",
+                "event3_title": "ورشة مهارات النساء",
+                "event3_desc": "جلسة تدريب على المهارات اليدوية والخياطة للنساء.",
+                "event3_location": "المركز المهني",
+                "event4_title": "جلسة الصحة والنظافة",
+                "event4_desc": "جلسة توعوية حول الحفاظ على النظافة والوقاية من الأمراض.",
+                "event4_location": "المركز الصحي",
+                
+                // Services
+                "services_title": "الخدمات المتاحة",
+                "service1_title": "الخدمات الصحية",
+                "service1_desc": "استشارات طبية، رعاية الطوارئ، صحة الأمومة، وخدمات التطعيم.",
+                "service2_title": "التعليم",
+                "service2_desc": "التعليم الابتدائي، برامج محو الأمية للكبار، وفرص التدريب المهني.",
+                "service3_title": "توزيع الغذاء",
+                "service3_desc": "نقاط توزيع غذاء منتظمة ودعم غذائي للفئات الضعيفة.",
+                "learn_more": "تعلم المزيد →",
+                
+                // Emergency
+                "emergency_title": "جهات الاتصال في حالات الطوارئ",
+                "emergency1_title": "طوارئ طبية",
+                "emergency1_desc": "للمساعدة الطبية العاجلة",
+                "emergency2_title": "الأمن",
+                "emergency2_desc": "أمن المخيم والحماية",
+                "emergency3_title": "طوارئ الحريق",
+                "emergency3_desc": "في حالة اندلاع حريق",
+                "emergency4_title": "إدارة المخيم",
+                "emergency4_desc": "القضايا الإدارية",
+                "call_now": "اتصل الآن",
+                
+                // Footer
+                "about_title": "حول مخيم مهما",
+                "about_desc": "يوفر مخيم مهما للاجئين المأوى والحماية والمساعدة، مما يضمن تلبية احتياجاتهم الأساسية بكرامة واحترام.",
+                "quick_links": "روابط سريعة",
+                "contact_info": "معلومات الاتصال",
+                "contact_address": "مخيم مهما للاجئين، منطقة كيريهي، رواندا",
+                "language": "اللغة",
+                "copyright": "© 2023 مخيم مهما للاجئين. جميع الحقوق محفوظة."
+            },
+            rw: {
+                // Navigation
+                "nav_home": "Ahabanza",
+                "nav_announcements": "Amatangazo",
+                "nav_news": "Amakuru y'Umuganda",
+                "nav_events": "Ibyabaye",
+                "nav_services": "Serivisi",
+                "nav_emergency": "Byihuse",
+                "nav_contact": "Twandikire",
+                
+                // Site Info
+                "site_title": "Umuyobozi w'Umuganda wa Mahama",
+                "site_subtitle": "Inkunga y'abimukaye",
+                
+                // Hero Section
+                "hero_title": "Umuyoboro w'Amakuru w'Umuganda w'abimukaye wa Mahama",
+                "hero_subtitle": "Inkomoko yo hagati y'ibyabaye, amatangazo, n'ibikorwa remezo mu muganda",
+                "hero_btn_events": "Reba Ibikurikira",
+                "hero_btn_announcements": "Amatangazo Agenga",
+                
+                // Announcements
+                "announcements_title": "Amatangazo Agenga",
+                "view_all": "Reba Byose",
+                "announcement1_title": "Kampani yo Gukemura",
+                "announcement1_desc": "Ubukemura bwa gratis buri ku kigo ubuvuzi kuwa mbere kugeza kuwa gatandatu, saa munani z'amanywa kugeza saa kane z'igicikansi.",
+                "announcement2_title": "Gahunda yo Gusa Abafite Amahirwe",
+                "announcement2_desc": "Gahunda nshya yo gusa abafite amahirwe itangira icyumweru gikurikira. Reba urubuga rw'amakuru kubisobanuro.",
+                "announcement3_title": "Kwiyandikisha kuri Porogaramu yo Kwiga",
+                "announcement3_desc": "Kwiyandikisha kuri porogaramu zo kwiga abakuru n'amategeko y'ubumenyi bukuru birahari nonaha.",
+                "posted": "Byashyizwe: amezi abiri ishize",
+                
+                // News Section
+                "news_title": "Amakuru y'Umuganda",
+                "add_news": "Ongeraho Amakuru",
+                "submit_news": "Tanga Amakuru y'Umuganda",
+                "news_title_label": "Umutwe",
+                "news_author_label": "Izina ryawe",
+                "news_content_label": "Ibirimo",
+                "cancel": "Hagarika",
+                "submit": "Ohereza",
+                
+                // Events
+                "events_title": "Ibikurikira",
+                "view_calendar": "Reba Kalindari",
+                "event1_title": "Inama y'Umuganda",
+                "event1_desc": "Inama y'umuganda y'amezi kugirango dusuzume ibibazo by'umuganda n'ibisubizo.",
+                "event1_location": "Inzu y'Umuganda",
+                "event2_title": "Umunsi w'Imikino y'Abaturage",
+                "event2_desc": "Amajonjora y'umupira w'amaguru n'umupira w'amaboko y'abaturage bafite imyaka 12-18.",
+                "event2_location": "Ikibuga cy'Imikino",
+                "event3_title": "Ishuri ry'Abagore",
+                "event3_desc": "Ishuri ry'ubuhanga bw'ibikorwa remezo n'ubudodo bw'abagore.",
+                "event3_location": "Ishuri ry'Ubumenyi",
+                "event4_title": "Inama y'Ubuzima n'Ubwiza",
+                "event4_desc": "Inama yo kwigisha kubana n'ubuzima no kurwanya indwara.",
+                "event4_location": "Ishuri ry'Ubuzima",
+                
+                // Services
+                "services_title": "Serivisi Zihari",
+                "service1_title": "Serivisi z'Ubuzima",
+                "service1_desc": "Ubuvuzi, ubuvuzi bwa emergency, ubuzima bw'ababyeyi, n'ubuvuzi bw'abana.",
+                "service2_title": "Amashuri",
+                "service2_desc": "Amashuri abanza, porogaramu zo kwiga abakuru, n'amahugurwa y'ubumenyi.",
+                "service3_title": "Gusa Abafite Amahirwe",
+                "service3_desc": "Amahirwe yo gusa abafite amahirwe buri gihe n'inkunga y'ibiribwa ku bantu bafite ubwoba.",
+                "learn_more": "Menya Birenzeho →",
+                
+                // Emergency
+                "emergency_title": "Imirongo yo Guhamagara",
+                "emergency1_title": "Emergency y'Ubuzima",
+                "emergency1_desc": "Kubafasha mu bihe by'impamvu",
+                "emergency2_title": "Umutekano",
+                "emergency2_desc": "Umutekano w'umuganda n'umutekano",
+                "emergency3_title": "Emergency y'Umuriro",
+                "emergency3_desc": "Mu bihe by'umuriro",
+                "emergency4_title": "Ubuyobozi bw'Umuganda",
+                "emergency4_desc": "Ibibazo by'ubuyobozi",
+                "call_now": "Hamagara Nonaha",
+                
+                // Footer
+                "about_title": "Kuri Umuganda wa Mahama",
+                "about_desc": "Umuganda w'abimukaye wa Mahama uha abimukaye ubuturo, umutekano, n'ubufasha, bukemura ibibazo by'ibanze mu buryo bw'icyubahiro n'icyizere.",
+                "quick_links": "Ihuriro ry'ibikorwa",
+                "contact_info": "Amakuru yo Kuvugana",
+                "contact_address": "Umuganda w'abimukaye wa Mahama, Akarere ka Kirehe, u Rwanda",
+                "language": "Ururimi",
+                "copyright": "© 2023 Umuganda w'abimukaye wa Mahama. Amahoro azira ryose."
+            }
+        };
+
+        // Current language
+        let currentLang = 'en';
+
+        // Function to change language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update language selector
+            document.getElementById('currentLanguage').textContent = 
+                lang === 'en' ? 'English' : 
+                lang === 'ar' ? 'العربية' : 'Kinyarwanda';
+                
+            document.getElementById('currentFlag').className = 
+                `language-flag flag-${lang}`;
+            
+            // Update text direction for Arabic
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'ar';
+            } else {
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = lang;
+            }
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Language selector functionality
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.getAttribute('data-lang');
+                changeLanguage(lang);
+            });
+        });
+
+        // News Form Functionality
+        document.getElementById('addNewsBtn').addEventListener('click', function() {
+            document.getElementById('newsForm').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelNewsBtn').addEventListener('click', function() {
+            document.getElementById('newsForm').classList.add('hidden');
+            document.getElementById('communityNewsForm').reset();
+        });
+
+        document.getElementById('communityNewsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('newsTitle').value;
+            const author = document.getElementById('newsAuthor').value;
+            const content = document.getElementById('newsContent').value;
+            
+            // Create new news item
+            const newsItem = document.createElement('div');
+            newsItem.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
+            newsItem.innerHTML = `
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-gray-800 text-lg">${title}</h3>
+                        <span class="text-xs text-gray-500">Just now</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">${content}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-blue-600 font-medium">By: ${author}</span>
+                        <div class="flex space-x-2">
+                            <button class="text-gray-400 hover:text-blue-500">
+                                <i class="far fa-thumbs-up"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500">
+                                <i class="far fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add to news feed
+            document.getElementById('newsFeed').prepend(newsItem);
+            
+            // Reset and hide form
+            document.getElementById('communityNewsForm').reset();
+            document.getElementById('newsForm').classList.add('hidden');
+            
+            // Show success message (you could add a toast notification here)
+            alert('News submitted successfully!');
+        });
+
+        // Mobile menu functionality
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Mobile dropdown functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const dropdown = this.parentElement;
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        // Scroll progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Initialize with saved language or default to English
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
