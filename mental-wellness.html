@@ -22,449 +22,55 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease forwards',
+                        'modal-slide-in': 'modalSlideIn 0.3s ease-out forwards',
+                        'slide-down': 'slideDown 0.3s ease-out forwards',
+                        'floating': 'floating 3s ease-in-out infinite',
+                        'breathe': 'breathe 8s infinite ease-in-out',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin': 'spin 0.8s linear infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        modalSlideIn: {
+                            'from': { opacity: '0', transform: 'scale(0.9) translateY(-20px)' },
+                            'to': { opacity: '1', transform: 'scale(1) translateY(0)' }
+                        },
+                        slideDown: {
+                            'from': { opacity: '0', transform: 'translateY(-10px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        floating: {
+                            '0%, 100%': { transform: 'translate(0, 0px)' },
+                            '50%': { transform: 'translate(0, 15px)' }
+                        },
+                        breathe: {
+                            '0%, 100%': { transform: 'scale(0.8)', opacity: '0.7' },
+                            '50%': { transform: 'scale(1.2)', opacity: '1' }
+                        },
+                        pulse: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' }
+                        },
+                        spin: {
+                            'from': { transform: 'rotate(0deg)' },
+                            'to': { transform: 'rotate(360deg)' }
+                        }
                     }
                 }
             }
         }
     </script>
-    <style>
-        /* Enhanced animations and styles */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .counter {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            color: white;
-            z-index: 1001;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background-color: #10B981;
-        }
-
-        .notification.error {
-            background-color: #EF4444;
-        }
-
-        .mobile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .mobile-menu.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .program-modal {
-            max-width: 800px;
-        }
-
-        /* Gallery Styles */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            color: white;
-            padding: 1.5rem 1rem 1rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-
-        .gallery-modal {
-            max-width: 90%;
-            max-height: 90%;
-            width: auto;
-        }
-
-        .gallery-modal img {
-            max-width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-        }
-
-        /* New animations */
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Loading states */
-        .btn-loading {
-            position: relative;
-            color: transparent;
-        }
-
-        .btn-loading::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: 50%;
-            left: 50%;
-            margin-left: -10px;
-            margin-top: -10px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            border-right-color: transparent;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Enhanced hover effects */
-        .hover-lift {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Scroll progress bar */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #3B82F6, #10B981);
-            z-index: 1002;
-            transition: width 0.3s ease;
-        }
-
-        /* Dropdown styles */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            min-width: 12rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-radius: 0.5rem;
-            padding: 0.5rem 0;
-            z-index: 100;
-            animation: slideDown 0.2s ease-out;
-        }
-
-        .dropdown-content.active {
-            display: block;
-        }
-
-        .dropdown-content a {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #374151;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #EFF6FF;
-            color: #3B82F6;
-        }
-
-        /* Mobile dropdown styles */
-        .mobile-dropdown-content {
-            display: none;
-            padding-left: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .mobile-dropdown-content.active {
-            display: block;
-        }
-
-        /* Mental Health Page Specific Styles */
-        .mental-health-hero {
-            background: linear-gradient(135deg, rgba(250, 185, 185, 0.85) 0%, rgba(5, 150, 105, 0.85) 100%), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        .wellness-card {
-            background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%);
-            border-left: 4px solid #10B981;
-        }
-
-        .resource-card {
-            transition: all 0.3s ease;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Resource download progress */
-        .download-progress {
-            width: 0%;
-            height: 4px;
-            background: linear-gradient(90deg, #10B981, #059669);
-            border-radius: 2px;
-            transition: width 0.5s ease;
-        }
-
-        /* Workshop schedule styles */
-        .workshop-day {
-            border-left: 4px solid #10B981;
-        }
-
-        .workshop-day.active {
-            border-left-color: #3B82F6;
-            background-color: #EFF6FF;
-        }
-
-        /* Modern gradient backgrounds */
-        .gradient-section-1 {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(236, 253, 245, 0.9) 100%), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .gradient-section-2 {
-            background: linear-gradient(135deg, rgba(249, 250, 251, 0.9) 0%, rgba(240, 253, 250, 0.9) 100%), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .gradient-section-3 {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(239, 246, 255, 0.9) 100%), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2120&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .gradient-section-4 {
-            background: linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(255, 251, 235, 0.9) 100%), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Floating elements */
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0% {
-                transform: translate(0, 0px);
-            }
-
-            50% {
-                transform: translate(0, 15px);
-            }
-
-            100% {
-                transform: translate(0, -0px);
-            }
-        }
-
-        /* Glass morphism effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        /* Modern card shadows */
-        .modern-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #10B981, #3B82F6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Pulse animation */
-        .pulse-slow {
-            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: .7;
-            }
-        }
-
-        /* Emergency contact styles */
-        .emergency-contact {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .emergency-contact:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Breathing exercise animation */
-        .breathing-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #10B981, #3B82F6);
-            margin: 0 auto;
-            animation: breathe 8s infinite ease-in-out;
-        }
-
-        @keyframes breathe {
-
-            0%,
-            100% {
-                transform: scale(0.8);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-        }
-
-        /* Mood tracker styles */
-        .mood-option {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .mood-option:hover,
-        .mood-option.active {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
 
 <body class="font-sans">
     <!-- Scroll Progress Bar -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary-blue to-primary-green z-[1002] transition-all duration-300" id="scrollProgress"></div>
 
     <!-- Navigation -->
     <nav class="bg-white shadow-lg fixed w-full z-50 transition-all duration-300" id="mainNav">
@@ -488,74 +94,54 @@
                     <a href="index.html" class="text-gray-600 hover:text-primary-blue transition duration-300">Home</a>
 
                     <!-- Programs Dropdown -->
-                    <div class="dropdown relative">
-                        <button
-                            class="dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center"
-                            data-dropdown="programs">
+                    <div class="relative group">
+                        <button class="text-gray-600 hover:text-primary-blue transition duration-300 flex items-center">
                             Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
-                        <div class="dropdown-content" id="programs-dropdown">
-                            <a href="hunger-help.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger
-                                Help</a>
-                            <a href="youth-empowerment.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth
-                                Empowerment</a>
-                            <a href="mental-wellness.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental
-                                Wellness</a>
+                        <div class="absolute top-full left-0 bg-white min-w-48 shadow-lg rounded-lg py-2 hidden group-hover:block z-50">
+                            <a href="./hunger-help.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger Help</a>
+                            <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth Empowerment</a>
+                            <a href="./mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental Wellness</a>
                         </div>
                     </div>
 
-                    <a href="about-us.html"
-                        class="text-gray-600 hover:text-primary-blue transition duration-300">About</a>
-                    <a href="get-involved.html"
-                        class="text-gray-600 hover:text-primary-blue transition duration-300">Get Involved</a>
+                    <a href="./about-us.html" class="text-gray-600 hover:text-primary-blue transition duration-300">About</a>
+                    <a href="./get-involved.html" class="text-gray-600 hover:text-primary-blue transition duration-300">Get Involved</a>
 
                     <!-- News & Updates -->
-                    <div class="dropdown relative">
-                        <button
-                            class="dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center"
-                            data-dropdown="news">
+                    <div class="relative group">
+                        <button class="text-gray-600 hover:text-primary-blue transition duration-300 flex items-center">
                             News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
                         <div class="dropdown-content" id="news-dropdown">
-                            <a href="news.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Latest
-                                News</a>
-                            <a href="events.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Upcoming
-                                Events</a>
+                            <a href="./advertisement.html"
+                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Advertisement</a>
+                            <!-- <a href="events.html"
+                                 class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Upcoming 
+                                Events</a> -->
                             <a href="stories.html"
                                 class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Success
                                 Stories</a>
                         </div>
                     </div>
 
-                    <a href="contact.html"
-                        class="text-gray-600 hover:text-primary-blue transition duration-300">Contact</a>
+                    <a href="./contact.html" class="text-gray-600 hover:text-primary-blue transition duration-300">Contact</a>
 
                     <!-- Opportunities -->
-                    <div class="dropdown relative">
-                        <button
-                            class="dropdown-btn bg-primary-yellow text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition duration-300 flex items-center"
-                            data-dropdown="opportunities">
+                    <div class="relative group">
+                        <button class="bg-primary-yellow text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition duration-300 flex items-center">
                             Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
-                        <div class="dropdown-content" id="opportunities-dropdown">
-                            <a href="volunteer.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Volunteer</a>
-                            <a href="careers.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
-                            <a href="partnerships.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
+                        <div class="absolute top-full left-0 bg-white min-w-48 shadow-lg rounded-lg py-2 hidden group-hover:block z-50">
+                            <a href="./volunteer.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Volunteer</a>
+                            <a href="./careers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
+                            <a href="./partnerships.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button onclick="openModal('donateModal')"
-                        class="bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
+                    <button onclick="openModal('donateModal')" class="bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
                         <i class="fas fa-heart mr-2"></i>Donate Now
                     </button>
                     <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-primary-blue transition">
@@ -565,72 +151,57 @@
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobileMenu" class="mobile-menu">
+            <div id="mobileMenu" class="absolute top-full left-0 w-full bg-white shadow-lg hidden md:hidden">
                 <div class="px-4 py-2 space-y-3">
                     <a href="index.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Home</a>
 
                     <!-- Programs Mobile Dropdown -->
                     <div class="mobile-dropdown">
-                        <button
-                            class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
                             Programs <i class="fas fa-chevron-down text-xs"></i>
                         </button>
-                        <div class="mobile-dropdown-content">
-                            <a href="hunger-help.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Hunger Help</a>
-                            <a href="youth-empowerment.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Youth
-                                Empowerment</a>
-                            <a href="mental-wellness.html"
-                                class="block py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition pl-4">Mental
-                                Wellness</a>
+                        <div class="mobile-dropdown-content pl-4 mt-2 hidden">
+                            <a href="./hunger-help.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Hunger Help</a>
+                            <a href="./youth-empowerment.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Youth Empowerment</a>
+                            <a href="./mental-wellness.html" class="block py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition">Mental Wellness</a>
                         </div>
                     </div>
 
-                    <a href="about-us.html"
-                        class="block py-2 text-gray-600 hover:text-primary-blue transition">About</a>
-                    <a href="get-involved.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Get
-                        Involved</a>
+                    <a href="./about-us.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">About</a>
+                    <a href="./get-involved.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Get Involved</a>
 
                     <!-- News & Updates Mobile Dropdown -->
                     <div class="mobile-dropdown">
-                        <button
-                            class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
                             News & Updates <i class="fas fa-chevron-down text-xs"></i>
                         </button>
                         <div class="mobile-dropdown-content">
-                            <a href="news.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Latest News</a>
-                            <a href="events.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Upcoming
-                                Events</a>
+                            <a href="./advertisement.html"
+                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Advertisement</a>
+                            <!-- <a href="events.html"
+                                 class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Upcoming 
+                                Events</a> -->
                             <a href="stories.html"
                                 class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Success
                                 Stories</a>
                         </div>
                     </div>
 
-                    <a href="contact.html"
-                        class="block py-2 text-gray-600 hover:text-primary-blue transition">Contact</a>
+                    <a href="./contact.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Contact</a>
 
                     <!-- Opportunities Mobile Dropdown -->
                     <div class="mobile-dropdown">
-                        <button
-                            class="mobile-dropdown-btn w-full text-left py-2 bg-primary-yellow text-gray-800 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center justify-between px-4">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 bg-primary-yellow text-gray-800 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center justify-between px-4">
                             Opportunities <i class="fas fa-chevron-down text-xs"></i>
                         </button>
-                        <div class="mobile-dropdown-content">
-                            <a href="volunteer.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Volunteer</a>
-                            <a href="careers.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Careers</a>
-                            <a href="partnerships.html"
-                                class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Partnerships</a>
+                        <div class="mobile-dropdown-content pl-4 mt-2 hidden">
+                            <a href="./volunteer.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Volunteer</a>
+                            <a href="./careers.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Careers</a>
+                            <a href="./partnerships.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Partnerships</a>
                         </div>
                     </div>
 
-                    <button onclick="openModal('donateModal')"
-                        class="w-full bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 text-left flex items-center">
+                    <button onclick="openModal('donateModal')" class="w-full bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 text-left flex items-center">
                         <i class="fas fa-heart mr-2"></i>Donate Now
                     </button>
                 </div>
@@ -639,7 +210,7 @@
     </nav>
 
     <!-- Notification System -->
-    <div id="notification" class="notification">
+    <div id="notification" class="fixed top-24 right-5 p-4 rounded-lg text-white z-[1001] transform translate-x-96 transition-transform duration-300 hidden">
         <div class="flex items-center">
             <i id="notificationIcon" class="fas fa-check-circle mr-2"></i>
             <span id="notificationMessage">Action completed successfully!</span>
@@ -647,34 +218,28 @@
     </div>
 
     <!-- Mental Health Hero Section -->
-    <section class="pt-32 mental-health-hero min-h-screen flex items-center relative overflow-hidden">
+    <section class="pt-32 min-h-screen flex items-center relative overflow-hidden" style="background: linear-gradient(135deg, rgba(250, 185, 185, 0.85) 0%, rgba(5, 150, 105, 0.85) 100%), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center; background-attachment: fixed;">
         <!-- Floating decorative elements -->
-        <div class="absolute top-20 left-10 w-16 h-16 bg-white/20 rounded-full floating"></div>
-        <div class="absolute top-40 right-20 w-12 h-12 bg-white/30 rounded-full floating" style="animation-delay: 1s;">
-        </div>
-        <div class="absolute bottom-40 left-1/4 w-20 h-20 bg-white/10 rounded-full floating"
-            style="animation-delay: 2s;"></div>
+        <div class="absolute top-20 left-10 w-16 h-16 bg-white/20 rounded-full animate-floating"></div>
+        <div class="absolute top-40 right-20 w-12 h-12 bg-white/30 rounded-full animate-floating" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-40 left-1/4 w-20 h-20 bg-white/10 rounded-full animate-floating" style="animation-delay: 2s;"></div>
 
         <div class="max-w-7xl mx-auto px-4 py-20 text-center text-white relative z-10">
-            <div class="fade-in">
+            <div class="opacity-0 transform translate-y-8 animate-fade-in">
                 <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                    Mental Wellness & <span class="gradient-text">Emotional Support</span>
+                    Mental Wellness & <span class="bg-gradient-to-r from-primary-green to-primary-blue bg-clip-text text-transparent">Emotional Support</span>
                 </h1>
                 <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
-                    Healing hearts and minds through compassionate support, counseling, and community connection in
-                    Mahama Camp.
+                    Healing hearts and minds through compassionate support, counseling, and community connection in Mahama Camp.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="scrollToSection('services')"
-                        class="bg-white text-primary-green px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
+                    <button onclick="scrollToSection('services')" class="bg-white text-primary-green px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
                         <i class="fas fa-hands-helping mr-2"></i>Get Support
                     </button>
-                    <button onclick="openModal('counselingRequestModal')"
-                        class="bg-primary-yellow text-gray-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
+                    <button onclick="openModal('counselingRequestModal')" class="bg-primary-yellow text-gray-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
                         <i class="fas fa-user-md mr-2"></i>Request Counseling
                     </button>
-                    <button onclick="scrollToSection('resources')"
-                        class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-green transition transform hover:scale-105 flex items-center justify-center">
+                    <button onclick="scrollToSection('resources')" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-green transition transform hover:scale-105 flex items-center justify-center">
                         <i class="fas fa-book mr-2"></i>Resources
                     </button>
                 </div>
@@ -682,15 +247,15 @@
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="300">0</div>
+                        <div class="text-3xl font-bold tabular-nums" data-target="300">0</div>
                         <div class="text-sm opacity-80">Community Members Supported</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="15">0</div>
+                        <div class="text-3xl font-bold tabular-nums" data-target="15">0</div>
                         <div class="text-sm opacity-80">Trained Counselors</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="40">0</div>
+                        <div class="text-3xl font-bold tabular-nums" data-target="40">0</div>
                         <div class="text-sm opacity-80">Support Groups</div>
                     </div>
                 </div>
@@ -706,53 +271,44 @@
     </section>
 
     <!-- Mental Health Services -->
-    <section id="services" class="py-20 gradient-section-1">
+    <section id="services" class="py-20" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(236, 253, 245, 0.9) 100%), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80'); background-size: cover; background-position: center;">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16 fade-in">
+            <div class="text-center mb-16 opacity-0 transform translate-y-8 animate-fade-in">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Mental Wellness Services</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive support for emotional well-being and
-                    mental health</p>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive support for emotional well-being and mental health</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 mb-16">
-                <div class="fade-in hover-lift">
-                    <div class="wellness-card p-8 rounded-2xl modern-shadow h-full">
+                <div class="opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2 hover:shadow-xl">
+                    <div class="p-8 rounded-2xl shadow-lg h-full" style="background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%); border-left: 4px solid #10B981;">
                         <div class="w-12 h-12 bg-primary-green rounded-lg flex items-center justify-center mb-4">
                             <i class="fas fa-user-md text-white text-xl"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-gray-800 mb-4">Individual Counseling</h3>
                         <p class="text-gray-600 text-lg leading-relaxed">
-                            One-on-one sessions with trained counselors to address personal challenges, trauma, and
-                            emotional difficulties in a safe, confidential environment.
+                            One-on-one sessions with trained counselors to address personal challenges, trauma, and emotional difficulties in a safe, confidential environment.
                         </p>
                         <ul class="mt-4 space-y-2 text-gray-600">
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Trauma-focused therapy</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Grief and loss counseling</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Stress management techniques</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Trauma-focused therapy</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Grief and loss counseling</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Stress management techniques</li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="fade-in hover-lift">
-                    <div class="wellness-card p-8 rounded-2xl modern-shadow h-full">
+                <div class="opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2 hover:shadow-xl">
+                    <div class="p-8 rounded-2xl shadow-lg h-full" style="background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%); border-left: 4px solid #10B981;">
                         <div class="w-12 h-12 bg-primary-green rounded-lg flex items-center justify-center mb-4">
                             <i class="fas fa-users text-white text-xl"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-gray-800 mb-4">Support Groups</h3>
                         <p class="text-gray-600 text-lg leading-relaxed">
-                            Peer-led groups where community members can share experiences, find solidarity, and build
-                            resilience together.
+                            Peer-led groups where community members can share experiences, find solidarity, and build resilience together.
                         </p>
                         <ul class="mt-4 space-y-2 text-gray-600">
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Women's support circles</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Youth resilience groups</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i>
-                                Parent support networks</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Women's support circles</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Youth resilience groups</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-primary-green mr-2"></i> Parent support networks</li>
                         </ul>
                     </div>
                 </div>
@@ -760,27 +316,24 @@
 
             <!-- Additional Services -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center fade-in hover-lift">
-                    <div
-                        class="w-20 h-20 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <div class="text-center opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-palette text-white text-2xl"></i>
                     </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Creative Therapy</h4>
                     <p class="text-gray-600">Art, music, and writing for emotional expression and healing</p>
                 </div>
 
-                <div class="text-center fade-in hover-lift">
-                    <div
-                        class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <div class="text-center opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-mobile-alt text-white text-2xl"></i>
                     </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Digital Support</h4>
                     <p class="text-gray-600">Anonymous online resources and virtual counseling options</p>
                 </div>
 
-                <div class="text-center fade-in hover-lift">
-                    <div
-                        class="w-20 h-20 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <div class="text-center opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-child text-white text-2xl"></i>
                     </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Child & Family</h4>
@@ -791,21 +344,18 @@
     </section>
 
     <!-- Mental Health Resources -->
-    <section id="resources" class="py-20 gradient-section-2">
+    <section id="resources" class="py-20" style="background: linear-gradient(135deg, rgba(249, 250, 251, 0.9) 0%, rgba(240, 253, 250, 0.9) 100%), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center;">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16 fade-in">
+            <div class="text-center mb-16 opacity-0 transform translate-y-8 animate-fade-in">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Mental Health Resources</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Tools and information to support your mental wellness
-                    journey</p>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Tools and information to support your mental wellness journey</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Resource 1 -->
-                <div class="bg-white rounded-2xl modern-shadow overflow-hidden resource-card fade-in">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden opacity-0 transform translate-y-8 animate-fade-in transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                     <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Person practicing mindfulness with journal and pen"
-                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Person practicing mindfulness with journal and pen" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                         <div class="absolute bottom-4 left-4">
                             <i class="fas fa-book-open text-white text-3xl mb-2"></i>
@@ -816,19 +366,16 @@
                         <p class="text-gray-600 mb-6 leading-relaxed">
                             Accessible materials on coping strategies, mindfulness, and emotional regulation techniques.
                         </p>
-                        <button onclick="openModal('selfHelpModal')"
-                            class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                        <button onclick="openModal('selfHelpModal')" class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
                             <i class="fas fa-download mr-2"></i>Download Resources
                         </button>
                     </div>
                 </div>
 
                 <!-- Resource 2 -->
-                <div class="bg-white rounded-2xl modern-shadow overflow-hidden resource-card fade-in">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden opacity-0 transform translate-y-8 animate-fade-in transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                     <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Person using smartphone for mental health app"
-                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Person using smartphone for mental health app" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                         <div class="absolute bottom-4 left-4">
                             <i class="fas fa-mobile-alt text-white text-3xl mb-2"></i>
@@ -839,18 +386,16 @@
                         <p class="text-gray-600 mb-6 leading-relaxed">
                             Mobile apps and online platforms for meditation, mood tracking, and crisis support.
                         </p>
-                        <button onclick="openModal('digitalToolsModal')"
-                            class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                        <button onclick="openModal('digitalToolsModal')" class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
                             <i class="fas fa-external-link-alt mr-2"></i>Explore Tools
                         </button>
                     </div>
                 </div>
 
                 <!-- Resource 3 -->
-                <div class="bg-white rounded-2xl modern-shadow overflow-hidden resource-card fade-in">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden opacity-0 transform translate-y-8 animate-fade-in transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                     <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Team meeting and collaboration">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Team meeting and collaboration" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                         <div class="absolute bottom-4 left-4">
                             <i class="fas fa-users text-white text-3xl mb-2"></i>
@@ -861,8 +406,7 @@
                         <p class="text-gray-600 mb-6 leading-relaxed">
                             Regular sessions on mental health awareness, coping skills, and building resilience.
                         </p>
-                        <button onclick="openModal('workshopsModal')"
-                            class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition flex items-center justify-center">
+                        <button onclick="openModal('workshopsModal')" class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition flex items-center justify-center">
                             <i class="fas fa-calendar-alt mr-2"></i>View Schedule
                         </button>
                     </div>
@@ -872,15 +416,15 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="py-20 gradient-section-3">
+    <section class="py-20" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(239, 246, 255, 0.9) 100%), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2120&q=80'); background-size: cover; background-position: center;">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16 fade-in">
+            <div class="text-center mb-16 opacity-0 transform translate-y-8 animate-fade-in">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Voices of Healing</h2>
                 <p class="text-xl text-gray-600">Stories of resilience and recovery from our community</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-2xl modern-shadow fade-in hover-lift">
+                <div class="bg-white p-8 rounded-2xl shadow-lg opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2 hover:shadow-xl">
                     <div class="flex items-center mb-4">
                         <div class="w-16 h-16 bg-primary-green rounded-full flex items-center justify-center">
                             <i class="fas fa-user text-white text-xl"></i>
@@ -898,15 +442,14 @@
                         </div>
                     </div>
                     <p class="text-gray-600 text-lg italic">
-                        "After losing my husband, I felt completely alone. The support group gave me a community that
-                        understood my pain. Now I can smile again and be strong for my children."
+                        "After losing my husband, I felt completely alone. The support group gave me a community that understood my pain. Now I can smile again and be strong for my children."
                     </p>
                     <div class="mt-4 pt-4 border-t border-gray-200">
                         <div class="text-sm text-gray-500">Member for: 8 months</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-2xl modern-shadow fade-in hover-lift">
+                <div class="bg-white p-8 rounded-2xl shadow-lg opacity-0 transform translate-y-8 animate-fade-in transition-transform duration-200 hover:-translate-y-2 hover:shadow-xl">
                     <div class="flex items-center mb-4">
                         <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center">
                             <i class="fas fa-user text-white text-xl"></i>
@@ -924,8 +467,7 @@
                         </div>
                     </div>
                     <p class="text-gray-600 text-lg italic">
-                        "I struggled with anxiety and nightmares for years. Through counseling, I learned techniques to
-                        manage my anxiety. Now I'm studying again and planning for my future."
+                        "I struggled with anxiety and nightmares for years. Through counseling, I learned techniques to manage my anxiety. Now I'm studying again and planning for my future."
                     </p>
                     <div class="mt-4 pt-4 border-t border-gray-200">
                         <div class="text-sm text-gray-500">Member for: 6 months</div>
@@ -939,29 +481,20 @@
     <section class="py-16 bg-red-50 border-t border-b border-red-200 relative overflow-hidden">
         <!-- Background pattern -->
         <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-0 w-full h-full"
-                style="background-image: url('data:image/svg+xml,<svg width=\" 60\" height=\"60\" viewBox=\"0 0 60 60\"
-                xmlns=\"http://www.w3.org/2000/svg\">
-                <g fill=\"none\" fill-rule=\"evenodd\">
-                    <g fill=\"%23EF4444\" fill-opacity=\"0.4\">
-                        <circle cx=\"30\" cy=\"30\" r=\"2\" />
-                    </g></svg>');">
-            </div>
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23EF4444\" fill-opacity=\"0.4\"><circle cx=\"30\" cy=\"30\" r=\"2\" /></g></svg>');"></div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
-            <div class="fade-in">
+            <div class="opacity-0 transform translate-y-8 animate-fade-in">
                 <h2 class="text-3xl font-bold text-red-800 mb-4">Need Immediate Help?</h2>
                 <p class="text-xl text-red-700 mb-6 max-w-3xl mx-auto">
                     If you or someone you know is in crisis, we're here for you 24/7.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="openModal('crisisModal')"
-                        class="bg-red-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-red-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
+                    <button onclick="openModal('crisisModal')" class="bg-red-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-red-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
                         <i class="fas fa-phone-alt mr-2"></i>Crisis Support
                     </button>
-                    <button onclick="openModal('emergencyContactsModal')"
-                        class="bg-white text-red-600 border-2 border-red-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition transform hover:scale-105 flex items-center justify-center">
+                    <button onclick="openModal('emergencyContactsModal')" class="bg-white text-red-600 border-2 border-red-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition transform hover:scale-105 flex items-center justify-center">
                         <i class="fas fa-list mr-2"></i>Emergency Contacts
                     </button>
                 </div>
@@ -970,33 +503,24 @@
     </section>
 
     <!-- Final CTA -->
-    <section class="py-20 mental-health-hero relative overflow-hidden">
+    <section class="py-20 relative overflow-hidden" style="background: linear-gradient(135deg, rgba(250, 185, 185, 0.85) 0%, rgba(5, 150, 105, 0.85) 100%), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center; background-attachment: fixed;">
         <!-- Background pattern -->
         <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-0 w-full h-full"
-                style="background-image: url('data:image/svg+xml,<svg width=\" 60\" height=\"60\" viewBox=\"0 0 60 60\"
-                xmlns=\"http://www.w3.org/2000/svg\">
-                <g fill=\"none\" fill-rule=\"evenodd\">
-                    <g fill=\"%23ffffff\" fill-opacity=\"0.4\">
-                        <circle cx=\"30\" cy=\"30\" r=\"2\" />
-                    </g></svg>');">
-            </div>
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23ffffff\" fill-opacity=\"0.4\"><circle cx=\"30\" cy=\"30\" r=\"2\" /></g></svg>');"></div>
         </div>
 
         <div class="max-w-4xl mx-auto text-center text-white px-4 relative z-10">
-            <h2 class="text-4xl font-bold mb-6 fade-in">
+            <h2 class="text-4xl font-bold mb-6 opacity-0 transform translate-y-8 animate-fade-in">
                 Your mental health matters. You don't have to face challenges alone.
             </h2>
-            <p class="text-xl opacity-90 mb-8 fade-in">
+            <p class="text-xl opacity-90 mb-8 opacity-0 transform translate-y-8 animate-fade-in">
                 Reach out today to start your journey toward healing and resilience.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8 fade-in">
-                <button onclick="openModal('counselingRequestModal')"
-                    class="bg-white text-primary-green px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8 opacity-0 transform translate-y-8 animate-fade-in">
+                <button onclick="openModal('counselingRequestModal')" class="bg-white text-primary-green px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
                     <i class="fas fa-user-md mr-2"></i>Request Counseling
                 </button>
-                <button onclick="openModal('supportGroupModal')"
-                    class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-green transition transform hover:scale-105 flex items-center justify-center">
+                <button onclick="openModal('supportGroupModal')" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-green transition transform hover:scale-105 flex items-center justify-center">
                     <i class="fas fa-users mr-2"></i>Join Support Group
                 </button>
             </div>
@@ -1026,16 +550,10 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-white transition flex items-center"><i
-                                    class="fas fa-home mr-2 text-xs"></i>Home</a></li>
-                        <li><a href="about.html" class="text-gray-400 hover:text-white transition flex items-center"><i
-                                    class="fas fa-info-circle mr-2 text-xs"></i>About</a></li>
-                        <li><a href="#" onclick="openModal('getInvolvedModal')"
-                                class="text-gray-400 hover:text-white transition flex items-center"><i
-                                    class="fas fa-handshake mr-2 text-xs"></i>Get Involved</a></li>
-                        <li><a href="#" onclick="openModal('contactModal')"
-                                class="text-gray-400 hover:text-white transition flex items-center"><i
-                                    class="fas fa-envelope mr-2 text-xs"></i>Contact</a></li>
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-home mr-2 text-xs"></i>Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-info-circle mr-2 text-xs"></i>About</a></li>
+                        <li><a href="#" onclick="openModal('getInvolvedModal')" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-handshake mr-2 text-xs"></i>Get Involved</a></li>
+                        <li><a href="#" onclick="openModal('contactModal')" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-envelope mr-2 text-xs"></i>Contact</a></li>
                     </ul>
                 </div>
 
@@ -1060,20 +578,16 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
                     <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary-blue transition transform hover:scale-110">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary-blue transition transform hover:scale-110">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition transform hover:scale-110">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition transform hover:scale-110">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition transform hover:scale-110">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition transform hover:scale-110">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-500 transition transform hover:scale-110">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-500 transition transform hover:scale-110">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
@@ -1082,10 +596,8 @@
                     <div class="mt-6">
                         <h5 class="text-sm font-semibold mb-2">Stay Updated</h5>
                         <div class="flex">
-                            <input type="email" placeholder="Your email"
-                                class="flex-1 bg-gray-700 text-white px-3 py-2 rounded-l text-sm focus:outline-none">
-                            <button
-                                class="bg-primary-green text-white px-3 py-2 rounded-r text-sm hover:bg-green-600 transition">
+                            <input type="email" placeholder="Your email" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded-l text-sm focus:outline-none">
+                            <button class="bg-primary-green text-white px-3 py-2 rounded-r text-sm hover:bg-green-600 transition">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -1100,9 +612,9 @@
         </div>
     </footer>
 
-        <!-- Donation Modal -->
-    <div id="donateModal" class="modal">
-        <div class="modal-content">
+    <!-- Donation Modal -->
+    <div id="donateModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">Make a Donation</h3>
                 <button onclick="closeModal('donateModal')" class="text-gray-500 hover:text-gray-700">
@@ -1160,8 +672,8 @@
     </div>
 
     <!-- Counseling Request Modal -->
-    <div id="counselingRequestModal" class="modal">
-        <div class="modal-content">
+    <div id="counselingRequestModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">Request Counseling</h3>
                 <button onclick="closeModal('counselingRequestModal')" class="text-gray-500 hover:text-gray-700">
@@ -1173,26 +685,22 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 mb-2">First Name</label>
-                        <input type="text" required
-                            class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-2">Last Name</label>
-                        <input type="text" required
-                            class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-gray-700 mb-2">Age</label>
-                    <input type="number" min="1" max="120" required
-                        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
+                    <input type="number" min="1" max="120" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 mb-2">Preferred Contact Method</label>
-                    <select
-                        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
+                    <select class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
                         <option value="">Select contact method</option>
                         <option value="phone">Phone Call</option>
                         <option value="in-person">In Person</option>
@@ -1202,14 +710,11 @@
 
                 <div>
                     <label class="block text-gray-700 mb-2">What would you like to discuss?</label>
-                    <textarea rows="4"
-                        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green"
-                        placeholder="Please share what's on your mind..."></textarea>
+                    <textarea rows="4" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Please share what's on your mind..."></textarea>
                 </div>
 
                 <div class="pt-4">
-                    <button type="submit"
-                        class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                    <button type="submit" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
                         <i class="fas fa-paper-plane mr-2"></i>Submit Request
                     </button>
                 </div>
@@ -1218,8 +723,8 @@
     </div>
 
     <!-- Support Group Modal -->
-    <div id="supportGroupModal" class="modal">
-        <div class="modal-content">
+    <div id="supportGroupModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">Join a Support Group</h3>
                 <button onclick="closeModal('supportGroupModal')" class="text-gray-500 hover:text-gray-700">
@@ -1234,9 +739,8 @@
                     <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                         <h4 class="font-semibold text-lg text-green-800 mb-2">Women's Support Circle</h4>
                         <p class="text-gray-600 mb-2">Tuesdays, 2:00 PM - Community Center</p>
-                        <p class="text-sm text-gray-500">A safe space for women to share experiences and build
-                            resilience together.</p>
-                        <button class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                        <p class="text-sm text-gray-500">A safe space for women to share experiences and build resilience together.</p>
+                        <button class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition join-group-btn">
                             Join This Group
                         </button>
                     </div>
@@ -1244,9 +748,8 @@
                     <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                         <h4 class="font-semibold text-lg text-blue-800 mb-2">Youth Resilience Group</h4>
                         <p class="text-gray-600 mb-2">Thursdays, 4:00 PM - Youth Center</p>
-                        <p class="text-sm text-gray-500">For young people (15-25) navigating challenges and building
-                            coping skills.</p>
-                        <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                        <p class="text-sm text-gray-500">For young people (15-25) navigating challenges and building coping skills.</p>
+                        <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition join-group-btn">
                             Join This Group
                         </button>
                     </div>
@@ -1254,9 +757,8 @@
                     <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
                         <h4 class="font-semibold text-lg text-purple-800 mb-2">Parent Support Network</h4>
                         <p class="text-gray-600 mb-2">Saturdays, 10:00 AM - Family Center</p>
-                        <p class="text-sm text-gray-500">For parents and caregivers facing the unique challenges of
-                            raising children in difficult circumstances.</p>
-                        <button class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">
+                        <p class="text-sm text-gray-500">For parents and caregivers facing the unique challenges of raising children in difficult circumstances.</p>
+                        <button class="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition join-group-btn">
                             Join This Group
                         </button>
                     </div>
@@ -1266,8 +768,8 @@
     </div>
 
     <!-- Crisis Support Modal -->
-    <div id="crisisModal" class="modal">
-        <div class="modal-content">
+    <div id="crisisModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-red-700">Crisis Support</h3>
                 <button onclick="closeModal('crisisModal')" class="text-gray-500 hover:text-gray-700">
@@ -1278,8 +780,7 @@
             <div class="space-y-4">
                 <div class="bg-red-50 p-4 rounded-lg">
                     <h4 class="font-semibold text-lg text-red-800 mb-2">Immediate Help Available</h4>
-                    <p class="text-gray-700 mb-3">If you're in crisis or having thoughts of harming yourself or others,
-                        please reach out immediately.</p>
+                    <p class="text-gray-700 mb-3">If you're in crisis or having thoughts of harming yourself or others, please reach out immediately.</p>
 
                     <div class="space-y-2">
                         <div class="flex items-center">
@@ -1302,16 +803,15 @@
 
                 <div class="bg-yellow-50 p-4 rounded-lg">
                     <h4 class="font-semibold text-lg text-yellow-800 mb-2">You Are Not Alone</h4>
-                    <p class="text-gray-700">Remember that difficult feelings and situations are temporary. Reaching out
-                        for help is a sign of strength.</p>
+                    <p class="text-gray-700">Remember that difficult feelings and situations are temporary. Reaching out for help is a sign of strength.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Emergency Contacts Modal -->
-    <div id="emergencyContactsModal" class="modal">
-        <div class="modal-content">
+    <div id="emergencyContactsModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">Emergency Contacts</h3>
                 <button onclick="closeModal('emergencyContactsModal')" class="text-gray-500 hover:text-gray-700">
@@ -1323,7 +823,7 @@
                 <p class="text-gray-600">Save these emergency contacts for immediate assistance:</p>
 
                 <div class="space-y-3">
-                    <div class="emergency-contact bg-red-50 p-4 rounded-lg border border-red-200">
+                    <div class="emergency-contact bg-red-50 p-4 rounded-lg border border-red-200 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                         <div class="flex items-center">
                             <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4">
                                 <i class="fas fa-ambulance text-white"></i>
@@ -1333,13 +833,12 @@
                                 <p class="text-gray-600">+250 789 111 222</p>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('+250789111222', 'Medical Emergency number')"
-                            class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition">
+                        <button onclick="copyToClipboard('+250789111222', 'Medical Emergency number')" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition">
                             Copy Number
                         </button>
                     </div>
 
-                    <div class="emergency-contact bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <div class="emergency-contact bg-blue-50 p-4 rounded-lg border border-blue-200 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                         <div class="flex items-center">
                             <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
                                 <i class="fas fa-shield-alt text-white"></i>
@@ -1349,13 +848,12 @@
                                 <p class="text-gray-600">+250 789 333 444</p>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('+250789333444', 'Camp Security number')"
-                            class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
+                        <button onclick="copyToClipboard('+250789333444', 'Camp Security number')" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
                             Copy Number
                         </button>
                     </div>
 
-                    <div class="emergency-contact bg-green-50 p-4 rounded-lg border border-green-200">
+                    <div class="emergency-contact bg-green-50 p-4 rounded-lg border border-green-200 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                         <div class="flex items-center">
                             <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
                                 <i class="fas fa-user-md text-white"></i>
@@ -1365,13 +863,12 @@
                                 <p class="text-gray-600">+250 789 123 456</p>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('+250789123456', 'Mental Health Crisis number')"
-                            class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
+                        <button onclick="copyToClipboard('+250789123456', 'Mental Health Crisis number')" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
                             Copy Number
                         </button>
                     </div>
 
-                    <div class="emergency-contact bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <div class="emergency-contact bg-purple-50 p-4 rounded-lg border border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                         <div class="flex items-center">
                             <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
                                 <i class="fas fa-hands-helping text-white"></i>
@@ -1381,24 +878,22 @@
                                 <p class="text-gray-600">+250 789 555 666</p>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('+250789555666', 'Community Support number')"
-                            class="mt-2 bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
+                        <button onclick="copyToClipboard('+250789555666', 'Community Support number')" class="mt-2 bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
                             Copy Number
                         </button>
                     </div>
                 </div>
 
                 <div class="pt-4">
-                    <p class="text-sm text-gray-500">These contacts are available 24/7 for emergencies. For non-urgent
-                        matters, please use our regular contact channels.</p>
+                    <p class="text-sm text-gray-500">These contacts are available 24/7 for emergencies. For non-urgent matters, please use our regular contact channels.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Self-Help Resources Modal -->
-    <div id="selfHelpModal" class="modal">
-        <div class="modal-content">
+    <div id="selfHelpModal" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] hidden justify-center items-center">
+        <div class="bg-white p-8 rounded-xl max-w-md w-11/12 max-h-[90vh] overflow-y-auto animate-modal-slide-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-800">Self-Help Resources</h3>
                 <button onclick="closeModal('selfHelpModal')" class="text-gray-500 hover:text-gray-700">
@@ -1413,687 +908,202 @@
                     <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                         <h4 class="font-semibold text-lg text-green-800 mb-2">Coping with Stress & Anxiety</h4>
                         <p class="text-gray-600 mb-2">PDF Guide • 2.1 MB</p>
-                        <p class="text-sm text-gray-500 mb-3">Practical techniques for managing daily stress and anxiety
-                            symptoms.</p>
-                        <button onclick="downloadResource('coping-stress-guide.pdf')"
-                            class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition flex items-center justify-center">
+                        <p class="text-sm text-gray-500 mb-3">Practical techniques for managing daily stress and anxiety symptoms.</p>
+                        <button onclick="downloadResource('coping-stress-guide.pdf')" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition flex items-center justify-center">
                             <i class="fas fa-download mr-2"></i>Download Guide
                         </button>
-                        <div class="download-progress mt-2" id="progress1"></div>
+                        <div class="download-progress mt-2 h-1 bg-gray-200 rounded overflow-hidden">
+                            <div class="h-full bg-green-500 transition-all duration-500" style="width: 0%"></div>
+                        </div>
                     </div>
 
                     <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                         <h4 class="font-semibold text-lg text-blue-800 mb-2">Mindfulness & Meditation</h4>
                         <p class="text-gray-600 mb-2">PDF Guide • 1.8 MB</p>
-                        <p class="text-sm text-gray-500 mb-3">Simple mindfulness exercises and meditation practices for
-                            beginners.</p>
-                        <button onclick="downloadResource('mindfulness-guide.pdf')"
-                            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition flex items-center justify-center">
+                        <p class="text-sm text-gray-500 mb-3">Simple mindfulness exercises and meditation practices for beginners.</p>
+                        <button onclick="downloadResource('mindfulness-guide.pdf')" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition flex items-center justify-center">
                             <i class="fas fa-download mr-2"></i>Download Guide
                         </button>
-                        <div class="download-progress mt-2" id="progress2"></div>
+                        <div class="download-progress mt-2 h-1 bg-gray-200 rounded overflow-hidden">
+                            <div class="h-full bg-blue-500 transition-all duration-500" style="width: 0%"></div>
+                        </div>
                     </div>
 
                     <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
                         <h4 class="font-semibold text-lg text-purple-800 mb-2">Building Resilience</h4>
                         <p class="text-gray-600 mb-2">PDF Guide • 2.5 MB</p>
-                        <p class="text-sm text-gray-500 mb-3">Strategies for developing emotional resilience in
-                            challenging circumstances.</p>
-                        <button onclick="downloadResource('resilience-guide.pdf')"
-                            class="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 transition flex items-center justify-center">
+                        <p class="text-sm text-gray-500 mb-3">Strategies for developing emotional resilience in challenging circumstances.</p>
+                        <button onclick="downloadResource('resilience-guide.pdf')" class="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 transition flex items-center justify-center">
                             <i class="fas fa-download mr-2"></i>Download Guide
                         </button>
-                        <div class="download-progress mt-2" id="progress3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Digital Tools Modal -->
-    <div id="digitalToolsModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Digital Mental Health Tools</h3>
-                <button onclick="closeModal('digitalToolsModal')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-4">
-                <p class="text-gray-600">Explore these digital tools to support your mental wellness:</p>
-
-                <div class="space-y-3">
-                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                        <h4 class="font-semibold text-lg text-blue-800 mb-2">Mood Tracker App</h4>
-                        <p class="text-gray-600 mb-2">Track your daily emotions and identify patterns.</p>
-                        <p class="text-sm text-gray-500 mb-3">Available for Android and basic phones via SMS service.
-                        </p>
-                        <div class="flex space-x-2">
-                            <button
-                                onclick="showNotification('Mood Tracker app information sent to your phone.', 'success')"
-                                class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition flex items-center justify-center">
-                                <i class="fas fa-mobile-alt mr-2"></i>Get App
-                            </button>
-                            <button onclick="showNotification('SMS instructions sent to your phone.', 'success')"
-                                class="flex-1 bg-green-500 text-white py-2 rounded hover:bg-green-600 transition flex items-center justify-center">
-                                <i class="fas fa-sms mr-2"></i>SMS Service
-                            </button>
+                        <div class="download-progress mt-2 h-1 bg-gray-200 rounded overflow-hidden">
+                            <div class="h-full bg-purple-500 transition-all duration-500" style="width: 0%"></div>
                         </div>
                     </div>
-
-                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                        <h4 class="font-semibold text-lg text-green-800 mb-2">Meditation & Relaxation</h4>
-                        <p class="text-gray-600 mb-2">Audio guides for relaxation and stress reduction.</p>
-                        <p class="text-sm text-gray-500 mb-3">Available in multiple languages including Kinyarwanda,
-                            Swahili, and English.</p>
-                        <div class="flex space-x-2">
-                            <button onclick="playAudioGuide('breathing')"
-                                class="flex-1 bg-green-500 text-white py-2 rounded hover:bg-green-600 transition flex items-center justify-center">
-                                <i class="fas fa-play mr-2"></i>Breathing Exercise
-                            </button>
-                            <button onclick="playAudioGuide('relaxation')"
-                                class="flex-1 bg-purple-500 text-white py-2 rounded hover:bg-purple-600 transition flex items-center justify-center">
-                                <i class="fas fa-music mr-2"></i>Relaxation
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                        <h4 class="font-semibold text-lg text-purple-800 mb-2">Crisis Support Resources</h4>
-                        <p class="text-gray-600 mb-2">Immediate digital support when you need it most.</p>
-                        <p class="text-sm text-gray-500 mb-3">Available 24/7 through various channels.</p>
-                        <div class="flex space-x-2">
-                            <button
-                                onclick="showNotification('Connecting you to our crisis chat service...', 'success')"
-                                class="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 transition flex items-center justify-center">
-                                <i class="fas fa-comments mr-2"></i>Crisis Chat
-                            </button>
-                            <button onclick="openModal('crisisModal')"
-                                class="flex-1 bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition flex items-center justify-center">
-                                <i class="fas fa-phone-alt mr-2"></i>Hotline
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Workshops Modal -->
-    <div id="workshopsModal" class="modal">
-        <div class="modal-content program-modal">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Community Workshops Schedule</h3>
-                <button onclick="closeModal('workshopsModal')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-purple-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-lg text-purple-800 mb-2">Upcoming Workshops</h4>
-                    <p class="text-gray-700">Join our community workshops to learn practical skills for mental wellness.
-                    </p>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="workshop-day p-4 bg-white rounded-lg border border-gray-200">
-                        <h5 class="font-semibold text-lg text-gray-800 mb-3">Monday</h5>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <div>
-                                    <div class="font-medium">Stress Management Basics</div>
-                                    <div class="text-sm text-gray-500">10:00 AM - Community Center</div>
-                                </div>
-                                <button onclick="registerForWorkshop('Stress Management Basics')"
-                                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="workshop-day p-4 bg-white rounded-lg border border-gray-200">
-                        <h5 class="font-semibold text-lg text-gray-800 mb-3">Wednesday</h5>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <div>
-                                    <div class="font-medium">Mindfulness for Beginners</div>
-                                    <div class="text-sm text-gray-500">2:00 PM - Wellness Center</div>
-                                </div>
-                                <button onclick="registerForWorkshop('Mindfulness for Beginners')"
-                                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
-                                    Register
-                                </button>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <div>
-                                    <div class="font-medium">Parenting in Challenging Times</div>
-                                    <div class="text-sm text-gray-500">4:00 PM - Family Center</div>
-                                </div>
-                                <button onclick="registerForWorkshop('Parenting in Challenging Times')"
-                                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="workshop-day p-4 bg-white rounded-lg border border-gray-200 active">
-                        <h5 class="font-semibold text-lg text-gray-800 mb-3">Friday</h5>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <div>
-                                    <div class="font-medium">Building Emotional Resilience</div>
-                                    <div class="text-sm text-gray-500">11:00 AM - Community Center</div>
-                                </div>
-                                <button onclick="registerForWorkshop('Building Emotional Resilience')"
-                                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
-                                    Register
-                                </button>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <div>
-                                    <div class="font-medium">Art for Healing</div>
-                                    <div class="text-sm text-gray-500">3:00 PM - Creative Space</div>
-                                </div>
-                                <button onclick="registerForWorkshop('Art for Healing')"
-                                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-4">
-                    <p class="text-sm text-gray-500 text-center">All workshops are free and open to all community
-                        members. No prior registration required, but it helps us prepare materials.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Breathing Exercise Modal -->
-    <div id="breathingExerciseModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Breathing Exercise</h3>
-                <button onclick="closeModal('breathingExerciseModal')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-6 text-center">
-                <div class="breathing-circle" id="breathingCircle"></div>
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-800 mb-2" id="breathingInstruction">Breathe In</h4>
-                    <p class="text-gray-600">Follow the circle as it expands and contracts</p>
-                </div>
-                <div class="flex justify-center space-x-4">
-                    <button onclick="startBreathingExercise()"
-                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                        Start Exercise
-                    </button>
-                    <button onclick="stopBreathingExercise()"
-                        class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
-                        Stop
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mood Tracker Modal -->
-    <div id="moodTrackerModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Mood Tracker</h3>
-                <button onclick="closeModal('moodTrackerModal')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-6">
-                <div>
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4">How are you feeling today?</h4>
-                    <div class="grid grid-cols-5 gap-4" id="moodOptions">
-                        <div class="mood-option text-center p-3 bg-gray-100 rounded-lg" data-mood="very-happy">
-                            <div class="text-3xl mb-2">😄</div>
-                            <div class="text-sm">Very Happy</div>
-                        </div>
-                        <div class="mood-option text-center p-3 bg-gray-100 rounded-lg" data-mood="happy">
-                            <div class="text-3xl mb-2">😊</div>
-                            <div class="text-sm">Happy</div>
-                        </div>
-                        <div class="mood-option text-center p-3 bg-gray-100 rounded-lg" data-mood="neutral">
-                            <div class="text-3xl mb-2">😐</div>
-                            <div class="text-sm">Neutral</div>
-                        </div>
-                        <div class="mood-option text-center p-3 bg-gray-100 rounded-lg" data-mood="sad">
-                            <div class="text-3xl mb-2">😔</div>
-                            <div class="text-sm">Sad</div>
-                        </div>
-                        <div class="mood-option text-center p-3 bg-gray-100 rounded-lg" data-mood="very-sad">
-                            <div class="text-3xl mb-2">😢</div>
-                            <div class="text-sm">Very Sad</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 mb-2">Any notes about your mood?</label>
-                    <textarea rows="3"
-                        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green"
-                        placeholder="Optional: Share what's affecting your mood today..."></textarea>
-                </div>
-
-                <div class="pt-4">
-                    <button onclick="saveMood()"
-                        class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
-                        <i class="fas fa-save mr-2"></i>Save Mood Entry
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-    // ========== DONATION FORM FUNCTIONALITY ==========
-    document.getElementById('donationForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitButton = this.querySelector('button[type="submit"]');
-        const originalText = submitButton.innerHTML;
-        
-        // Show loading state
-        submitButton.classList.add('btn-loading');
-        submitButton.disabled = true;
-        
-        // Get donation amount
-        let amount = document.getElementById('customAmount').value;
-        if (!amount) {
-            // Check if a preset amount was selected
-            const selectedAmount = document.querySelector('.donation-amount.active');
-            if (selectedAmount) {
-                amount = selectedAmount.getAttribute('data-amount');
+        // ========== DROPDOWN FUNCTIONALITY ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = this.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.className = 'fas fa-bars text-xl';
+                        // Close all mobile dropdowns when closing mobile menu
+                        document.querySelectorAll('.mobile-dropdown-content').forEach(dropdown => {
+                            dropdown.classList.add('hidden');
+                        });
+                    } else {
+                        icon.className = 'fas fa-times text-xl';
+                    }
+                });
             }
-        }
-        
-        if (!amount || amount <= 0) {
-            showNotification('Please select or enter a valid donation amount', 'error');
-            submitButton.classList.remove('btn-loading');
-            submitButton.disabled = false;
-            submitButton.innerHTML = originalText;
-            return;
-        }
-        
-        // Simulate API call
-        setTimeout(() => {
-            // In a real application, you would process the payment here
-            showNotification(`Thank you for your donation of $${amount}! We appreciate your support.`);
-            closeModal('donateModal');
-            
-            // Reset form and button
-            this.reset();
-            submitButton.classList.remove('btn-loading');
-            submitButton.disabled = false;
-            submitButton.innerHTML = originalText;
-            document.querySelectorAll('.donation-amount').forEach(btn => {
-                btn.classList.remove('active', 'bg-primary-blue', 'text-white');
-            });
-        }, 2000);
-    });
-
-    // Donation amount buttons
-    document.querySelectorAll('.donation-amount').forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('.donation-amount').forEach(btn => {
-                btn.classList.remove('active', 'bg-primary-blue', 'text-white');
-            });
-            
-            // Add active class to clicked button
-            this.classList.add('active', 'bg-primary-blue', 'text-white');
-            
-            // Clear custom amount
-            document.getElementById('customAmount').value = '';
-        });
-    });
-
-    // Clear preset amount when custom amount is entered
-    document.getElementById('customAmount').addEventListener('input', function() {
-        document.querySelectorAll('.donation-amount').forEach(btn => {
-            btn.classList.remove('active', 'bg-primary-blue', 'text-white');
-        });
-    });
-
-    // All the existing JavaScript code remains here...
-
-        // ========== NAVIGATION DROPDOWN FUNCTIONALITY ==========
-        document.addEventListener('DOMContentLoaded', function () {
-            // Desktop dropdown functionality
-            const dropdownButtons = document.querySelectorAll('.dropdown-btn');
-
-            dropdownButtons.forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const dropdownId = this.getAttribute('data-dropdown');
-                    const dropdown = document.getElementById(`${dropdownId}-dropdown`);
-
-                    // Close all other dropdowns
-                    document.querySelectorAll('.dropdown-content.active').forEach(d => {
-                        if (d !== dropdown) {
-                            d.classList.remove('active');
-                        }
-                    });
-
-                    // Toggle current dropdown
-                    dropdown.classList.toggle('active');
-                });
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function () {
-                document.querySelectorAll('.dropdown-content.active').forEach(dropdown => {
-                    dropdown.classList.remove('active');
-                });
-            });
 
             // Mobile dropdown functionality
             const mobileDropdownButtons = document.querySelectorAll('.mobile-dropdown-btn');
-
+            
             mobileDropdownButtons.forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const dropdownContent = this.nextElementSibling;
                     const icon = this.querySelector('i');
-
+                    
                     // Toggle dropdown content
-                    dropdownContent.classList.toggle('active');
-
+                    dropdownContent.classList.toggle('hidden');
+                    
                     // Rotate icon
-                    if (dropdownContent.classList.contains('active')) {
-                        icon.style.transform = 'rotate(180deg)';
-                    } else {
+                    if (dropdownContent.classList.contains('hidden')) {
                         icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
                     }
                 });
             });
 
-            // Mobile menu toggle
-            document.getElementById('mobileMenuButton').addEventListener('click', function () {
-                const mobileMenu = document.getElementById('mobileMenu');
-                const icon = this.querySelector('i');
-
-                mobileMenu.classList.toggle('active');
-
-                if (mobileMenu.classList.contains('active')) {
-                    icon.className = 'fas fa-times text-xl';
-                } else {
-                    icon.className = 'fas fa-bars text-xl';
-                    // Close all mobile dropdowns when closing mobile menu
-                    document.querySelectorAll('.mobile-dropdown-content.active').forEach(dropdown => {
-                        dropdown.classList.remove('active');
+            // Close mobile dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.mobile-dropdown')) {
+                    document.querySelectorAll('.mobile-dropdown-content').forEach(dropdown => {
+                        dropdown.classList.add('hidden');
+                    });
+                    document.querySelectorAll('.mobile-dropdown-btn i').forEach(icon => {
+                        icon.style.transform = 'rotate(0deg)';
                     });
                 }
             });
+
+            // Support group join buttons
+            document.querySelectorAll('.join-group-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const groupName = this.parentElement.querySelector('h4').textContent;
+                    showNotification(`Thank you for your interest in ${groupName}. We will contact you with details.`);
+                    closeModal('supportGroupModal');
+                });
+            });
+
+            // Donation form functionality
+            const donationForm = document.getElementById('donationForm');
+            if (donationForm) {
+                donationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showNotification('Thank you for your donation! Your support makes a difference.', 'success');
+                    closeModal('donateModal');
+                });
+
+                // Donation amount buttons
+                document.querySelectorAll('.donation-amount').forEach(button => {
+                    button.addEventListener('click', function() {
+                        document.querySelectorAll('.donation-amount').forEach(btn => {
+                            btn.classList.remove('bg-primary-blue', 'text-white');
+                        });
+                        this.classList.add('bg-primary-blue', 'text-white');
+                        document.getElementById('customAmount').value = this.getAttribute('data-amount');
+                    });
+                });
+            }
+
+            // Counseling form functionality
+            const counselingForm = document.getElementById('counselingForm');
+            if (counselingForm) {
+                counselingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showNotification('Your counseling request has been submitted. We will contact you within 24 hours.', 'success');
+                    closeModal('counselingRequestModal');
+                });
+            }
         });
 
-        // ========== ENHANCED MODAL MANAGEMENT ==========
+        // ========== MODAL FUNCTIONALITY ==========
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Add escape key listener
-            document.addEventListener('keydown', handleEscapeKey);
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-            // Remove escape key listener
-            document.removeEventListener('keydown', handleEscapeKey);
-        }
-
-        function handleEscapeKey(event) {
-            if (event.key === 'Escape') {
-                const activeModal = document.querySelector('.modal.active');
-                if (activeModal) {
-                    closeModal(activeModal.id);
-                }
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
             }
         }
 
-        // Close modal when clicking outside content
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('modal')) {
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('fixed')) {
                 closeModal(event.target.id);
             }
         });
 
-        // ========== ENHANCED NOTIFICATION SYSTEM ==========
+        // ========== NOTIFICATION SYSTEM ==========
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationIcon = document.getElementById('notificationIcon');
             const notificationMessage = document.getElementById('notificationMessage');
 
+            if (!notification) return;
+
             // Set notification content and style
             notificationMessage.textContent = message;
-            notification.className = 'notification ' + type;
-
+            
+            // Remove all color classes
+            notification.className = 'fixed top-24 right-5 p-4 rounded-lg text-white z-[1001] transform transition-transform duration-300';
+            
             if (type === 'success') {
+                notification.classList.add('bg-green-500');
                 notificationIcon.className = 'fas fa-check-circle mr-2';
             } else {
+                notification.classList.add('bg-red-500');
                 notificationIcon.className = 'fas fa-exclamation-circle mr-2';
             }
 
             // Show notification
-            notification.classList.add('show');
+            notification.classList.remove('hidden', 'translate-x-96');
+            notification.classList.add('translate-x-0');
 
             // Hide after 5 seconds
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.classList.remove('translate-x-0');
+                notification.classList.add('translate-x-96');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 300);
             }, 5000);
         }
 
-        // ========== ENHANCED FORM HANDLING ==========
-        // Counseling form
-        document.getElementById('counselingForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
-
-            // Show loading state
-            submitButton.classList.add('btn-loading');
-            submitButton.disabled = true;
-
-            // Simulate API call
-            setTimeout(() => {
-                // In a real application, you would send this data to a server
-                showNotification('Your counseling request has been submitted. We will contact you within 24 hours.');
-                closeModal('counselingRequestModal');
-
-                // Reset form and button
-                this.reset();
-                submitButton.classList.remove('btn-loading');
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalText;
-            }, 2000);
-        });
-
-        // ========== RESOURCE DOWNLOAD FUNCTIONALITY ==========
-        function downloadResource(filename) {
-            // Find the progress bar for this download
-            const progressBars = {
-                'coping-stress-guide.pdf': 'progress1',
-                'mindfulness-guide.pdf': 'progress2',
-                'resilience-guide.pdf': 'progress3'
-            };
-
-            const progressId = progressBars[filename];
-            const progressBar = document.getElementById(progressId);
-
-            if (progressBar) {
-                // Simulate download progress
-                let width = 0;
-                const interval = setInterval(() => {
-                    if (width >= 100) {
-                        clearInterval(interval);
-                        showNotification(`Downloaded: ${filename}`, 'success');
-
-                        // Reset progress bar after a delay
-                        setTimeout(() => {
-                            progressBar.style.width = '0%';
-                        }, 1000);
-                    } else {
-                        width += 10;
-                        progressBar.style.width = width + '%';
-                    }
-                }, 100);
-            }
-        }
-
-        // ========== DIGITAL TOOLS FUNCTIONALITY ==========
-        function playAudioGuide(type) {
-            showNotification(`Playing ${type} audio guide...`, 'success');
-
-            // In a real implementation, this would play actual audio
-            // For demo purposes, we'll just show a notification
-            setTimeout(() => {
-                showNotification(`${type} audio guide completed.`, 'success');
-            }, 3000);
-        }
-
-        // ========== WORKSHOP REGISTRATION ==========
-        function registerForWorkshop(workshopName) {
-            showNotification(`Registered for: ${workshopName}`, 'success');
-
-            // In a real implementation, this would send registration data to a server
-            console.log(`Registered for workshop: ${workshopName}`);
-        }
-
-        // ========== EMERGENCY CONTACTS FUNCTIONALITY ==========
-        function copyToClipboard(text, description) {
-            // Create a temporary textarea element
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            showNotification(`Copied ${description} to clipboard`, 'success');
-        }
-
-        // ========== BREATHING EXERCISE FUNCTIONALITY ==========
-        let breathingInterval;
-        let isBreathing = false;
-        let currentPhase = 'inhale'; // inhale, hold, exhale
-
-        function startBreathingExercise() {
-            if (isBreathing) return;
-
-            isBreathing = true;
-            const circle = document.getElementById('breathingCircle');
-            const instruction = document.getElementById('breathingInstruction');
-
-            let cycleCount = 0;
-            const maxCycles = 5;
-
-            breathingInterval = setInterval(() => {
-                if (currentPhase === 'inhale') {
-                    instruction.textContent = 'Breathe In';
-                    circle.style.animation = 'breathe 4s ease-in-out';
-                    setTimeout(() => {
-                        currentPhase = 'hold';
-                    }, 4000);
-                } else if (currentPhase === 'hold') {
-                    instruction.textContent = 'Hold';
-                    setTimeout(() => {
-                        currentPhase = 'exhale';
-                    }, 2000);
-                } else if (currentPhase === 'exhale') {
-                    instruction.textContent = 'Breathe Out';
-                    circle.style.animation = 'breathe 4s ease-in-out reverse';
-                    setTimeout(() => {
-                        currentPhase = 'inhale';
-                        cycleCount++;
-
-                        if (cycleCount >= maxCycles) {
-                            stopBreathingExercise();
-                            showNotification('Breathing exercise completed. Great job!', 'success');
-                        }
-                    }, 4000);
-                }
-            }, 10000); // Total cycle time: 10 seconds
-        }
-
-        function stopBreathingExercise() {
-            clearInterval(breathingInterval);
-            isBreathing = false;
-            currentPhase = 'inhale';
-            document.getElementById('breathingInstruction').textContent = 'Breathe In';
-        }
-
-        // ========== MOOD TRACKER FUNCTIONALITY ==========
-        let selectedMood = null;
-
-        // Add click handlers to mood options
-        document.querySelectorAll('.mood-option').forEach(option => {
-            option.addEventListener('click', function () {
-                // Remove active class from all options
-                document.querySelectorAll('.mood-option').forEach(opt => {
-                    opt.classList.remove('active', 'bg-primary-green', 'bg-primary-blue', 'bg-primary-yellow', 'bg-orange-400', 'bg-red-400');
-                });
-
-                // Add active class to selected option
-                this.classList.add('active');
-
-                // Add color based on mood
-                const mood = this.getAttribute('data-mood');
-                selectedMood = mood;
-
-                if (mood === 'very-happy') {
-                    this.classList.add('bg-primary-green');
-                } else if (mood === 'happy') {
-                    this.classList.add('bg-primary-blue');
-                } else if (mood === 'neutral') {
-                    this.classList.add('bg-primary-yellow');
-                } else if (mood === 'sad') {
-                    this.classList.add('bg-orange-400');
-                } else if (mood === 'very-sad') {
-                    this.classList.add('bg-red-400');
-                }
-            });
-        });
-
-        function saveMood() {
-            if (!selectedMood) {
-                showNotification('Please select a mood first', 'error');
-                return;
-            }
-
-            // In a real app, this would save to a database
-            const moodEmojis = {
-                'very-happy': '😄',
-                'happy': '😊',
-                'neutral': '😐',
-                'sad': '😔',
-                'very-sad': '😢'
-            };
-
-            showNotification(`Mood saved: ${moodEmojis[selectedMood]}`, 'success');
-            closeModal('moodTrackerModal');
-
-            // Reset selection
-            selectedMood = null;
-            document.querySelectorAll('.mood-option').forEach(opt => {
-                opt.classList.remove('active', 'bg-primary-green', 'bg-primary-blue', 'bg-primary-yellow', 'bg-orange-400', 'bg-red-400');
-            });
-        }
-
-        // ========== ENHANCED SMOOTH SCROLLING ==========
+        // ========== SMOOTH SCROLLING ==========
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -2105,19 +1115,67 @@
             }
         }
 
-        // ========== ENHANCED ANIMATIONS ==========
-        // Intersection Observer for fade-in animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        // ========== RESOURCE DOWNLOAD FUNCTIONALITY ==========
+        function downloadResource(filename) {
+            const progressBars = document.querySelectorAll('.download-progress > div');
+            
+            // Simulate download progress
+            progressBars.forEach(progressBar => {
+                progressBar.style.width = '0%';
+                let width = 0;
+                const interval = setInterval(() => {
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        showNotification(`Downloaded: ${filename}`, 'success');
+                        setTimeout(() => {
+                            progressBar.style.width = '0%';
+                        }, 1000);
+                    } else {
+                        width += 10;
+                        progressBar.style.width = width + '%';
+                    }
+                }, 100);
             });
-        }, {
-            threshold: 0.1
+        }
+
+        // ========== EMERGENCY CONTACTS FUNCTIONALITY ==========
+        function copyToClipboard(text, description) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`Copied ${description} to clipboard`, 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showNotification(`Copied ${description} to clipboard`, 'success');
+            });
+        }
+
+        // ========== SCROLL PROGRESS BAR ==========
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const scrollProgress = document.getElementById('scrollProgress');
+            if (scrollProgress) {
+                scrollProgress.style.width = scrolled + '%';
+            }
+
+            // Navbar background on scroll
+            const nav = document.getElementById('mainNav');
+            if (nav) {
+                if (window.scrollY > 100) {
+                    nav.classList.add('bg-white', 'bg-opacity-95', 'backdrop-blur-sm');
+                } else {
+                    nav.classList.remove('bg-white', 'bg-opacity-95', 'backdrop-blur-sm');
+                }
+            }
         });
 
-        // Counter animation
+        // ========== COUNTER ANIMATION ==========
         function animateCounter(element, target) {
             let current = 0;
             const increment = target / 100;
@@ -2132,29 +1190,8 @@
             }, 20);
         }
 
-        // ========== SCROLL PROGRESS BAR ==========
-        window.addEventListener('scroll', function () {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('scrollProgress').style.width = scrolled + '%';
-
-            // Navbar background on scroll
-            const nav = document.getElementById('mainNav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-white', 'bg-opacity-95', 'backdrop-blur-sm');
-            } else {
-                nav.classList.remove('bg-white', 'bg-opacity-95', 'backdrop-blur-sm');
-            }
-        });
-
         // ========== INITIALIZATION ==========
-        document.addEventListener('DOMContentLoaded', function () {
-            // Observe fade-in elements
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-
+        document.addEventListener('DOMContentLoaded', function() {
             // Observe counter elements and animate when visible
             const counterObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -2166,68 +1203,30 @@
                 });
             }, { threshold: 0.5 });
 
-            document.querySelectorAll('.counter').forEach(counter => {
+            document.querySelectorAll('.tabular-nums[data-target]').forEach(counter => {
                 counterObserver.observe(counter);
             });
 
-            // Add click handlers for support group buttons
-            document.querySelectorAll('.bg-green-500, .bg-blue-500, .bg-purple-500').forEach(button => {
-                if (button.textContent.includes('Join This Group')) {
-                    button.addEventListener('click', function () {
-                        const groupName = this.parentElement.querySelector('h4').textContent;
-                        showNotification(`Thank you for your interest in ${groupName}. We will contact you with details.`);
-                        closeModal('supportGroupModal');
-                    });
-                }
-            });
+            // Initialize fade-in animations
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
 
-            // Initialize any other interactive elements
-            initializeInteractiveElements();
+            document.querySelectorAll('.opacity-0').forEach(element => {
+                fadeInObserver.observe(element);
+            });
         });
 
-        function initializeInteractiveElements() {
-            // Add hover effects to all interactive cards
-            document.querySelectorAll('.hover-lift').forEach(card => {
-                card.addEventListener('mouseenter', function () {
-                    this.style.transition = 'all 0.3s ease';
-                });
-            });
-
-            // Add click handlers for breathing exercise buttons in digital tools
-            document.querySelectorAll('button').forEach(button => {
-                if (button.textContent.includes('Breathing Exercise')) {
-                    button.addEventListener('click', function () {
-                        openModal('breathingExerciseModal');
-                    });
-                }
-
-                if (button.textContent.includes('Mood Tracker')) {
-                    button.addEventListener('click', function () {
-                        openModal('moodTrackerModal');
-                    });
-                }
-            });
-        }
-
-        // ========== ADDITIONAL FEATURES ==========
-        // Newsletter signup
-        function subscribeNewsletter(email) {
-            // In a real app, this would send the email to your server
-            console.log('Subscribing email:', email);
-            showNotification('Thank you for subscribing to our newsletter!');
-        }
-
-        // Page view tracking
-        window.addEventListener('load', function () {
-            // In a real app, this would send page view data to analytics
-            console.log('HopeLink Mahama Mental Wellness page loaded');
-
-            // Show welcome notification after page loads
+        // Show welcome notification after page loads
+        window.addEventListener('load', function() {
             setTimeout(() => {
                 showNotification('Welcome to our Mental Wellness page. Your mental health matters.', 'success');
             }, 1000);
         });
     </script>
 </body>
-
 </html>
