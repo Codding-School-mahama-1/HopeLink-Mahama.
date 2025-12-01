@@ -22,6 +22,10 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '475px',
+                        'lg-md': '1100px', // Custom breakpoint for small desktops
                     }
                 }
             }
@@ -44,6 +48,9 @@
         .nav-item {
             position: relative;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .nav-item::after {
@@ -66,6 +73,8 @@
             background: linear-gradient(135deg, #10B981, #059669);
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
             transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .donate-btn:hover {
@@ -459,7 +468,7 @@
 
     <!-- Navigation with professional background -->
     <nav class="nav-professional shadow-lg fixed w-full z-50 transition-all duration-300" id="mainNav">
-        <div class="max-w-7xl mx-auto px-4">
+        <div class="max-w-full mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center">
                     <!-- HopeLink Mahama Logo -->
@@ -572,6 +581,11 @@
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
+
+                <!-- Mobile and Tablet Menu Button -->
+                <button id="mobileMenuButton" class="mobile-menu-btn lg-md:hidden text-gray-600 hover:text-primary-blue transition flex-shrink-0">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
 
             <!-- Mobile Menu -->
