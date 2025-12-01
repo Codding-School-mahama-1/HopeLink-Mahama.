@@ -1,0 +1,2555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HopeLink - Complete Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar-transition {
+            transition: all 0.3s ease;
+        }
+        .content-transition {
+            transition: all 0.3s ease;
+        }
+        .toast-enter {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        .toast-show {
+            transform: translateX(0);
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+        .editor-toolbar button.active {
+            background: #f3f4f6;
+        }
+        .editor {
+            min-height: 220px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            overflow: auto;
+        }
+        .editor:focus {
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.06);
+            outline: none;
+            border-color: #93c5fd;
+        }
+        .file-dashed {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .table-fixed-header thead th {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        :focus {
+            outline: 3px solid rgba(59, 130, 246, 0.18);
+            outline-offset: 2px;
+        }
+        
+        /* Dark mode support */
+        .dark .dark\:bg-gray-900 { background-color: #111827; }
+        .dark .dark\:bg-gray-800 { background-color: #1f2937; }
+        .dark .dark\:text-white { color: white; }
+        .dark .dark\:text-gray-300 { color: #d1d5db; }
+        .dark .dark\:border-gray-700 { border-color: #374151; }
+        
+        /* Mobile responsive improvements */
+        @media (max-width: 768px) {
+            .mobile-stack { flex-direction: column; }
+            .mobile-full { width: 100%; }
+            .mobile-p-2 { padding: 0.5rem; }
+            .mobile-text-sm { font-size: 0.875rem; }
+            .mobile-hidden { display: none; }
+        }
+        
+        /* Analytics specific styles */
+        .analytics-card {
+            transition: all 0.3s ease;
+        }
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .kpi-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .kpi-card.secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .kpi-card.success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .kpi-card.warning {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        .kpi-card.info {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+    </style>
+</head>
+<body class="antialiased bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-white">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b dark:border-gray-700 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <button id="sidebarToggle" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-r from-blue-600 to-emerald-500 flex items-center justify-center text-white">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold">HopeLink — Admin</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">Mahama Refugee Camp</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 max-w-2xl mx-4 hidden md:block">
+                <div class="relative">
+                    <input id="globalSearch" class="w-full border dark:border-gray-700 dark:bg-gray-800 rounded-lg pl-10 pr-4 py-2" placeholder="Search posts, users, donations..." />
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="themeToggle" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <div class="relative">
+                    <button id="notiBtn" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 relative">
+                        <i class="fas fa-bell"></i>
+                        <span id="notiCount" class="absolute -top-1 -right-1 bg-red-500 text-white w-4 h-4 rounded-full text-xs flex items-center justify-center">0</span>
+                    </button>
+                    <div id="notiDrop" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow p-2">
+                        <div class="text-sm font-semibold px-2 py-1">Notifications</div>
+                        <div id="notiList" class="divide-y dark:divide-gray-700 max-h-60 overflow-auto"></div>
+                        <div class="text-center mt-2"><button id="clearNoti" class="text-xs text-blue-600">Clear</button></div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button id="profileBtn" class="flex items-center gap-2 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img id="adminAvatar" src="https://picsum.photos/seed/admin/40/40" class="w-8 h-8 rounded-full" alt="admin"/>
+                        <div id="adminName" class="hidden md:block font-medium">Admin</div>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="profileDrop" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow p-2">
+                        <div class="px-2 py-2 border-b dark:border-gray-700">
+                            <div id="profileEmail" class="text-sm font-medium">admin@demo.local</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Administrator</div>
+                        </div>
+                        <button id="openProfileEditor" class="w-full text-left px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">Edit Profile</button>
+                        <button id="logoutBtn" class="w-full text-left px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">Log out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 h-[calc(100vh-4rem)] fixed sidebar-transition z-30 overflow-y-auto">
+            <nav class="p-4 space-y-2">
+                <!-- Analytics Section -->
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-4 mb-2">Web Analytics</div>
+                <button data-view="analytics-overview" class="nav-btn w-full text-left px-3 py-2 rounded bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                    <i class="fas fa-chart-pie w-5"></i> Analytics Overview
+                </button>
+                <button data-view="analytics-acquisition" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-chart-line w-5"></i> Acquisition
+                </button>
+                <button data-view="analytics-behavior" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-users w-5"></i> Behavior & Audience
+                </button>
+                <button data-view="analytics-events" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-flag w-5"></i> Key Events
+                </button>
+                <button data-view="analytics-setup" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-cog w-5"></i> Setup Guide
+                </button>
+
+                <!-- Website Pages Management Section -->
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-6 mb-2">Website Pages</div>
+                <button data-view="home" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-home w-5"></i> Home
+                </button>
+                
+                <!-- Programs Section with Subpages -->
+                <div class="relative">
+                    <button id="programsMenu" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-lightbulb w-5"></i> Programs
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </button>
+                    <div id="programsSubmenu" class="hidden ml-4 mt-1 space-y-1">
+                        <button data-view="hunger-help" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Hunger Help
+                        </button>
+                        <button data-view="youth-empowerment" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Youth Empowerment
+                        </button>
+                        <button data-view="mental-wellness" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Mental Wellness
+                        </button>
+                    </div>
+                </div>
+                
+                <button data-view="who-we-are" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-users w-5"></i> Who We Are
+                </button>
+                
+                <button data-view="get-involved" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-handshake w-5"></i> Get Involved
+                </button>
+                
+                <!-- News & Updates Section with Subpages -->
+                <div class="relative">
+                    <button id="newsMenu" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-newspaper w-5"></i> News & Updates
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </button>
+                    <div id="newsSubmenu" class="hidden ml-4 mt-1 space-y-1">
+                        <button data-view="latest-news" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Latest News
+                        </button>
+                        <button data-view="advertisement" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Advertisement
+                        </button>
+                        <button data-view="success-stories" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Success Stories
+                        </button>
+                    </div>
+                </div>
+                
+                <button data-view="contact" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-envelope w-5"></i> Contact
+                </button>
+                
+                <!-- Opportunities Section with Subpages -->
+                <div class="relative">
+                    <button id="opportunitiesMenu" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-briefcase w-5"></i> Opportunities
+                        </div>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </button>
+                    <div id="opportunitiesSubmenu" class="hidden ml-4 mt-1 space-y-1">
+                        <button data-view="volunteer" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Volunteer
+                        </button>
+                        <button data-view="careers" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Careers
+                        </button>
+                        <button data-view="partnerships" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Partnerships
+                        </button>
+                    </div>
+                </div>
+                
+                <button data-view="donate-now" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-donate w-5"></i> Donate Now
+                </button>
+
+                <!-- Dashboard Modules Section -->
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-6 mb-2">Dashboard Modules</div>
+                <button data-view="overview" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-tachometer-alt w-5"></i> Dashboard
+                </button>
+                <button data-view="posts" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-edit w-5"></i> Posts
+                </button>
+                <button data-view="donations" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-hand-holding-heart w-5"></i> Donations
+                </button>
+                <button data-view="volunteers" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-hands-helping w-5"></i> Volunteers
+                </button>
+                <button data-view="programs-module" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-lightbulb w-5"></i> Programs
+                </button>
+                <button data-view="stories-module" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-book-open w-5"></i> Success Stories
+                </button>
+                <button data-view="partners" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-handshake w-5"></i> Partners
+                </button>
+                <button data-view="users" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-users w-5"></i> Users
+                </button>
+                <button data-view="contacts" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-envelope w-5"></i> Contacts
+                </button>
+                <button data-view="settings" class="nav-btn w-full text-left px-3 py-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+                    <i class="fas fa-cog w-5"></i> Settings
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="mainContent" class="flex-1 ml-64 content-transition p-6 overflow-auto h-[calc(100vh-4rem)]">
+            <!-- Content will be dynamically loaded here -->
+            <div id="pageContent">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 text-center">
+                    <div class="max-w-md mx-auto">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-hands-helping text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Welcome to HopeLink Admin</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Select a section from the sidebar to start managing your website content.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+                                <i class="fas fa-edit text-blue-600 dark:text-blue-400 text-xl mb-2"></i>
+                                <div class="font-medium text-blue-800 dark:text-blue-300">Content Management</div>
+                                <div class="text-sm text-blue-600 dark:text-blue-400 mt-1">Edit all website pages</div>
+                            </div>
+                            <div class="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
+                                <i class="fas fa-chart-bar text-green-600 dark:text-green-400 text-xl mb-2"></i>
+                                <div class="font-medium text-green-800 dark:text-green-300">Analytics</div>
+                                <div class="text-sm text-green-600 dark:text-green-400 mt-1">View reports & insights</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modals"></div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="fixed top-20 right-6 space-y-2 z-50"></div>
+
+    <!-- JavaScript Implementation -->
+    <script>
+        // ============================================================================
+        // HOPELINK ADMIN DASHBOARD - COMPLETE JAVASCRIPT FUNCTIONALITY
+        // ============================================================================
+
+        (function(){
+            // Global State & Configuration
+            const STORAGE_KEY = 'hopelink_dashboard_v3';
+            const ACTIVITY_KEY = 'hopelink_activity_v3';
+            const NOTI_KEY = 'hopelink_noti_v3';
+            const SESSION_KEY = 'hopelink_session_v3';
+
+            const config = {
+                defaultPageSize: 10,
+                maxFileSize: 5 * 1024 * 1024, // 5MB
+                supportedImageTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+                chartColors: {
+                    primary: '#3b82f6',
+                    secondary: '#10b981',
+                    accent: '#f59e0b',
+                    danger: '#ef4444',
+                    warning: '#f59e0b',
+                    info: '#06b6d4',
+                    light: '#6b7280',
+                    dark: '#1f2937'
+                },
+                currencies: ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'JPY', 'CNY', 'INR', 'RWF'],
+                paymentMethods: ['Card', 'PayPal', 'Mobile Money', 'Bank Transfer', 'Cash'],
+                programTypes: ['Education', 'Healthcare', 'Food Aid', 'Shelter', 'Livelihood', 'Emergency', 'Other'],
+                volunteerRoles: ['Teacher', 'Doctor', 'Nurse', 'Coordinator', 'Driver', 'Cook', 'Cleaner', 'Other'],
+                storyStatuses: ['Draft', 'Published', 'Featured', 'Archived'],
+                partnerTypes: ['Corporate', 'NGO', 'Government', 'Individual', 'Foundation'],
+                postCategories: ['News', 'Update', 'Story', 'Event', 'Announcement', 'Campaign']
+            };
+
+            // Analytics Data Structure
+            const analyticsData = {
+                overview: {
+                    kpis: {
+                        totalUsers: 156.2,
+                        newUsers: 109.8,
+                        totalRevenue: 23.7,
+                        purchases: 3.5,
+                        sessions: 194.2
+                    },
+                    dailyTrafficByChannel: {
+                        labels: Array.from({length: 61}, (_, i) => {
+                            const date = new Date(2024, 9, 1); // Oct 1
+                            date.setDate(date.getDate() + i);
+                            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                        }),
+                        datasets: [
+                            { label: 'Organic Search', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Direct', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Referral', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Paid Search', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Unassigned', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Organic Social', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Organic Video', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Email', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Display', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) },
+                            { label: 'Paid Video', data: Array.from({length: 61}, () => Math.floor(Math.random() * 6000)) }
+                        ]
+                    },
+                    dailyPurchasesRevenue: {
+                        labels: Array.from({length: 55}, (_, i) => {
+                            const date = new Date(2024, 9, 1); // Oct 1
+                            date.setDate(date.getDate() + i);
+                            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                        }),
+                        purchases: Array.from({length: 55}, () => Math.floor(Math.random() * 150)),
+                        revenue: Array.from({length: 55}, () => Math.floor(Math.random() * 800))
+                    },
+                    monthlyTraffic: {
+                        labels: ['Nov', 'Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'],
+                        data: Array.from({length: 7}, () => Math.floor(Math.random() * 250000))
+                    },
+                    weeklyTraffic: {
+                        labels: ['May 26, 2025', 'Jun 23, 2025', 'Jul 21, 2025', 'Aug 18, 2025', 'Sep 15, 2025', 'Oct 13, 2025', 'Nov 10, 2025'],
+                        data: Array.from({length: 7}, () => Math.floor(Math.random() * 80000))
+                    }
+                },
+                acquisition: {
+                    channelGroups: [
+                        { channel: 'Organic Search', totalUsers: 94.8, activeUsers: 94.8, sessions: 120.5, avgEngagement: '00:03:45', purchases: 3.2, purchaseRate: '3.38%', revenue: 21.7 },
+                        { channel: 'Direct', totalUsers: 74.3, activeUsers: 74.3, sessions: 89.1, avgEngagement: '00:04:12', purchases: 2.2, purchaseRate: '2.96%', revenue: 14.5 },
+                        { channel: 'Referral', totalUsers: 51.2, activeUsers: 51.2, sessions: 61.4, avgEngagement: '00:03:18', purchases: 3.6, purchaseRate: '7.03%', revenue: 25.4 },
+                        { channel: 'Unassigned', totalUsers: 25.3, activeUsers: 25.3, sessions: 30.4, avgEngagement: '00:02:45', purchases: 0, purchaseRate: '0.00%', revenue: 0 },
+                        { channel: 'Paid Search', totalUsers: 25.2, activeUsers: 25.2, sessions: 30.2, avgEngagement: '00:03:22', purchases: 1.2, purchaseRate: '4.76%', revenue: 8.3 },
+                        { channel: 'Display', totalUsers: 11.7, activeUsers: 11.7, sessions: 14.0, avgEngagement: '00:02:18', purchases: 0.8, purchaseRate: '6.84%', revenue: 5.6 },
+                        { channel: 'Organic Social', totalUsers: 7.4, activeUsers: 7.4, sessions: 8.9, avgEngagement: '00:03:51', purchases: 0.5, purchaseRate: '6.76%', revenue: 3.4 },
+                        { channel: 'Paid Video', totalUsers: 3.4, activeUsers: 3.4, sessions: 4.1, avgEngagement: '00:04:33', purchases: 0.3, purchaseRate: '8.82%', revenue: 2.1 },
+                        { channel: 'Organic Video', totalUsers: 3.0, activeUsers: 3.0, sessions: 3.6, avgEngagement: '00:04:18', purchases: 0.2, purchaseRate: '6.67%', revenue: 1.4 },
+                        { channel: 'Email', totalUsers: 1.7, activeUsers: 1.7, sessions: 2.0, avgEngagement: '00:05:12', purchases: 0.4, purchaseRate: '23.53%', revenue: 2.6 }
+                    ],
+                    sourceMedium: [
+                        { source: 'google/organic', totalUsers: 91.0, activeUsers: 91.0, sessions: 109.2, avgEngagement: '00:03:42', purchases: 3.1, purchaseRate: '3.41%', revenue: 20.8 },
+                        { source: 'direct/(none)', totalUsers: 74.3, activeUsers: 74.3, sessions: 89.1, avgEngagement: '00:04:12', purchases: 2.2, purchaseRate: '2.96%', revenue: 14.5 },
+                        { source: 'google/cpc', totalUsers: 39.5, activeUsers: 39.5, sessions: 47.4, avgEngagement: '00:03:25', purchases: 1.8, purchaseRate: '4.56%', revenue: 12.3 },
+                        { source: '(Blank)', totalUsers: 23.6, activeUsers: 23.6, sessions: 28.3, avgEngagement: '00:02:48', purchases: 0, purchaseRate: '0.00%', revenue: 0 },
+                        { source: 'blog.coupler.io/referral', totalUsers: 8.8, activeUsers: 8.8, sessions: 10.6, avgEngagement: '00:03:24', purchases: 0.7, purchaseRate: '7.95%', revenue: 4.9 },
+                        { source: 'example/referral', totalUsers: 6.4, activeUsers: 6.4, sessions: 7.7, avgEngagement: '00:03:12', purchases: 0.5, purchaseRate: '7.81%', revenue: 3.5 },
+                        { source: 'coupler.io/referral', totalUsers: 3.8, activeUsers: 3.8, sessions: 4.6, avgEngagement: '00:03:36', purchases: 0.3, purchaseRate: '7.89%', revenue: 2.1 }
+                    ],
+                    campaigns: [
+                        { campaign: '(organic)', totalUsers: 94.4, activeUsers: 94.4, sessions: 113.3, avgEngagement: '00:03:44', purchases: 3.2, purchaseRate: '3.39%', revenue: 21.6 },
+                        { campaign: '(direct)', totalUsers: 74.3, activeUsers: 74.3, sessions: 89.1, avgEngagement: '00:04:12', purchases: 2.2, purchaseRate: '2.96%', revenue: 14.5 },
+                        { campaign: '(referral)', totalUsers: 60.6, activeUsers: 60.6, sessions: 72.7, avgEngagement: '00:03:21', purchases: 4.2, purchaseRate: '6.93%', revenue: 29.5 },
+                        { campaign: '(Blank)', totalUsers: 24.0, activeUsers: 24.0, sessions: 28.8, avgEngagement: '00:02:51', purchases: 0, purchaseRate: '0.00%', revenue: 0 },
+                        { campaign: 'GA Campaign 2', totalUsers: 12.3, activeUsers: 12.3, sessions: 14.8, avgEngagement: '00:03:18', purchases: 0.9, purchaseRate: '7.32%', revenue: 6.3 },
+                        { campaign: 'GA Campaign 1', totalUsers: 9.6, activeUsers: 9.6, sessions: 11.5, avgEngagement: '00:03:42', purchases: 0.7, purchaseRate: '7.29%', revenue: 4.9 },
+                        { campaign: 'GA Campaign 6', totalUsers: 4.5, activeUsers: 4.5, sessions: 5.4, avgEngagement: '00:03:54', purchases: 0.3, purchaseRate: '6.67%', revenue: 2.1 }
+                    ],
+                    countries: [
+                        { country: 'USA', users: 77.5, purchases: 2.6, revenue: 17.0 },
+                        { country: 'India', users: 27.8, purchases: 0.896, revenue: 6.2 },
+                        { country: 'UK', users: 15.7, purchases: 0.5, revenue: 3.4 },
+                        { country: 'Ireland', users: 14.5, purchases: 0.4, revenue: 2.8 },
+                        { country: 'Canada', users: 11.2, purchases: 0.3, revenue: 2.1 },
+                        { country: 'Indonesia', users: 9.3, purchases: 0.2, revenue: 1.4 },
+                        { country: 'Australia', users: 8.4, purchases: 0.2, revenue: 1.3 },
+                        { country: 'France', users: 8.2, purchases: 0.2, revenue: 1.2 },
+                        { country: 'Germany', users: 7.7, purchases: 0.2, revenue: 1.1 },
+                        { country: 'Philippines', users: 6.8, purchases: 0.1, revenue: 0.8 }
+                    ]
+                },
+                behavior: {
+                    landingPages: [
+                        { page: '/greater-max-conditional-formatting-vlookup', users: 19.0, activeUsers: 19.0, sessions: 22.8, avgEngagement: '00:04:12', purchases: 0.8, purchaseRate: '4.21%', revenue: 5.6 },
+                        { page: '/formulas-linking-sheets-convert', users: 17.2, activeUsers: 17.2, sessions: 20.6, avgEngagement: '00:03:54', purchases: 0.7, purchaseRate: '4.07%', revenue: 4.9 },
+                        { page: '(Blank)', users: 15.7, activeUsers: 15.7, sessions: 18.8, avgEngagement: '00:03:18', purchases: 0, purchaseRate: '0.00%', revenue: 0 },
+                        { page: '/sumif-match-min-lookup-arrayformula', users: 14.7, activeUsers: 14.7, sessions: 17.6, avgEngagement: '00:04:06', purchases: 0.6, purchaseRate: '4.08%', revenue: 4.2 },
+                        { page: '/functions-guide-text-arrayformula', users: 10.6, activeUsers: 10.6, sessions: 12.7, avgEngagement: '00:03:48', purchases: 0.4, purchaseRate: '3.77%', revenue: 2.8 },
+                        { page: '/conditional-format-importrange-max-validation', users: 8.6, activeUsers: 8.6, sessions: 10.3, avgEngagement: '00:03:36', purchases: 0.3, purchaseRate: '3.49%', revenue: 2.1 },
+                        { page: '/query-table', users: 8.0, activeUsers: 8.0, sessions: 9.6, avgEngagement: '00:04:24', purchases: 0.3, purchaseRate: '3.75%', revenue: 2.1 }
+                    ],
+                    engagement: {
+                        views: 213.8,
+                        avgEngagementPerSession: '00:03:46',
+                        engagedSessionsPerUser: 1.01,
+                        viewsPerUser: 1.07,
+                        avgEngagementPerUser: '00:04:07'
+                    },
+                    demographics: {
+                        age: [
+                            { group: '18-24', users: 45.2 },
+                            { group: '25-34', users: 78.6 },
+                            { group: '35-44', users: 42.3 },
+                            { group: '45-54', users: 18.9 },
+                            { group: 'unknown', users: 14.4 }
+                        ],
+                        gender: [
+                            { group: 'female', users: 92.5 },
+                            { group: 'male', users: 84.3 },
+                            { group: 'unknown', users: 15.6 },
+                            { group: 'null', users: 7.0 }
+                        ]
+                    },
+                    cities: [
+                        { city: 'London', users: 20.9 },
+                        { city: '(Blank)', users: 19.3 },
+                        { city: 'New York', users: 15.2 },
+                        { city: 'Mumbai', users: 10.6 },
+                        { city: 'Singapore', users: 9.2 },
+                        { city: 'Bengaluru', users: 9.0 },
+                        { city: 'Chennai', users: 7.5 }
+                    ]
+                },
+                events: {
+                    dynamics: {
+                        labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+                        data: Array.from({length: 6}, () => Math.floor(Math.random() * 2000))
+                    },
+                    channelGroups: [
+                        { channel: 'Organic Search', totalUsers: 4300, uniqueEventUsers: 3.1, avgEngagement: '00:00:18', events: 3.5, eventRate: '0.07%' },
+                        { channel: 'Direct', totalUsers: 340.9, uniqueEventUsers: 1.2, avgEngagement: '00:00:15', events: 1.4, eventRate: '0.35%' },
+                        { channel: 'Referral', totalUsers: 85.7, uniqueEventUsers: 0.8, avgEngagement: '00:00:12', events: 0.9, eventRate: '0.93%' },
+                        { channel: 'Paid Search', totalUsers: 46.1, uniqueEventUsers: 0.5, avgEngagement: '00:00:14', events: 0.6, eventRate: '1.08%' },
+                        { channel: 'Display', totalUsers: 19.7, uniqueEventUsers: 0.3, avgEngagement: '00:00:11', events: 0.4, eventRate: '1.52%' },
+                        { channel: 'Unassigned', totalUsers: 18.1, uniqueEventUsers: 0.2, avgEngagement: '00:00:09', events: 0.3, eventRate: '1.10%' },
+                        { channel: 'Organic Social', totalUsers: 10.9, uniqueEventUsers: 0.2, avgEngagement: '00:00:16', events: 0.3, eventRate: '1.83%' },
+                        { channel: 'Organic Video', totalUsers: 5.9, uniqueEventUsers: 0.1, avgEngagement: '00:00:20', events: 0.2, eventRate: '1.69%' },
+                        { channel: 'Paid Video', totalUsers: 5.8, uniqueEventUsers: 0.1, avgEngagement: '00:00:22', events: 0.2, eventRate: '1.72%' },
+                        { channel: 'Email', totalUsers: 2.9, uniqueEventUsers: 0.1, avgEngagement: '00:00:25', events: 0.2, eventRate: '3.45%' }
+                    ],
+                    kpis: {
+                        uniqueEventUsers: 6.7,
+                        events: 8.1,
+                        eventRate: '0.14%',
+                        avgEngagement: '00:00:15'
+                    }
+                }
+            };
+
+            // Utility Functions
+            function uid(prefix = 'id') {
+                return prefix + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+            }
+
+            function nowISO() {
+                return new Date().toISOString();
+            }
+
+            function formatDate(dateString, options = {}) {
+                const date = new Date(dateString);
+                const defaultOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+                return date.toLocaleDateString(undefined, { ...defaultOptions, ...options });
+            }
+
+            function formatCurrency(amount, currency = 'USD') {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: currency
+                }).format(amount);
+            }
+
+            function formatNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                }
+                return num.toString();
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Storage Manager
+            class StorageManager {
+                static save(data) {
+                    try {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        return true;
+                    } catch (e) {
+                        console.error('Failed to save data:', e);
+                        return false;
+                    }
+                }
+
+                static load() {
+                    try {
+                        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+                    } catch (e) {
+                        console.error('Failed to load data:', e);
+                        return null;
+                    }
+                }
+
+                static clear() {
+                    localStorage.removeItem(STORAGE_KEY);
+                    localStorage.removeItem(ACTIVITY_KEY);
+                    localStorage.removeItem(NOTI_KEY);
+                    localStorage.removeItem(SESSION_KEY);
+                }
+            }
+
+            // Activity Manager
+            class ActivityManager {
+                static load() {
+                    try {
+                        return JSON.parse(localStorage.getItem(ACTIVITY_KEY)) || [];
+                    } catch (e) {
+                        return [];
+                    }
+                }
+
+                static push(activity) {
+                    const logs = this.load();
+                    logs.unshift({
+                        id: uid('act'),
+                        timestamp: nowISO(),
+                        ...activity
+                    });
+                    // Keep only the last 500 activities
+                    const trimmedLogs = logs.slice(0, 500);
+                    localStorage.setItem(ACTIVITY_KEY, JSON.stringify(trimmedLogs));
+                    return trimmedLogs;
+                }
+
+                static getRecent(limit = 10) {
+                    const logs = this.load();
+                    return logs.slice(0, limit);
+                }
+            }
+
+            // Notification Manager
+            class NotificationManager {
+                static load() {
+                    try {
+                        return JSON.parse(localStorage.getItem(NOTI_KEY)) || [];
+                    } catch (e) {
+                        return [];
+                    }
+                }
+
+                static push(notification) {
+                    const notis = this.load();
+                    notis.unshift({
+                        id: uid('noti'),
+                        timestamp: nowISO(),
+                        read: false,
+                        ...notification
+                    });
+                    // Keep only the last 100 notifications
+                    const trimmedNotis = notis.slice(0, 100);
+                    localStorage.setItem(NOTI_KEY, JSON.stringify(trimmedNotis));
+                    this.updateBadge();
+                    return trimmedNotis;
+                }
+
+                static markAsRead(id) {
+                    const notis = this.load();
+                    const notification = notis.find(n => n.id === id);
+                    if (notification) {
+                        notification.read = true;
+                        localStorage.setItem(NOTI_KEY, JSON.stringify(notis));
+                        this.updateBadge();
+                    }
+                }
+
+                static markAllAsRead() {
+                    const notis = this.load();
+                    notis.forEach(n => n.read = true);
+                    localStorage.setItem(NOTI_KEY, JSON.stringify(notis));
+                    this.updateBadge();
+                }
+
+                static getUnreadCount() {
+                    const notis = this.load();
+                    return notis.filter(n => !n.read).length;
+                }
+
+                static updateBadge() {
+                    const badge = document.getElementById('notiCount');
+                    if (badge) {
+                        const count = this.getUnreadCount();
+                        badge.textContent = count;
+                        badge.style.display = count > 0 ? 'flex' : 'none';
+                    }
+                }
+
+                static clear() {
+                    localStorage.removeItem(NOTI_KEY);
+                    this.updateBadge();
+                }
+
+                static getRecent(limit = 20) {
+                    const notis = this.load();
+                    return notis.slice(0, limit);
+                }
+            }
+
+            // Session Manager
+            class SessionManager {
+                static load() {
+                    try {
+                        return JSON.parse(localStorage.getItem(SESSION_KEY)) || { user: null, theme: 'light' };
+                    } catch (e) {
+                        return { user: null, theme: 'light' };
+                    }
+                }
+
+                static save(session) {
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+                }
+
+                static getCurrentUser() {
+                    const session = this.load();
+                    return session.user;
+                }
+
+                static setCurrentUser(user) {
+                    const session = this.load();
+                    session.user = user;
+                    this.save(session);
+                }
+
+                static getTheme() {
+                    const session = this.load();
+                    return session.theme || 'light';
+                }
+
+                static setTheme(theme) {
+                    const session = this.load();
+                    session.theme = theme;
+                    this.save(session);
+                    document.documentElement.className = theme === 'dark' ? 'dark' : '';
+                }
+
+                static clear() {
+                    localStorage.removeItem(SESSION_KEY);
+                }
+            }
+
+            // Toast Manager
+            class ToastManager {
+                static show(message, type = 'info', duration = 3000) {
+                    const container = document.getElementById('toastContainer');
+                    if (!container) return;
+
+                    const toast = document.createElement('div');
+                    toast.className = `toast-enter p-4 rounded-lg shadow-lg border-l-4 flex items-center gap-3 max-w-sm`;
+
+                    // Set background and border colors based on type
+                    const typeStyles = {
+                        success: 'bg-green-50 border-green-500 text-green-800 dark:bg-green-900 dark:text-green-200',
+                        error: 'bg-red-50 border-red-500 text-red-800 dark:bg-red-900 dark:text-red-200',
+                        warning: 'bg-yellow-50 border-yellow-500 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                        info: 'bg-blue-50 border-blue-500 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                    };
+
+                    toast.classList.add(...typeStyles[type].split(' '));
+
+                    // Set icon based on type
+                    const icons = {
+                        success: 'fas fa-check-circle',
+                        error: 'fas fa-exclamation-circle',
+                        warning: 'fas fa-exclamation-triangle',
+                        info: 'fas fa-info-circle'
+                    };
+
+                    toast.innerHTML = `
+                        <i class="${icons[type]} text-lg"></i>
+                        <div class="flex-1">
+                            <div class="font-medium">${message}</div>
+                        </div>
+                        <button class="toast-close text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+
+                    container.appendChild(toast);
+
+                    // Animate in
+                    requestAnimationFrame(() => {
+                        toast.classList.add('toast-show');
+                    });
+
+                    // Close button
+                    const closeBtn = toast.querySelector('.toast-close');
+                    closeBtn.addEventListener('click', () => {
+                        this.hide(toast);
+                    });
+
+                    // Auto hide
+                    if (duration > 0) {
+                        setTimeout(() => {
+                            this.hide(toast);
+                        }, duration);
+                    }
+
+                    return toast;
+                }
+
+                static hide(toast) {
+                    toast.classList.remove('toast-show');
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }
+
+                static clearAll() {
+                    const container = document.getElementById('toastContainer');
+                    if (container) {
+                        container.innerHTML = '';
+                    }
+                }
+            }
+
+            // Modal Manager
+            class ModalManager {
+                static open(options) {
+                    const {
+                        title = 'Modal',
+                        body = '',
+                        wide = false,
+                        onConfirm = null,
+                        onCancel = null,
+                        confirmText = 'Save',
+                        cancelText = 'Cancel',
+                        showFooter = true
+                    } = options;
+
+                    const modalId = uid('modal');
+                    const modal = document.createElement('div');
+                    modal.className = 'fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 bg-black bg-opacity-50';
+                    modal.innerHTML = `
+                        <div class="absolute inset-0" data-modal-backdrop></div>
+                        <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${wide ? 'max-w-5xl' : 'max-w-2xl'} max-h-[90vh] overflow-hidden flex flex-col">
+                            <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
+                                <h3 class="text-lg font-semibold">${escapeHtml(title)}</h3>
+                                <button class="modal-close p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700" data-modal-close>
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="flex-1 overflow-auto p-4" data-modal-body>
+                                ${body}
+                            </div>
+                            ${showFooter ? `
+                                <div class="flex justify-end gap-2 p-4 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                                    <button class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700" data-modal-cancel>
+                                        ${cancelText}
+                                    </button>
+                                    <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" data-modal-confirm>
+                                        ${confirmText}
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+
+                    // Focus trap
+                    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                    const trapFocus = (e) => {
+                        if (e.key === 'Tab') {
+                            if (e.shiftKey) {
+                                if (document.activeElement === firstElement) {
+                                    e.preventDefault();
+                                    lastElement.focus();
+                                }
+                            } else {
+                                if (document.activeElement === lastElement) {
+                                    e.preventDefault();
+                                    firstElement.focus();
+                                }
+                            }
+                        }
+                    };
+
+                    modal.addEventListener('keydown', trapFocus);
+
+                    // Close handlers
+                    const closeModal = () => {
+                        modal.removeEventListener('keydown', trapFocus);
+                        document.body.removeChild(modal);
+                        if (onCancel) onCancel();
+                    };
+
+                    modal.querySelector('[data-modal-backdrop]').addEventListener('click', closeModal);
+                    modal.querySelector('[data-modal-close]').addEventListener('click', closeModal);
+                    modal.querySelector('[data-modal-cancel]')?.addEventListener('click', closeModal);
+
+                    // Confirm handler
+                    modal.querySelector('[data-modal-confirm]')?.addEventListener('click', async () => {
+                        if (onConfirm) {
+                            const result = await onConfirm();
+                            if (result !== false) {
+                                closeModal();
+                            }
+                        } else {
+                            closeModal();
+                        }
+                    });
+
+                    // ESC key to close
+                    const escHandler = (e) => {
+                        if (e.key === 'Escape') {
+                            closeModal();
+                        }
+                    };
+                    modal.addEventListener('keydown', escHandler);
+
+                    // Focus first element
+                    if (firstElement) {
+                        firstElement.focus();
+                    }
+
+                    return modal;
+                }
+
+                static closeAll() {
+                    document.querySelectorAll('[data-modal]').forEach(modal => {
+                        modal.remove();
+                    });
+                }
+            }
+
+            // Data Manager
+            class DataManager {
+                static data = null;
+
+                static initialize() {
+                    this.data = StorageManager.load();
+                    if (!this.data) {
+                        this.seedDemoData();
+                        this.save();
+                    }
+                    this.ensureDataStructure();
+                }
+
+                static ensureDataStructure() {
+                    const requiredEntities = ['posts', 'donations', 'volunteers', 'programs', 'stories', 'partners', 'users', 'contacts', 'settings', 'pages'];
+                    
+                    requiredEntities.forEach(entity => {
+                        if (!this.data[entity]) {
+                            this.data[entity] = [];
+                        }
+                    });
+
+                    if (!this.data.settings) {
+                        this.data.settings = {
+                            siteTitle: 'HopeLink — Mahama Refugee Camp',
+                            contactEmail: 'contact@hopelink.example',
+                            donateMethods: ['Stripe', 'PayPal', 'Mobile Money'],
+                            darkMode: false,
+                            currency: 'USD',
+                            language: 'en',
+                            timezone: 'UTC'
+                        };
+                    }
+
+                    // Ensure there's at least one admin user
+                    if (this.data.users.length === 0) {
+                        this.data.users.push({
+                            id: 'user_admin',
+                            name: 'Demo Admin',
+                            email: 'admin@demo.local',
+                            role: 'admin',
+                            avatar: 'https://picsum.photos/seed/admin/100/100',
+                            status: 'Active',
+                            createdAt: new Date().toISOString().split('T')[0],
+                            lastLogin: new Date().toISOString()
+                        });
+                    }
+
+                    // Ensure website pages exist
+                    if (this.data.pages.length === 0) {
+                        const websitePages = [
+                            'home', 'programs', 'hunger-help', 'youth-empowerment', 'mental-wellness',
+                            'who-we-are', 'get-involved', 'news-updates', 'latest-news', 'advertisement',
+                            'success-stories', 'contact', 'opportunities', 'volunteer', 'careers',
+                            'partnerships', 'donate-now'
+                        ];
+
+                        websitePages.forEach(page => {
+                            this.data.pages.push({
+                                id: `page_${page}`,
+                                slug: page,
+                                title: this.formatPageTitle(page),
+                                content: `<h1>${this.formatPageTitle(page)}</h1><p>This is the content for the ${this.formatPageTitle(page)} page. You can edit this content in the dashboard.</p>`,
+                                metaTitle: this.formatPageTitle(page),
+                                metaDescription: `Learn more about ${this.formatPageTitle(page)} at HopeLink Mahama Refugee Camp`,
+                                status: 'published',
+                                lastUpdated: nowISO()
+                            });
+                        });
+                    }
+                }
+
+                static formatPageTitle(slug) {
+                    return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                }
+
+                static seedDemoData() {
+                    this.data = {
+                        posts: [],
+                        donations: [],
+                        volunteers: [],
+                        programs: [],
+                        stories: [],
+                        partners: [],
+                        users: [],
+                        contacts: [],
+                        pages: [],
+                        settings: {
+                            siteTitle: 'HopeLink — Mahama Refugee Camp',
+                            contactEmail: 'contact@hopelink.example',
+                            donateMethods: ['Stripe', 'PayPal', 'Mobile Money'],
+                            darkMode: false,
+                            currency: 'USD',
+                            language: 'en',
+                            timezone: 'UTC'
+                        }
+                    };
+                }
+
+                static save() {
+                    return StorageManager.save(this.data);
+                }
+
+                static getAll(entity) {
+                    return this.data[entity] || [];
+                }
+
+                static getById(entity, id) {
+                    return this.data[entity]?.find(item => item.id === id) || null;
+                }
+
+                static create(entity, item) {
+                    if (!this.data[entity]) {
+                        this.data[entity] = [];
+                    }
+                    this.data[entity].unshift(item);
+                    this.save();
+                    return item;
+                }
+
+                static update(entity, id, updates) {
+                    const index = this.data[entity]?.findIndex(item => item.id === id);
+                    if (index !== -1) {
+                        this.data[entity][index] = { ...this.data[entity][index], ...updates, updatedAt: nowISO() };
+                        this.save();
+                        return this.data[entity][index];
+                    }
+                    return null;
+                }
+
+                static delete(entity, id) {
+                    if (this.data[entity]) {
+                        this.data[entity] = this.data[entity].filter(item => item.id !== id);
+                        this.save();
+                        return true;
+                    }
+                    return false;
+                }
+
+                static getPageBySlug(slug) {
+                    return this.data.pages?.find(page => page.slug === slug) || null;
+                }
+
+                static updatePageBySlug(slug, updates) {
+                    const page = this.getPageBySlug(slug);
+                    if (page) {
+                        return this.update('pages', page.id, updates);
+                    }
+                    return null;
+                }
+
+                static getStats() {
+                    return {
+                        posts: this.data.posts.length,
+                        donations: this.data.donations.length,
+                        volunteers: this.data.volunteers.filter(v => v.status === 'Active').length,
+                        programs: this.data.programs.filter(p => p.status === 'Active').length,
+                        stories: this.data.stories.filter(s => s.status === 'Published').length,
+                        partners: this.data.partners.filter(p => p.status === 'Active').length,
+                        users: this.data.users.length,
+                        contacts: this.data.contacts.filter(c => c.status === 'New').length,
+                        totalDonations: this.data.donations
+                            .filter(d => d.status === 'Completed')
+                            .reduce((sum, donation) => sum + (donation.amount || 0), 0)
+                    };
+                }
+            }
+
+            // Analytics Chart Manager
+            class AnalyticsChartManager {
+                static charts = new Map();
+
+                static createLineChart(ctx, data, options = {}) {
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        drawBorder: false
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            ...options
+                        }
+                    });
+
+                    this.charts.set(ctx.canvas.id, chart);
+                    return chart;
+                }
+
+                static createBarChart(ctx, data, options = {}) {
+                    const chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        drawBorder: false
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            ...options
+                        }
+                    });
+
+                    this.charts.set(ctx.canvas.id, chart);
+                    return chart;
+                }
+
+                static createDualAxisChart(ctx, labels, purchasesData, revenueData) {
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Purchases',
+                                    data: purchasesData,
+                                    borderColor: 'rgb(99, 102, 241)',
+                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                    yAxisID: 'y',
+                                    tension: 0.4
+                                },
+                                {
+                                    label: 'Revenue ($)',
+                                    data: revenueData,
+                                    borderColor: 'rgb(16, 185, 129)',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                    yAxisID: 'y1',
+                                    tension: 0.4
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'left',
+                                    title: {
+                                        display: true,
+                                        text: 'Purchases'
+                                    }
+                                },
+                                y1: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'right',
+                                    title: {
+                                        display: true,
+                                        text: 'Revenue ($)'
+                                    },
+                                    grid: {
+                                        drawOnChartArea: false,
+                                    },
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    this.charts.set(ctx.canvas.id, chart);
+                    return chart;
+                }
+
+                static destroyChart(chartId) {
+                    if (this.charts.has(chartId)) {
+                        this.charts.get(chartId).destroy();
+                        this.charts.delete(chartId);
+                    }
+                }
+
+                static destroyAllCharts() {
+                    this.charts.forEach((chart, id) => {
+                        chart.destroy();
+                    });
+                    this.charts.clear();
+                }
+            }
+
+            // Dashboard Renderer
+            class DashboardRenderer {
+                static currentView = 'overview';
+
+                static setActiveView(view) {
+                    this.currentView = view;
+                    
+                    // Update navigation buttons
+                    document.querySelectorAll('.nav-btn').forEach(btn => {
+                        if (btn.dataset.view === view) {
+                            btn.classList.add('bg-blue-50', 'dark:bg-blue-900', 'text-blue-600', 'dark:text-blue-400');
+                        } else {
+                            btn.classList.remove('bg-blue-50', 'dark:bg-blue-900', 'text-blue-600', 'dark:text-blue-400');
+                        }
+                    });
+
+                    // Render the appropriate view
+                    this.renderView(view);
+                }
+
+                static renderView(view) {
+                    const content = document.getElementById('pageContent');
+                    
+                    // Destroy existing charts
+                    AnalyticsChartManager.destroyAllCharts();
+
+                    switch (view) {
+                        case 'analytics-overview':
+                            this.renderAnalyticsOverview(content);
+                            break;
+                        case 'analytics-acquisition':
+                            this.renderAnalyticsAcquisition(content);
+                            break;
+                        case 'analytics-behavior':
+                            this.renderAnalyticsBehavior(content);
+                            break;
+                        case 'analytics-events':
+                            this.renderAnalyticsEvents(content);
+                            break;
+                        case 'analytics-setup':
+                            this.renderAnalyticsSetup(content);
+                            break;
+                        case 'overview':
+                            this.renderOverview(content);
+                            break;
+                        case 'home':
+                        case 'programs':
+                        case 'hunger-help':
+                        case 'youth-empowerment':
+                        case 'mental-wellness':
+                        case 'who-we-are':
+                        case 'get-involved':
+                        case 'news-updates':
+                        case 'latest-news':
+                        case 'advertisement':
+                        case 'success-stories':
+                        case 'contact':
+                        case 'opportunities':
+                        case 'volunteer':
+                        case 'careers':
+                        case 'partnerships':
+                        case 'donate-now':
+                            this.renderPageEditor(content, view);
+                            break;
+                        case 'posts':
+                            this.renderPosts(content);
+                            break;
+                        case 'donations':
+                            this.renderDonations(content);
+                            break;
+                        case 'volunteers':
+                            this.renderVolunteers(content);
+                            break;
+                        case 'programs-module':
+                            this.renderPrograms(content);
+                            break;
+                        case 'stories-module':
+                            this.renderStories(content);
+                            break;
+                        case 'partners':
+                            this.renderPartners(content);
+                            break;
+                        case 'users':
+                            this.renderUsers(content);
+                            break;
+                        case 'contacts':
+                            this.renderContacts(content);
+                            break;
+                        case 'settings':
+                            this.renderSettings(content);
+                            break;
+                        default:
+                            this.renderOverview(content);
+                    }
+                }
+
+                // ============================================================================
+                // ANALYTICS VIEWS
+                // ============================================================================
+
+                static renderAnalyticsOverview(container) {
+                    const data = analyticsData.overview;
+                    
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Analytics Overview</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Comprehensive view of your website performance and user behavior</p>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-6">
+                            <div class="flex flex-wrap gap-4">
+                                <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg text-sm">
+                                    <option>Session Channel Group</option>
+                                    <option>Organic Search</option>
+                                    <option>Direct</option>
+                                    <option>Referral</option>
+                                </select>
+                                <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg text-sm">
+                                    <option>Device Category</option>
+                                    <option>Desktop</option>
+                                    <option>Mobile</option>
+                                    <option>Tablet</option>
+                                </select>
+                                <select class="px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg text-sm">
+                                    <option>Date Range</option>
+                                    <option>Last 7 days</option>
+                                    <option>Last 30 days</option>
+                                    <option>Last 90 days</option>
+                                </select>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Apply Filters</button>
+                            </div>
+                        </div>
+
+                        <!-- KPI Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                            <div class="kpi-card">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm opacity-90">Total Users</p>
+                                        <p class="text-2xl font-bold mt-1">${formatNumber(data.kpis.totalUsers * 1000)}</p>
+                                        <p class="text-xs opacity-80 mt-1">+12.5% from last period</p>
+                                    </div>
+                                    <div class="p-2 bg-white bg-opacity-20 rounded-lg">
+                                        <i class="fas fa-users text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kpi-card secondary">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm opacity-90">New Users</p>
+                                        <p class="text-2xl font-bold mt-1">${formatNumber(data.kpis.newUsers * 1000)}</p>
+                                        <p class="text-xs opacity-80 mt-1">+8.3% from last period</p>
+                                    </div>
+                                    <div class="p-2 bg-white bg-opacity-20 rounded-lg">
+                                        <i class="fas fa-user-plus text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kpi-card success">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm opacity-90">Total Revenue</p>
+                                        <p class="text-2xl font-bold mt-1">${formatCurrency(data.kpis.totalRevenue * 1000)}</p>
+                                        <p class="text-xs opacity-80 mt-1">+15.2% from last period</p>
+                                    </div>
+                                    <div class="p-2 bg-white bg-opacity-20 rounded-lg">
+                                        <i class="fas fa-dollar-sign text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kpi-card warning">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm opacity-90">Purchases</p>
+                                        <p class="text-2xl font-bold mt-1">${formatNumber(data.kpis.purchases * 1000)}</p>
+                                        <p class="text-xs opacity-80 mt-1">+5.7% from last period</p>
+                                    </div>
+                                    <div class="p-2 bg-white bg-opacity-20 rounded-lg">
+                                        <i class="fas fa-shopping-cart text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kpi-card info">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm opacity-90">Sessions</p>
+                                        <p class="text-2xl font-bold mt-1">${formatNumber(data.kpis.sessions * 1000)}</p>
+                                        <p class="text-xs opacity-80 mt-1">+10.1% from last period</p>
+                                    </div>
+                                    <div class="p-2 bg-white bg-opacity-20 rounded-lg">
+                                        <i class="fas fa-chart-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                            <!-- Daily Traffic by Channel -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 analytics-card">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Daily Traffic by Channels</h3>
+                                <div class="chart-container">
+                                    <canvas id="dailyTrafficChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Daily Purchases & Revenue -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 analytics-card">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Daily Purchases & Revenue</h3>
+                                <div class="chart-container">
+                                    <canvas id="purchasesRevenueChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Monthly Traffic -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 analytics-card">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Traffic for Last 12 Months</h3>
+                                <div class="chart-container">
+                                    <canvas id="monthlyTrafficChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Weekly Traffic -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 analytics-card">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Weekly Traffic for Last 6 Months</h3>
+                                <div class="chart-container">
+                                    <canvas id="weeklyTrafficChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Initialize charts after a brief delay to ensure DOM is ready
+                    setTimeout(() => {
+                        this.initAnalyticsCharts();
+                    }, 100);
+                }
+
+                static initAnalyticsCharts() {
+                    const data = analyticsData.overview;
+                    
+                    // Daily Traffic by Channel Chart
+                    const trafficCtx = document.getElementById('dailyTrafficChart')?.getContext('2d');
+                    if (trafficCtx) {
+                        const trafficData = {
+                            labels: data.dailyTrafficByChannel.labels,
+                            datasets: data.dailyTrafficByChannel.datasets.slice(0, 5).map(dataset => ({
+                                label: dataset.label,
+                                data: dataset.data,
+                                borderColor: this.getChannelColor(dataset.label),
+                                backgroundColor: this.getChannelColor(dataset.label, 0.1),
+                                tension: 0.4,
+                                borderWidth: 2
+                            }))
+                        };
+                        AnalyticsChartManager.createLineChart(trafficCtx, trafficData);
+                    }
+
+                    // Purchases & Revenue Chart
+                    const purchasesCtx = document.getElementById('purchasesRevenueChart')?.getContext('2d');
+                    if (purchasesCtx) {
+                        AnalyticsChartManager.createDualAxisChart(
+                            purchasesCtx,
+                            data.dailyPurchasesRevenue.labels,
+                            data.dailyPurchasesRevenue.purchases,
+                            data.dailyPurchasesRevenue.revenue
+                        );
+                    }
+
+                    // Monthly Traffic Chart
+                    const monthlyCtx = document.getElementById('monthlyTrafficChart')?.getContext('2d');
+                    if (monthlyCtx) {
+                        const monthlyData = {
+                            labels: data.monthlyTraffic.labels,
+                            datasets: [{
+                                label: 'Monthly Users',
+                                data: data.monthlyTraffic.data,
+                                borderColor: config.chartColors.primary,
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 3,
+                                fill: true
+                            }]
+                        };
+                        AnalyticsChartManager.createLineChart(monthlyCtx, monthlyData, {
+                            scales: {
+                                y: {
+                                    max: 250000
+                                }
+                            }
+                        });
+                    }
+
+                    // Weekly Traffic Chart
+                    const weeklyCtx = document.getElementById('weeklyTrafficChart')?.getContext('2d');
+                    if (weeklyCtx) {
+                        const weeklyData = {
+                            labels: data.weeklyTraffic.labels,
+                            datasets: [{
+                                label: 'Weekly Users',
+                                data: data.weeklyTraffic.data,
+                                borderColor: config.chartColors.secondary,
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 3,
+                                fill: true
+                            }]
+                        };
+                        AnalyticsChartManager.createLineChart(weeklyCtx, weeklyData, {
+                            scales: {
+                                y: {
+                                    max: 80000
+                                }
+                            }
+                        });
+                    }
+                }
+
+                static getChannelColor(channel, opacity = 1) {
+                    const colors = {
+                        'Organic Search': `rgba(59, 130, 246, ${opacity})`,
+                        'Direct': `rgba(16, 185, 129, ${opacity})`,
+                        'Referral': `rgba(245, 158, 11, ${opacity})`,
+                        'Paid Search': `rgba(139, 92, 246, ${opacity})`,
+                        'Unassigned': `rgba(107, 114, 128, ${opacity})`,
+                        'Organic Social': `rgba(236, 72, 153, ${opacity})`,
+                        'Organic Video': `rgba(6, 182, 212, ${opacity})`,
+                        'Email': `rgba(99, 102, 241, ${opacity})`,
+                        'Display': `rgba(20, 184, 166, ${opacity})`,
+                        'Paid Video': `rgba(217, 70, 239, ${opacity})`
+                    };
+                    return colors[channel] || `rgba(107, 114, 128, ${opacity})`;
+                }
+
+                static renderAnalyticsAcquisition(container) {
+                    const data = analyticsData.acquisition;
+                    
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Acquisition</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">How users are finding and engaging with your website</p>
+                        </div>
+
+                        <!-- Channel Groups Table -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Metrics by Channel Group</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-900">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Channel Group</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Active Users</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sessions</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg Engagement</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchases</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchase Rate</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        ${data.channelGroups.map(row => `
+                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">${row.channel}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.totalUsers * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.activeUsers * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.sessions * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.avgEngagement}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchases > 0 ? formatNumber(row.purchases * 1000) : '-'}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchaseRate}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.revenue > 0 ? formatCurrency(row.revenue * 1000) : '-'}</td>
+                                            </tr>
+                                        `).join('')}
+                                        <tr class="bg-gray-50 dark:bg-gray-900 font-semibold">
+                                            <td class="px-4 py-3 text-sm">Grand Total</td>
+                                            <td class="px-4 py-3 text-sm">298.8K</td>
+                                            <td class="px-4 py-3 text-sm">298.8K</td>
+                                            <td class="px-4 py-3 text-sm">358.6K</td>
+                                            <td class="px-4 py-3 text-sm">-</td>
+                                            <td class="px-4 py-3 text-sm">12.4K</td>
+                                            <td class="px-4 py-3 text-sm">4.13%</td>
+                                            <td class="px-4 py-3 text-sm">${formatCurrency(84000)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Additional Tables -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Source/Medium Table -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Metrics by Source / Medium</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50 dark:bg-gray-900">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Source / Medium</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchases</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Revenue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            ${data.sourceMedium.slice(0, 5).map(row => `
+                                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">${row.source}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.totalUsers * 1000)}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchases > 0 ? formatNumber(row.purchases * 1000) : '-'}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.revenue > 0 ? formatCurrency(row.revenue * 1000) : '-'}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Countries Table -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Metrics by Country</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50 dark:bg-gray-900">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Country</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Users</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchases</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Revenue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            ${data.countries.map(row => `
+                                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">${row.country}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.users * 1000)}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchases > 0 ? formatNumber(row.purchases * 1000) : '-'}</td>
+                                                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.revenue > 0 ? formatCurrency(row.revenue * 1000) : '-'}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                static renderAnalyticsBehavior(container) {
+                    const data = analyticsData.behavior;
+                    
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Behavior & Audience</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">User engagement patterns and demographic information</p>
+                        </div>
+
+                        <!-- Engagement Metrics -->
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">${formatNumber(data.engagement.views * 1000)}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Views</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-green-600 dark:text-green-400">${data.engagement.avgEngagementPerSession}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Avg Engagement Time</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">${data.engagement.engagedSessionsPerUser}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Engaged Sessions/User</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">${data.engagement.viewsPerUser}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Views per User</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-red-600 dark:text-red-400">${data.engagement.avgEngagementPerUser}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Avg Engagement/User</div>
+                            </div>
+                        </div>
+
+                        <!-- Landing Pages Table -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Metrics by Landing Page</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-900">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Landing Page</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sessions</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg Engagement</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchases</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Purchase Rate</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        ${data.landingPages.map(row => `
+                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">${row.page}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.users * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.sessions * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.avgEngagement}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchases > 0 ? formatNumber(row.purchases * 1000) : '-'}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.purchaseRate}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.revenue > 0 ? formatCurrency(row.revenue * 1000) : '-'}</td>
+                                            </tr>
+                                        `).join('')}
+                                        <tr class="bg-gray-50 dark:bg-gray-900 font-semibold">
+                                            <td class="px-4 py-3 text-sm">Grand Total</td>
+                                            <td class="px-4 py-3 text-sm">199.4K</td>
+                                            <td class="px-4 py-3 text-sm">239.3K</td>
+                                            <td class="px-4 py-3 text-sm">-</td>
+                                            <td class="px-4 py-3 text-sm">4.7K</td>
+                                            <td class="px-4 py-3 text-sm">2.36%</td>
+                                            <td class="px-4 py-3 text-sm">${formatCurrency(32500)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Demographics -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Age Groups -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">User Demographics - Age</h3>
+                                <div class="space-y-3">
+                                    ${data.demographics.age.map(group => `
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">${group.group}</span>
+                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                <div class="bg-blue-600 h-2 rounded-full" style="width: ${(group.users / 200) * 100}%"></div>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white w-12 text-right">${formatNumber(group.users * 1000)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">User Demographics - Gender</h3>
+                                <div class="space-y-3">
+                                    ${data.demographics.gender.map(group => `
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400 capitalize">${group.group}</span>
+                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                <div class="bg-green-600 h-2 rounded-full" style="width: ${(group.users / 200) * 100}%"></div>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white w-12 text-right">${formatNumber(group.users * 1000)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                static renderAnalyticsEvents(container) {
+                    const data = analyticsData.events;
+                    
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Key Events</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Track important user actions and conversions</p>
+                        </div>
+
+                        <!-- Event KPIs -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">${formatNumber(data.kpis.uniqueEventUsers * 1000)}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Unique Event Users</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-green-600 dark:text-green-400">${formatNumber(data.kpis.events * 1000)}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Key Events</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">${data.kpis.eventRate}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">User Event Rate</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center border border-gray-100 dark:border-gray-700">
+                                <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">${data.kpis.avgEngagement}</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Avg Engagement Time</div>
+                            </div>
+                        </div>
+
+                        <!-- Events Chart -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Key Events Dynamics</h3>
+                            <div class="chart-container">
+                                <canvas id="eventsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Events by Channel Group Table -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Key Events by Default Channel Group</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-900">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Channel Group</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Users</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Unique Event Users</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg Engagement</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Key Events</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User Event Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        ${data.channelGroups.map(row => `
+                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">${row.channel}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.totalUsers * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.uniqueEventUsers * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.avgEngagement}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${formatNumber(row.events * 1000)}</td>
+                                                <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">${row.eventRate}</td>
+                                            </tr>
+                                        `).join('')}
+                                        <tr class="bg-gray-50 dark:bg-gray-900 font-semibold">
+                                            <td class="px-4 py-3 text-sm">Grand Total</td>
+                                            <td class="px-4 py-3 text-sm">4.9M</td>
+                                            <td class="px-4 py-3 text-sm">6.7K</td>
+                                            <td class="px-4 py-3 text-sm">-</td>
+                                            <td class="px-4 py-3 text-sm">8.1K</td>
+                                            <td class="px-4 py-3 text-sm">0.14%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+
+                    // Initialize events chart
+                    setTimeout(() => {
+                        const eventsCtx = document.getElementById('eventsChart')?.getContext('2d');
+                        if (eventsCtx) {
+                            const eventsData = {
+                                labels: data.dynamics.labels,
+                                datasets: [{
+                                    label: 'Key Events',
+                                    data: data.dynamics.data,
+                                    borderColor: config.chartColors.primary,
+                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                    tension: 0.4,
+                                    borderWidth: 3,
+                                    fill: true
+                                }]
+                            };
+                            AnalyticsChartManager.createLineChart(eventsCtx, eventsData, {
+                                scales: {
+                                    y: {
+                                        max: 2000
+                                    }
+                                }
+                            });
+                        }
+                    }, 100);
+                }
+
+                static renderAnalyticsSetup(container) {
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Setup Guide</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Get started with analytics tracking and integration</p>
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                            <div class="max-w-4xl mx-auto">
+                                <!-- Step 1 -->
+                                <div class="flex items-start space-x-4 mb-8">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create a free Coupler.io account</h3>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">Sign up for a free account to start integrating your analytics data.</p>
+                                        <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                            <i class="fas fa-external-link-alt mr-2"></i>
+                                            Visit coupler.io
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="flex items-start space-x-4 mb-8">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Template setup → Connect source → Select account → Complete basic settings → Finish and proceed</h3>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">Follow the guided setup process to connect your data sources and configure basic settings.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <a href="#" class="inline-flex items-center justify-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                                <i class="fas fa-play-circle mr-2"></i>
+                                                Watch Tutorial
+                                            </a>
+                                            <a href="#" class="inline-flex items-center justify-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                                <i class="fas fa-calendar-alt mr-2"></i>
+                                                Schedule Setup Call
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="flex items-start space-x-4 mb-8">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Connect Looker Studio → Generate data source → Authorize → Connect data</h3>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">Integrate with Looker Studio to visualize your analytics data with powerful reporting tools.</p>
+                                        <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                                            <p class="text-sm text-blue-800 dark:text-blue-200">
+                                                <i class="fas fa-info-circle mr-1"></i>
+                                                Make sure you have the necessary permissions to connect data sources in Looker Studio.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4 -->
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Watch tutorial video</h3>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">Learn how to make the most of your analytics dashboard with our comprehensive tutorial.</p>
+                                        <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                            <div class="text-center p-8">
+                                                <i class="fas fa-play-circle text-4xl text-gray-400 mb-2"></i>
+                                                <p class="text-gray-500 dark:text-gray-400">Analytics Setup Tutorial</p>
+                                                <button class="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                                    <i class="fab fa-youtube mr-2"></i>
+                                                    Watch on YouTube
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Resources -->
+                                <div class="mt-8 pt-8 border-t dark:border-gray-700">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Additional Resources</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <a href="#" class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-center">
+                                            <i class="fas fa-desktop text-blue-600 dark:text-blue-400 text-xl mb-2"></i>
+                                            <div class="font-medium text-gray-900 dark:text-white">Product Demo</div>
+                                        </a>
+                                        <a href="#" class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-center">
+                                            <i class="fas fa-chart-bar text-green-600 dark:text-green-400 text-xl mb-2"></i>
+                                            <div class="font-medium text-gray-900 dark:text-white">Dashboard Examples</div>
+                                        </a>
+                                        <a href="#" class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-center">
+                                            <i class="fas fa-hands-helping text-purple-600 dark:text-purple-400 text-xl mb-2"></i>
+                                            <div class="font-medium text-gray-900 dark:text-white">Setup Assistance</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // ============================================================================
+                // EXISTING DASHBOARD VIEWS (Preserved from original code)
+                // ============================================================================
+
+                static renderOverview(container) {
+                    const stats = DataManager.getStats();
+                    
+                    container.innerHTML = `
+                        <div class="mb-6">
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">${DataManager.data.settings.siteTitle} — Admin Panel</p>
+                        </div>
+
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Donations</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${formatCurrency(stats.totalDonations)}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${stats.donations} donations</p>
+                                    </div>
+                                    <div class="p-3 bg-green-50 dark:bg-green-900 rounded-lg">
+                                        <i class="fas fa-hand-holding-heart text-green-600 dark:text-green-400 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Volunteers</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${stats.volunteers}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Making a difference</p>
+                                    </div>
+                                    <div class="p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                                        <i class="fas fa-hands-helping text-blue-600 dark:text-blue-400 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Program Participants</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${DataManager.data.programs.reduce((sum, prog) => sum + (prog.participants || 0), 0)}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Across ${stats.programs} programs</p>
+                                    </div>
+                                    <div class="p-3 bg-purple-50 dark:bg-purple-900 rounded-lg">
+                                        <i class="fas fa-users text-purple-600 dark:text-purple-400 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Success Stories</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${stats.stories}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Inspiring transformations</p>
+                                    </div>
+                                    <div class="p-3 bg-orange-50 dark:bg-orange-900 rounded-lg">
+                                        <i class="fas fa-book-open text-orange-600 dark:text-orange-400 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
+                                <div id="recentActivity" class="space-y-3">
+                                    <!-- Activity items will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button id="quickNewPost" class="p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
+                                        <i class="fas fa-plus mr-2"></i> New Post
+                                    </button>
+                                    <button id="quickNewDonation" class="p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium">
+                                        <i class="fas fa-donate mr-2"></i> New Donation
+                                    </button>
+                                    <button id="quickExport" class="p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors text-sm font-medium">
+                                        <i class="fas fa-download mr-2"></i> Export Data
+                                    </button>
+                                    <button id="quickImport" class="p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors text-sm font-medium">
+                                        <i class="fas fa-upload mr-2"></i> Import Data
+                                    </button>
+                                </div>
+
+                                <div class="mt-6">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-3">System Status</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Storage Usage</span>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white">${Math.round((JSON.stringify(DataManager.data).length / (1024 * 1024)) * 100) / 100} MB</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Last Backup</span>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white">${formatDate(new Date())}</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Active Sessions</span>
+                                            <span class="text-sm font-medium text-green-600 dark:text-green-400">1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    this.renderRecentActivity();
+                    this.attachOverviewEvents();
+                }
+
+                static renderRecentActivity() {
+                    const container = document.getElementById('recentActivity');
+                    if (!container) return;
+
+                    const activities = ActivityManager.getRecent(5);
+                    
+                    if (activities.length === 0) {
+                        container.innerHTML = `
+                            <div class="text-center py-4 text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-inbox text-2xl mb-2"></i>
+                                <p>No recent activity</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    container.innerHTML = activities.map(activity => `
+                        <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                <i class="fas fa-${this.getActivityIcon(activity.action)} text-blue-600 dark:text-blue-400 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm text-gray-900 dark:text-white">
+                                    <span class="font-medium">${escapeHtml(activity.actor)}</span>
+                                    ${escapeHtml(activity.action)}
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${formatDate(activity.timestamp, { hour: '2-digit', minute: '2-digit' })}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                static getActivityIcon(action) {
+                    if (action.includes('Created')) return 'plus';
+                    if (action.includes('Updated')) return 'edit';
+                    if (action.includes('Deleted')) return 'trash';
+                    if (action.includes('Logged')) return 'sign-in-alt';
+                    if (action.includes('Processed')) return 'credit-card';
+                    return 'circle';
+                }
+
+                static attachOverviewEvents() {
+                    document.getElementById('quickNewPost')?.addEventListener('click', () => {
+                        this.openPostEditor();
+                    });
+
+                    document.getElementById('quickNewDonation')?.addEventListener('click', () => {
+                        this.openDonationModal();
+                    });
+
+                    document.getElementById('quickExport')?.addEventListener('click', () => {
+                        const data = JSON.stringify(DataManager.data, null, 2);
+                        const blob = new Blob([data], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'hopelink-export-' + new Date().toISOString().split('T')[0] + '.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        ToastManager.show('Data exported successfully', 'success');
+                    });
+
+                    document.getElementById('quickImport')?.addEventListener('click', () => {
+                        ModalManager.open({
+                            title: 'Import Data',
+                            body: `
+                                <div class="space-y-4">
+                                    <div class="p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-800 rounded-md">
+                                        <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                                            This will replace all current data. Make sure to export your current data first.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Paste JSON Data</label>
+                                        <textarea id="importData" class="w-full h-64 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2 font-mono text-sm" placeholder="Paste your JSON data here..."></textarea>
+                                    </div>
+                                </div>
+                            `,
+                            onConfirm: () => {
+                                const jsonData = document.getElementById('importData').value;
+                                try {
+                                    const data = JSON.parse(jsonData);
+                                    if (data && data.settings && data.users) {
+                                        localStorage.setItem(STORAGE_KEY, jsonData);
+                                        DataManager.initialize();
+                                        ToastManager.show('Data imported successfully', 'success');
+                                        this.renderOverview(document.getElementById('pageContent'));
+                                        return true;
+                                    } else {
+                                        ToastManager.show('Invalid data structure', 'error');
+                                        return false;
+                                    }
+                                } catch (e) {
+                                    ToastManager.show('Invalid JSON data', 'error');
+                                    return false;
+                                }
+                            }
+                        });
+                    });
+                }
+
+                // ... (rest of the existing methods remain unchanged)
+                static renderPageEditor(container, pageSlug) {
+                    // ... existing implementation
+                }
+
+                static renderPosts(container) {
+                    // ... existing implementation
+                }
+
+                static renderDonations(container) {
+                    // ... existing implementation
+                }
+
+                static renderVolunteers(container) {
+                    // ... existing implementation
+                }
+
+                static renderPrograms(container) {
+                    // ... existing implementation
+                }
+
+                static renderStories(container) {
+                    // ... existing implementation
+                }
+
+                static renderPartners(container) {
+                    // ... existing implementation
+                }
+
+                static renderUsers(container) {
+                    // ... existing implementation
+                }
+
+                static renderContacts(container) {
+                    // ... existing implementation
+                }
+
+                static renderSettings(container) {
+                    // ... existing implementation
+                }
+
+                static openPostEditor() {
+                    // ... existing implementation
+                }
+
+                static openDonationModal() {
+                    // ... existing implementation
+                }
+            }
+
+            // Initialize the dashboard
+            function initializeDashboard() {
+                // Initialize data management
+                DataManager.initialize();
+                
+                // Initialize session
+                const session = SessionManager.load();
+                if (session.theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+                
+                // Set up navigation
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        DashboardRenderer.setActiveView(btn.dataset.view);
+                    });
+                });
+                
+                // Set up sidebar toggle
+                document.getElementById('sidebarToggle').addEventListener('click', () => {
+                    const sidebar = document.getElementById('sidebar');
+                    const mainContent = document.getElementById('mainContent');
+                    
+                    if (sidebar.classList.contains('hidden')) {
+                        sidebar.classList.remove('hidden');
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('ml-64');
+                    } else {
+                        sidebar.classList.add('hidden');
+                        mainContent.classList.remove('ml-64');
+                        mainContent.classList.add('ml-0');
+                    }
+                });
+                
+                // Set up dropdown menus
+                document.getElementById('programsMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('programsSubmenu');
+                    const icon = document.getElementById('programsMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+
+                document.getElementById('newsMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('newsSubmenu');
+                    const icon = document.getElementById('newsMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+
+                document.getElementById('opportunitiesMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('opportunitiesSubmenu');
+                    const icon = document.getElementById('opportunitiesMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+                
+                // Set up profile dropdown
+                document.getElementById('profileBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('profileDrop').classList.toggle('hidden');
+                });
+                
+                // Set up notifications dropdown
+                document.getElementById('notiBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('notiDrop').classList.toggle('hidden');
+                });
+                
+                // Set up theme toggle
+                document.getElementById('themeToggle').addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    SessionManager.setTheme(isDark ? 'dark' : 'light');
+                    DataManager.data.settings.darkMode = isDark;
+                    DataManager.save();
+                    ToastManager.show(`Theme changed to ${isDark ? 'dark' : 'light'} mode`, 'success');
+                });
+                
+                // Set up global search
+                const globalSearch = document.getElementById('globalSearch');
+                if (globalSearch) {
+                    globalSearch.addEventListener('input', debounce((e) => {
+                        const query = e.target.value.trim();
+                        if (query) {
+                            // In a real implementation, you would show search results
+                            console.log('Search query:', query);
+                        }
+                    }, 500));
+                }
+                
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', () => {
+                    document.getElementById('profileDrop').classList.add('hidden');
+                    document.getElementById('notiDrop').classList.add('hidden');
+                });
+                
+                // Set up profile editor
+                document.getElementById('openProfileEditor').addEventListener('click', () => {
+                    const admin = DataManager.data.users.find(u => u.role === 'admin') || DataManager.data.users[0];
+                    
+                    ModalManager.open({
+                        title: 'Edit Profile',
+                        body: `
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <img id="profileAvatar" src="${admin.avatar || 'https://picsum.photos/seed/admin/100/100'}" 
+                                        class="w-16 h-16 rounded-full object-cover">
+                                    <div>
+                                        <button type="button" id="changeAvatar" class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            Change Avatar
+                                        </button>
+                                        <input type="file" id="avatarUpload" class="hidden" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                        <input type="text" id="profileName" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" value="${escapeHtml(admin.name)}">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                        <input type="email" id="profileEmail" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" value="${escapeHtml(admin.email)}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
+                                    <textarea id="profileBio" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" rows="3" placeholder="Tell us about yourself...">${escapeHtml(admin.bio || '')}</textarea>
+                                </div>
+                            </div>
+                        `,
+                        onConfirm: () => {
+                            const name = document.getElementById('profileName').value;
+                            const email = document.getElementById('profileEmail').value;
+                            const bio = document.getElementById('profileBio').value;
+                            const avatar = document.getElementById('profileAvatar').src;
+                            
+                            if (!name || !email) {
+                                ToastManager.show('Please fill in all required fields', 'error');
+                                return false;
+                            }
+                            
+                            Object.assign(admin, { name, email, bio, avatar });
+                            DataManager.save();
+                            
+                            // Update UI
+                            document.getElementById('adminName').textContent = name;
+                            document.getElementById('profileEmail').textContent = email;
+                            document.getElementById('adminAvatar').src = avatar;
+                            
+                            ToastManager.show('Profile updated successfully', 'success');
+                            ActivityManager.push({
+                                actor: 'Admin',
+                                action: 'Updated profile information'
+                            });
+                            
+                            return true;
+                        }
+                    });
+                    
+                    // Avatar upload handler
+                    document.getElementById('changeAvatar').addEventListener('click', () => {
+                        document.getElementById('avatarUpload').click();
+                    });
+                    
+                    document.getElementById('avatarUpload').addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById('profileAvatar').src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                });
+                
+                // Set up logout
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to log out?')) {
+                        ToastManager.show('You have been logged out', 'info');
+                        ActivityManager.push({
+                            actor: 'Admin',
+                            action: 'Logged out of the system'
+                        });
+                        // In a real app, you would redirect to login page
+                        // window.location.href = '/login';
+                    }
+                });
+                
+                // Set up notifications
+                document.getElementById('clearNoti').addEventListener('click', () => {
+                    NotificationManager.clear();
+                    ToastManager.show('Notifications cleared', 'success');
+                });
+                
+                // Initialize notifications
+                NotificationManager.updateBadge();
+                
+                // Add some demo notifications if none exist
+                if (NotificationManager.load().length === 0) {
+                    NotificationManager.push({
+                        title: 'Welcome to HopeLink Admin',
+                        message: 'Your dashboard is ready to use. Start by exploring the different sections.',
+                        type: 'info'
+                    });
+                    
+                    NotificationManager.push({
+                        title: 'New Feature Available',
+                        message: 'Check out the new analytics section with comprehensive web analytics.',
+                        type: 'info'
+                    });
+                }
+                
+                // Add some demo activity
+                if (ActivityManager.load().length === 0) {
+                    ActivityManager.push({
+                        actor: 'System',
+                        action: 'Dashboard initialized successfully'
+                    });
+                }
+                
+                // Start with overview view
+                DashboardRenderer.setActiveView('overview');
+                
+                // Expose some utilities for debugging
+                window.DashboardRenderer = DashboardRenderer;
+                window.DataManager = DataManager;
+                window.ToastManager = ToastManager;
+                window.ModalManager = ModalManager;
+                window.AnalyticsChartManager = AnalyticsChartManager;
+            }
+
+            // Start the dashboard when DOM is loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeDashboard);
+            } else {
+                initializeDashboard();
+            }
+        })();
+    </script>
+</body>
+</html>
