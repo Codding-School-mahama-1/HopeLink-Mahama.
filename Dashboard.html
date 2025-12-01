@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HopeLink Mahama - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK - Updated to match login page -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, push, update, remove, get, child } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyTaITBki5zumcbxrpf34I6dFzAGJR120",
+            authDomain: "mahama-hope.firebaseapp.com",
+            databaseURL: "https://mahama-hope-default-rtdb.firebaseio.com",
+            projectId: "mahama-hope",
+            storageBucket: "mahama-hope.firebasestorage.app",
+            messagingSenderId: "806086821186",
+            appId: "1:806086821186:web:0eda784617d51a428a34db",
+            measurementId: "G-8GNKZFQ58Q"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = app;
+        window.database = database;
+        window.firebaseRef = ref;
+        window.onValue = onValue;
+        window.set = set;
+        window.push = push;
+        window.update = update;
+        window.remove = remove;
+        window.get = get;
+        window.child = child;
+
+        // Password hashing function - same as login page
+        window.hashPassword = async function(password) {
+            let hash = 0;
+            for (let i = 0; i < password.length; i++) {
+                const char = password.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString();
+        };
+
+        // Shared session management functions - same as login page
+        window.getCurrentUser = function() {
+            const userJSON = sessionStorage.getItem('currentUser');
+            if (userJSON) {
+                return JSON.parse(userJSON);
+            }
+            return null;
+        };
+
+        window.isUserAdmin = function() {
+            const user = getCurrentUser();
+            return user && user.role === 'admin';
+        };
+
+        // Create database-based authentication system (same as your signin page)
+        window.auth = {
+            currentUser: null
+        };
+
+        window.signInWithEmailAndPassword = (email, password) => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const dbRef = ref(database);
+                    const snapshot = await get(child(dbRef, 'users'));
+                    
+                    if (snapshot.exists()) {
+                        const users = snapshot.val();
+                        for (let userId in users) {
+                            const user = users[userId];
+                            // Compare with hashed password
+                            const hashedPassword = await window.hashPassword(password);
+                            if (user.email === email && user.password === hashedPassword) {
+                                window.auth.currentUser = { 
+                                    email: email,
+                                    uid: userId,
+                                    role: user.role 
+                                };
+                                // Store in sessionStorage like your signin page
+                                sessionStorage.setItem('currentUser', JSON.stringify({
+                                    email: email,
+                                    role: user.role,
+                                    loginTime: new Date().toISOString()
+                                }));
+                                resolve({ user: window.auth.currentUser });
+                                return;
+                            }
+                        }
+                    }
+                    reject(new Error('Invalid email or password'));
+                } catch (error) {
+                    reject(new Error('Database error: ' + error.message));
+                }
+            });
+        };
+
+        window.signOut = () => {
+            return new Promise((resolve) => {
+                window.auth.currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                resolve();
+            });
+        };
+
+        window.onAuthStateChanged = (auth, callback) => {
+            // Check sessionStorage for existing user (from your signin page)
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
+            if (currentUser) {
+                window.auth.currentUser = { 
+                    email: currentUser.email,
+                    role: currentUser.role 
+                };
+                callback({ email: currentUser.email, role: currentUser.role });
+            } else {
+                callback(null);
+            }
+            
+            // Listen for storage changes
+            window.addEventListener('storage', () => {
+                const updatedUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
+                if (updatedUser) {
+                    window.auth.currentUser = { 
+                        email: updatedUser.email,
+                        role: updatedUser.role 
+                    };
+                    callback({ email: updatedUser.email, role: updatedUser.role });
+                } else {
+                    window.auth.currentUser = null;
+                    callback(null);
+                }
+            });
+        };
+
+        console.log('Database-based authentication system initialized');
+    </script>
+
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .main-content {
+            margin-left: 16rem;
+            transition: all 0.3s ease;
+        }
+        .sidebar.collapsed {
+            width: 5rem;
+        }
+        .sidebar.collapsed + .main-content {
+            margin-left: 5rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .stat-card.success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-card.warning {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        .stat-card.danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 w-96">
+            <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="loginEmail" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="loginPassword" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 bg-white shadow-lg z-40 w-64">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center">
+                <div class="bg-gradient-to-r from-blue-500 to-green-500 p-2 rounded-lg mr-3">
+                    <i class="fas fa-hands-helping text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-xl text-gray-800">HopeLink</div>
+                    <div class="text-xs text-green-500 font-semibold">Admin Dashboard</div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="mt-6">
+            <a href="#dashboard" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-chart-bar mr-3"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="./adver-Dash.html" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-donate mr-3"></i>
+                <span>Advertisement</span>
+            </a>
+            <a href="#volunteers" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-users mr-3"></i>
+                <span>Volunteers</span>
+            </a>
+            <a href="#programs" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-project-diagram mr-3"></i>
+                <span>Programs</span>
+            </a>
+            <a href="#stories" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-book-open mr-3"></i>
+                <span>Success Stories</span>
+            </a>
+            <a href="#contacts" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-envelope mr-3"></i>
+                <span>Contacts</span>
+            </a>
+            <a href="#settings" class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                <i class="fas fa-cog mr-3"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-6 border-t border-gray-200">
+            <button onclick="logout()" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content min-h-screen">
+        <!-- Top Navigation -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 text-xl cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
+                             alt="Admin" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700 font-medium" id="adminName">Admin User</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="p-8">
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card text-white p-6 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm opacity-80">Total Donations</p>
+                            <h3 class="text-3xl font-bold" id="totalDonations">$0</h3>
+                        </div>
+                        <i class="fas fa-donate text-3xl opacity-80"></i>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm">↑ 12% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card success text-white p-6 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm opacity-80">Active Volunteers</p>
+                            <h3 class="text-3xl font-bold" id="activeVolunteers">0</h3>
+                        </div>
+                        <i class="fas fa-users text-3xl opacity-80"></i>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm">↑ 8% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card warning text-white p-6 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm opacity-80">Program Participants</p>
+                            <h3 class="text-3xl font-bold" id="programParticipants">0</h3>
+                        </div>
+                        <i class="fas fa-project-diagram text-3xl opacity-80"></i>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm">↑ 15% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card danger text-white p-6 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm opacity-80">Success Stories</p>
+                            <h3 class="text-3xl font-bold" id="successStories">0</h3>
+                        </div>
+                        <i class="fas fa-book-open text-3xl opacity-80"></i>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm">↑ 5% from last month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Data Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Donation Chart -->
+                <div class="chart-container p-6">
+                    <h3 class="text-xl font-bold mb-4">Donation Trends</h3>
+                    <canvas id="donationChart" width="400" height="200"></canvas>
+                </div>
+                
+                <!-- Program Distribution -->
+                <div class="chart-container p-6">
+                    <h3 class="text-xl font-bold mb-4">Program Distribution</h3>
+                    <canvas id="programChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Donations -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold">Recent Donations</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4" id="recentDonations">
+                            <!-- Donations will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Volunteers -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold">Recent Volunteers</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4" id="recentVolunteers">
+                            <!-- Volunteers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Sections -->
+            <div id="donationsSection" class="hidden mt-8">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Donation Management</h3>
+                        <button onclick="showAddDonationModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                            <i class="fas fa-plus mr-2"></i>Add Donation
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="overflow-x-auto">
+                            <table class="w-full" id="donationsTable">
+                                <thead>
+                                    <tr class="bg-gray-50">
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donor</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="donationsTableBody">
+                                    <!-- Donations data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more sections for Volunteers, Programs, Stories, etc. -->
+
+        </main>
+    </div>
+
+    <!-- Add Donation Modal -->
+    <div id="addDonationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 w-96">
+            <h2 class="text-2xl font-bold mb-6">Add New Donation</h2>
+            <form id="addDonationForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Donor Name</label>
+                    <input type="text" id="donorName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="donorEmail" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Amount ($)</label>
+                    <input type="number" id="donationAmount" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2">Payment Method</label>
+                    <select id="paymentMethod" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="credit">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="button" onclick="hideAddDonationModal()" class="flex-1 bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+                        Add Donation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Authentication and Data Management
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication state with admin verification
+            const currentUser = getCurrentUser();
+            if (currentUser && isUserAdmin()) {
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('adminName').textContent = currentUser.email;
+                loadDashboardData();
+            } else {
+                document.getElementById('loginModal').style.display = 'flex';
+            }
+            
+            // Login form handler
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Check if user has admin role
+                        if (userCredential.user.role !== 'admin') {
+                            alert('Access denied. Admin privileges required.');
+                            signOut(auth);
+                            return;
+                        }
+                        
+                        document.getElementById('loginModal').style.display = 'none';
+                        document.getElementById('adminName').textContent = userCredential.user.email;
+                        loadDashboardData();
+                    })
+                    .catch((error) => {
+                        alert('Login failed: ' + error.message);
+                    });
+            });
+
+            // Add donation form handler
+            document.getElementById('addDonationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addDonation();
+            });
+
+            // Navigation handlers
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    showSection(target);
+                });
+            });
+        });
+
+        function loadDashboardData() {
+            // Load donations
+            const donationsRef = ref(database, 'donations');
+            onValue(donationsRef, (snapshot) => {
+                const donations = snapshot.val() || {};
+                updateDonationsData(donations);
+            });
+
+            // Load volunteers
+            const volunteersRef = ref(database, 'volunteers');
+            onValue(volunteersRef, (snapshot) => {
+                const volunteers = snapshot.val() || {};
+                updateVolunteersData(volunteers);
+            });
+
+            // Load programs
+            const programsRef = ref(database, 'programs');
+            onValue(programsRef, (snapshot) => {
+                const programs = snapshot.val() || {};
+                updateProgramsData(programs);
+            });
+        }
+
+        function updateDonationsData(donations) {
+            let total = 0;
+            let count = 0;
+            const recentDonations = [];
+
+            for (const key in donations) {
+                const donation = donations[key];
+                total += parseFloat(donation.amount) || 0;
+                count++;
+                
+                if (recentDonations.length < 5) {
+                    recentDonations.push(donation);
+                }
+            }
+
+            document.getElementById('totalDonations').textContent = '$' + total.toLocaleString();
+            
+            // Update recent donations list
+            const recentDonationsContainer = document.getElementById('recentDonations');
+            recentDonationsContainer.innerHTML = recentDonations.map(donation => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-semibold">${donation.donorName}</p>
+                        <p class="text-sm text-gray-600">${donation.email}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-green-600">$${donation.amount}</p>
+                        <p class="text-sm text-gray-500">${new Date(donation.timestamp).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update donations table
+            updateDonationsTable(donations);
+        }
+
+        function updateVolunteersData(volunteers) {
+            let count = 0;
+            const recentVolunteers = [];
+
+            for (const key in volunteers) {
+                count++;
+                if (recentVolunteers.length < 5) {
+                    recentVolunteers.push(volunteers[key]);
+                }
+            }
+
+            document.getElementById('activeVolunteers').textContent = count;
+            
+            // Update recent volunteers list
+            const recentVolunteersContainer = document.getElementById('recentVolunteers');
+            recentVolunteersContainer.innerHTML = recentVolunteers.map(volunteer => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-semibold">${volunteer.firstName} ${volunteer.lastName}</p>
+                        <p class="text-sm text-gray-600">${volunteer.email}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">${volunteer.interest}</p>
+                        <p class="text-sm text-gray-500">${new Date(volunteer.timestamp).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateProgramsData(programs) {
+            let totalParticipants = 0;
+            for (const key in programs) {
+                totalParticipants += parseInt(programs[key].participants) || 0;
+            }
+            document.getElementById('programParticipants').textContent = totalParticipants;
+        }
+
+        function updateDonationsTable(donations) {
+            const tbody = document.getElementById('donationsTableBody');
+            tbody.innerHTML = '';
+
+            for (const key in donations) {
+                const donation = donations[key];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${donation.donorName}</div>
+                        <div class="text-sm text-gray-500">${donation.email}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-green-600">$${donation.amount}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${new Date(donation.timestamp).toLocaleDateString()}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Completed
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="editDonation('${key}')" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                        <button onclick="deleteDonation('${key}')" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        function addDonation() {
+            const donation = {
+                donorName: document.getElementById('donorName').value,
+                email: document.getElementById('donorEmail').value,
+                amount: document.getElementById('donationAmount').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                timestamp: new Date().toISOString()
+            };
+
+            const donationsRef = ref(database, 'donations');
+            const newDonationRef = push(donationsRef);
+            set(newDonationRef, donation)
+                .then(() => {
+                    alert('Donation added successfully!');
+                    hideAddDonationModal();
+                    document.getElementById('addDonationForm').reset();
+                })
+                .catch((error) => {
+                    alert('Error adding donation: ' + error.message);
+                });
+        }
+
+        function showAddDonationModal() {
+            document.getElementById('addDonationModal').classList.remove('hidden');
+        }
+
+        function hideAddDonationModal() {
+            document.getElementById('addDonationModal').classList.add('hidden');
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('[id$="Section"]').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section')?.classList.remove('hidden');
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1);
+        }
+
+        function logout() {
+            signOut(auth).then(() => {
+                document.getElementById('loginModal').style.display = 'flex';
+            });
+        }
+
+        function editDonation(donationId) {
+            // Implementation for editing donation
+            alert('Edit donation: ' + donationId);
+        }
+
+        function deleteDonation(donationId) {
+            if (confirm('Are you sure you want to delete this donation?')) {
+                const donationRef = ref(database, 'donations/' + donationId);
+                remove(donationRef)
+                    .then(() => {
+                        alert('Donation deleted successfully!');
+                    })
+                    .catch((error) => {
+                        alert('Error deleting donation: ' + error.message);
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
