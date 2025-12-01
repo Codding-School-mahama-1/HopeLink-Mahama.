@@ -3363,24 +3363,236 @@
         </div>
       `;
 
-      document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-        const siteTitle = document.getElementById('siteTitle').value;
-        const contactEmail = document.getElementById('contactEmail').value;
-        
-        DataManager.data.settings.siteTitle = siteTitle;
-        DataManager.data.settings.contactEmail = contactEmail;
-        DataManager.save();
-        
-        ToastManager.show('Settings saved successfully', 'success');
-      });
-    }
+            // Initialize the dashboard
+            function initializeDashboard() {
+                // Initialize data management
+                DataManager.initialize();
+                
+                // Initialize session
+                const session = SessionManager.load();
+                if (session.theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+                
+                // Set up navigation
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        DashboardRenderer.setActiveView(btn.dataset.view);
+                    });
+                });
+                
+                // Set up sidebar toggle
+                document.getElementById('sidebarToggle').addEventListener('click', () => {
+                    const sidebar = document.getElementById('sidebar');
+                    const mainContent = document.getElementById('mainContent');
+                    
+                    if (sidebar.classList.contains('hidden')) {
+                        sidebar.classList.remove('hidden');
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('ml-64');
+                    } else {
+                        sidebar.classList.add('hidden');
+                        mainContent.classList.remove('ml-64');
+                        mainContent.classList.add('ml-0');
+                    }
+                });
+                
+               
+                document.getElementById('programsMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('programsSubmenu');
+                    const icon = document.getElementById('programsMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
 
-    static renderApiIntegration() {
-      this.main.innerHTML = `
-        <div class="mb-6">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">API Integration</h2>
-          <p class="text-sm text-gray-500 dark:text-gray-400">Connect your dashboard to external services</p>
-        </div>
+                document.getElementById('newsMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('newsSubmenu');
+                    const icon = document.getElementById('newsMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+
+                document.getElementById('opportunitiesMenu').addEventListener('click', () => {
+                    const submenu = document.getElementById('opportunitiesSubmenu');
+                    const icon = document.getElementById('opportunitiesMenu').querySelector('.fa-chevron-down');
+                    submenu.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+                
+                // Set up profile dropdown
+                document.getElementById('profileBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('profileDrop').classList.toggle('hidden');
+                });
+                
+                // Set up notifications dropdown
+                document.getElementById('notiBtn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('notiDrop').classList.toggle('hidden');
+                });
+                
+                // Set up theme toggle
+                document.getElementById('themeToggle').addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    SessionManager.setTheme(isDark ? 'dark' : 'light');
+                    DataManager.data.settings.darkMode = isDark;
+                    DataManager.save();
+                    ToastManager.show(`Theme changed to ${isDark ? 'dark' : 'light'} mode`, 'success');
+                });
+                
+                // Set up global search
+                const globalSearch = document.getElementById('globalSearch');
+                if (globalSearch) {
+                    globalSearch.addEventListener('input', debounce((e) => {
+                        const query = e.target.value.trim();
+                        if (query) {
+                            // In a real implementation, you would show search results
+                            console.log('Search query:', query);
+                        }
+                    }, 500));
+                }
+                
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', () => {
+                    document.getElementById('profileDrop').classList.add('hidden');
+                    document.getElementById('notiDrop').classList.add('hidden');
+                });
+                
+                // Set up profile editor
+                document.getElementById('openProfileEditor').addEventListener('click', () => {
+                    const admin = DataManager.data.users.find(u => u.role === 'admin') || DataManager.data.users[0];
+                    
+                    ModalManager.open({
+                        title: 'Edit Profile',
+                        body: `
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <img id="profileAvatar" src="${admin.avatar || 'https://picsum.photos/seed/admin/100/100'}" 
+                                        class="w-16 h-16 rounded-full object-cover">
+                                    <div>
+                                        <button type="button" id="changeAvatar" class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            Change Avatar
+                                        </button>
+                                        <input type="file" id="avatarUpload" class="hidden" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                        <input type="text" id="profileName" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" value="${escapeHtml(admin.name)}">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                        <input type="email" id="profileEmail" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" value="${escapeHtml(admin.email)}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
+                                    <textarea id="profileBio" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md px-3 py-2" rows="3" placeholder="Tell us about yourself...">${escapeHtml(admin.bio || '')}</textarea>
+                                </div>
+                            </div>
+                        `,
+                        onConfirm: () => {
+                            const name = document.getElementById('profileName').value;
+                            const email = document.getElementById('profileEmail').value;
+                            const bio = document.getElementById('profileBio').value;
+                            const avatar = document.getElementById('profileAvatar').src;
+                            
+                            if (!name || !email) {
+                                ToastManager.show('Please fill in all required fields', 'error');
+                                return false;
+                            }
+                            
+                            Object.assign(admin, { name, email, bio, avatar });
+                            DataManager.save();
+                            
+                            // Update UI
+                            document.getElementById('adminName').textContent = name;
+                            document.getElementById('profileEmail').textContent = email;
+                            document.getElementById('adminAvatar').src = avatar;
+                            
+                            ToastManager.show('Profile updated successfully', 'success');
+                            ActivityManager.push({
+                                actor: 'Admin',
+                                action: 'Updated profile information'
+                            });
+                            
+                            return true;
+                        }
+                    });
+                    
+                  
+                    document.getElementById('changeAvatar').addEventListener('click', () => {
+                        document.getElementById('avatarUpload').click();
+                    });
+                    
+                    document.getElementById('avatarUpload').addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById('profileAvatar').src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                });
+                
+                // Set up logout
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to log out?')) {
+                        ToastManager.show('You have been logged out', 'info');
+                        ActivityManager.push({
+                            actor: 'Admin',
+                            action: 'Logged out of the system'
+                        });
+                        // In a real app, you would redirect to login page
+                        // window.location.href = '/login';
+                    }
+                });
+                
+                // Set up notifications//
+                document.getElementById('clearNoti').addEventListener('click', () => {
+                    NotificationManager.clear();
+                    ToastManager.show('Notifications cleared', 'success');
+                });
+                
+                // Initialize notifications
+                NotificationManager.updateBadge();
+                
+                // Add some demo notifications if none exist
+                if (NotificationManager.load().length === 0) {
+                    NotificationManager.push({
+                        title: 'Welcome to HopeLink Admin',
+                        message: 'Your dashboard is ready to use. Start by exploring the different sections.',
+                        type: 'info'
+                    });
+                    
+                    NotificationManager.push({
+                        title: 'New Feature Available',
+                        message: 'Check out the new analytics section with comprehensive web analytics.',
+                        type: 'info'
+                    });
+                }
+                
+                // Add some demo activity
+                if (ActivityManager.load().length === 0) {
+                    ActivityManager.push({
+                        actor: 'System',
+                        action: 'Dashboard initialized successfully'
+                    });
+                }
+                
+                // Start with overview view
+                DashboardRenderer.setActiveView('overview');
+                
+                // Expose some utilities for debugging
+                window.DashboardRenderer = DashboardRenderer;
+                window.DataManager = DataManager;
+                window.ToastManager = ToastManager;
+                window.ModalManager = ModalManager;
+                window.AnalyticsChartManager = AnalyticsChartManager;
+            }
 
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
           <div class="text-center py-8">

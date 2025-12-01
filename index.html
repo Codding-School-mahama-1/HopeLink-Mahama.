@@ -81,7 +81,829 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
+       
+        /* Login and Signup button styles */
+        .login-btn {
+            background: transparent;
+            border: 2px solid #3B82F6;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .login-btn:hover {
+            background: #3B82F6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        .signup-btn {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+       
+        /* Opportunities button specific styling */
+        .opportunities-btn {
+            background: #FBBF24;
+            color: #1F2937;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .opportunities-btn:hover {
+            background: #F59E0B;
+        }
+       
+        /* Logo text sizing */
+        .logo-main {<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahama Refugee Camp - Information Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                    },
+                    keyframes: {
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans scroll-smooth">
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-green-500 z-50 transition-all duration-300" id="scrollProgress"></div>
 
+    <!-- Navigation with professional background -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm border-b border-black/10 shadow-lg" id="mainNav">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <!-- Enhanced Logo -->
+                    <div class="flex items-center">
+                        <div class="bg-gradient-to-r from-blue-600 to-green-500 p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-xl text-gray-800">HopeLink</div>
+                            <div class="text-xs text-green-500 font-semibold">Mahama Refugee Camp</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="./index.html" class="relative text-gray-600 hover:text-blue-600 transition duration-300 group">
+                        Home
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </a>
+                    
+                    <!-- Programs Dropdown -->
+                    <div class="relative group">
+                        <button class="relative text-gray-600 hover:text-blue-600 transition duration-300 flex items-center group">
+                            Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                        </button>
+                        <div class="absolute top-full left-0 hidden group-hover:block bg-white min-w-48 rounded-lg shadow-lg py-2 z-50 animate-slide-down">
+                            <a href="./hunger-help.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Hunger Help</a>
+                            <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Youth Empowerment</a>
+                            <a href="./mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Mental Wellness</a>
+                        </div>
+                    </div>
+                    
+                    <a href="./about-us.html" class="relative text-gray-600 hover:text-blue-600 transition duration-300 group">
+                        who we are
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </a>
+                    
+                    <a href="./get-involved.html" class="relative text-gray-600 hover:text-blue-600 transition duration-300 group">
+                        Get Involved
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </a>
+                    
+                    <!-- News & Updates -->
+                    <div class="relative group">
+                        <button class="relative text-gray-600 hover:text-blue-600 transition duration-300 flex items-center group">
+                            News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                        </button>
+                        <div class="absolute top-full left-0 hidden group-hover:block bg-white min-w-48 rounded-lg shadow-lg py-2 z-50 animate-slide-down">
+                            <a href="news.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Latest News</a>
+                            <a href="./advertisement.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Advertisement</a>
+                            <a href="stories.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Success Stories</a>
+                        </div>
+                    </div>
+                    
+                    <a href="./contact.html" class="text-blue-600 font-semibold border-b-2 border-blue-600">Contact</a>
+                    
+                    <!-- Opportunities -->
+                    <div class="relative group">
+                        <button class="relative bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition duration-300 flex items-center group">
+                            Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 hidden group-hover:block bg-white min-w-48 rounded-lg shadow-lg py-2 z-50 animate-slide-down">
+                            <a href="volunteer.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Volunteer</a>
+                            <a href="careers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Careers</a>
+                            <a href="partnerships.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Partnerships</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button class="relative overflow-hidden bg-gradient-to-br from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                        <span class="absolute inset-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-500 group-hover:left-full"></span>
+                    </button>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-blue-600 transition">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="absolute top-full left-0 w-full bg-white shadow-lg hidden md:hidden z-50 animate-slide-down">
+                <div class="px-4 py-2 space-y-3">
+                    <a href="./index.html" class="block py-2 text-blue-600 font-semibold border-b border-gray-200 transition">Home</a>
+                    
+                    <!-- Programs Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-blue-600 transition flex items-center justify-between">
+                            Programs <i class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 mt-2">
+                            <a href="./hunger-help.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Hunger Help</a>
+                            <a href="./Youth Empowerment .html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Youth Empowerment</a>
+                            <a href="./mental-wellness.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Mental Wellness</a>
+                        </div>
+                    </div>
+                    
+                    <a href="./about-us.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">About</a>
+                    <a href="./get-involved.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Get Involved</a>
+                    
+                    <!-- News & Updates Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 text-gray-600 hover:text-blue-600 transition flex items-center justify-between">
+                            News & Updates <i class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 mt-2">
+                            <a href="news.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Latest News</a>
+                            <a href="./advertisement.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Advertisement</a>
+                            <a href="stories.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Success Stories</a>
+                        </div>
+                    </div>
+                    
+                    <a href="./contact.html" class="block py-2 text-blue-600 font-semibold border-b-2 border-blue-600 transition">Contact</a>
+                    
+                    <!-- Opportunities Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 bg-yellow-400 text-gray-800 rounded-lg font-semibold hover:bg-yellow-300 transition flex items-center justify-between px-4">
+                            Opportunities <i class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 mt-2">
+                            <a href="volunteer.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Volunteer</a>
+                            <a href="careers.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Careers</a>
+                            <a href="partnerships.html" class="block py-2 text-gray-600 hover:text-blue-600 transition">Partnerships</a>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full relative overflow-hidden bg-gradient-to-br from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl text-left flex items-center">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                        <span class="absolute inset-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-500 group-hover:left-full"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Background Video -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative">
+        <video autoplay muted loop class="absolute top-0 left-0 w-full h-full object-cover -z-10">
+            <source src="./Intercamp competitions in Mahama Refugee Camp(720P_HD).mp4" type="video/mp4">
+        </video>
+        <div class="absolute top-0 left-0 w-full h-full bg-black/50 -z-10"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 text-white">Mahama Refugee Camp Information Portal</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white">Your central source for events, announcements, and essential services in the camp</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#events" class="bg-white text-blue-700 px-8 py-4 rounded-lg font-medium hover:bg-blue-50 transition text-lg">View Upcoming Events</a>
+                <a href="#announcements" class="bg-blue-500 text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-400 transition text-lg">Important Announcements</a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+            <a href="#announcements" class="text-white text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section id="announcements" class="py-12 bg-white scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Important Announcements</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">View All</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Announcement 1 -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-yellow-100 p-2 rounded-lg">
+                            <i class="fas fa-exclamation-circle text-yellow-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800">Health Check-up Campaign</h3>
+                            <p class="text-gray-600 mt-2">Free medical check-ups available at the health center from Monday to Friday, 8 AM - 4 PM.</p>
+                            <span class="inline-block mt-3 text-sm text-yellow-700 font-medium">Posted: 2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Announcement 2 -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800">Food Distribution Schedule</h3>
+                            <p class="text-gray-600 mt-2">New food distribution schedule effective from next week. Check the notice board for details.</p>
+                            <span class="inline-block mt-3 text-sm text-blue-700 font-medium">Posted: 1 week ago</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Announcement 3 -->
+                <div class="bg-green-50 border-l-4 border-green-500 p-5 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="bg-green-100 p-2 rounded-lg">
+                            <i class="fas fa-calendar-check text-green-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-800">Education Program Registration</h3>
+                            <p class="text-gray-600 mt-2">Registration for adult literacy and vocational training programs is now open.</p>
+                            <span class="inline-block mt-3 text-sm text-green-700 font-medium">Posted: 3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Community News Section -->
+    <section id="news" class="py-12 bg-gray-50 scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Community News</h2>
+                <button id="addNewsBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Add News
+                </button>
+            </div>
+            
+            <!-- News Form -->
+            <div id="newsForm" class="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-lg mb-8 hidden">
+                <h3 class="text-xl font-bold mb-4">Submit Community News</h3>
+                <form id="communityNewsForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Title</label>
+                            <input type="text" id="newsTitle" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Your Name</label>
+                            <input type="text" id="newsAuthor" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Content</label>
+                        <textarea id="newsContent" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelNewsBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- News Feed -->
+            <div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Sample News Item 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-gray-800 text-lg">Community Garden Success</h3>
+                            <span class="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Our community garden has produced its first harvest! Fresh vegetables are now available for families in need.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-blue-600 font-medium">By: John D.</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-blue-500 transition">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 transition">
+                                    <i class="far fa-comment"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample News Item 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-gray-800 text-lg">Youth Football Tournament</h3>
+                            <span class="text-xs text-gray-500">1 day ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">The youth football tournament was a great success! Over 50 young people participated and showed amazing sportsmanship.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-blue-600 font-medium">By: Sarah M.</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-blue-500 transition">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 transition">
+                                    <i class="far fa-comment"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-12 bg-white scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Upcoming Events</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">View Calendar</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-blue-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">15</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800">Community Meeting</h3>
+                        <p class="text-gray-600 text-sm mt-2">Monthly community gathering to discuss camp issues and solutions.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">10:00 AM - 12:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm">Community Hall</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-green-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">18</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800">Youth Sports Day</h3>
+                        <p class="text-gray-600 text-sm mt-2">Football and volleyball tournaments for youth aged 12-18.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">2:00 PM - 5:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm">Sports Field</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-purple-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">22</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800">Women's Skill Workshop</h3>
+                        <p class="text-gray-600 text-sm mt-2">Handicraft and sewing skills training session for women.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">9:00 AM - 1:00 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm">Vocational Center</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <div class="bg-red-600 text-white p-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">25</div>
+                            <div class="text-sm">OCT</div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800">Health & Hygiene Session</h3>
+                        <p class="text-gray-600 text-sm mt-2">Educational session on maintaining hygiene and preventing diseases.</p>
+                        <div class="flex items-center mt-4 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="text-sm">3:00 PM - 4:30 PM</span>
+                        </div>
+                        <div class="flex items-center mt-2 text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm">Health Center</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-12 bg-gray-50 scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8">Available Services</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-stethoscope text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2">Health Services</h3>
+                    <p class="text-gray-600">Medical consultations, emergency care, maternal health, and immunization services.</p>
+                    <a href="./healthcore.html" class="inline-block mt-4 text-blue-600 font-medium hover:text-blue-700 transition">Learn More →</a>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-graduation-cap text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2">Education</h3>
+                    <p class="text-gray-600">Primary education, adult literacy programs, and vocational training opportunities.</p>
+                    <a href="./Education-core.html" class="inline-block mt-4 text-blue-600 font-medium hover:text-blue-700 transition">Learn More →</a>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-utensils text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-2">Food Distribution</h3>
+                    <p class="text-gray-600">Regular food distribution points and nutrition support for vulnerable groups.</p>
+                    <a href="./food-distribution.html" class="inline-block mt-4 text-blue-600 font-medium hover:text-blue-700 transition">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+    <section id="emergency" class="py-12 bg-red-50 scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8">Emergency Contacts</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Contact 1 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-red-200 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-ambulance text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Medical Emergency</h3>
+                    <p class="text-gray-600 mb-4">For urgent medical assistance</p>
+                    <a href="tel:+250795096038" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-red-700 transition">Call Now</a>
+                </div>
+                
+                <!-- Contact 2 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-blue-200 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Security</h3>
+                    <p class="text-gray-600 mb-4">Camp security and protection</p>
+                    <a href="tel:+250788654321" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-blue-700 transition">Call Now</a>
+                </div>
+                
+                <!-- Contact 3 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-green-200 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fire-extinguisher text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Fire Emergency</h3>
+                    <p class="text-gray-600 mb-4">In case of fire outbreak</p>
+                    <a href="tel:+250788987654" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-green-700 transition">Call Now</a>
+                </div>
+                
+                <!-- Contact 4 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-yellow-200 text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-life-ring text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Camp Management</h3>
+                    <p class="text-gray-600 mb-4">Administrative issues</p>
+                    <a href="tel:+250788456789" class="bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium inline-block hover:bg-yellow-700 transition">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <!-- Footer Logo -->
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-r from-blue-600 to-green-500 p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-white"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">HopeLink</div>
+                            <div class="text-xs text-green-500 font-semibold">Mahama Refugee Camp</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Empowering refugees through technology and innovation in Mahama Camp, Rwanda.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-home mr-2 text-xs"></i>Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-handshake mr-2 text-xs"></i>Get Involved</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-envelope mr-2 text-xs"></i>Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            Mahama Camp, Kirehe District, Rwanda
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            hopelink.mahama@gmail.com
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            +250 123 456 789
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition transform hover:scale-110">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition transform hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition transform hover:scale-110">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-500 transition transform hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="mt-6">
+                        <h5 class="text-sm font-semibold mb-2">Stay Updated</h5>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded-l text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <button class="bg-green-500 text-white px-3 py-2 rounded-r text-sm hover:bg-green-600 transition">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 HopeLink Mahama — Empowering Refugees Through Innovation.</p>
+                <p class="text-xs mt-2">All rights reserved. Registered non-profit organization.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Navigation Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                // Toggle icon between bars and times
+                const icon = mobileMenuButton.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Mobile dropdown functionality
+            const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
+            
+            mobileDropdowns.forEach(dropdown => {
+                const button = dropdown.querySelector('.mobile-dropdown-btn');
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const icon = button.querySelector('i');
+                
+                button.addEventListener('click', function() {
+                    content.classList.toggle('hidden');
+                    // Rotate chevron icon
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                    const icon = mobileMenuButton.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    
+                    // Close all mobile dropdowns
+                    mobileDropdowns.forEach(dropdown => {
+                        const content = dropdown.querySelector('.mobile-dropdown-content');
+                        const icon = dropdown.querySelector('.mobile-dropdown-btn i');
+                        content.classList.add('hidden');
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    });
+                }
+            });
+            
+            // Nav scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.getElementById('mainNav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('shadow-xl', 'bg-white');
+                    nav.classList.remove('bg-white/95');
+                } else {
+                    nav.classList.remove('shadow-xl', 'bg-white');
+                    nav.classList.add('bg-white/95');
+                }
+                
+                // Scroll progress bar
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('scrollProgress').style.width = scrolled + '%';
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Close mobile menu after clicking a link
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            const icon = mobileMenuButton.querySelector('i');
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+            });
+            
+            // News Form Functionality
+            document.getElementById('addNewsBtn').addEventListener('click', function() {
+                document.getElementById('newsForm').classList.remove('hidden');
+            });
+            
+            document.getElementById('cancelNewsBtn').addEventListener('click', function() {
+                document.getElementById('newsForm').classList.add('hidden');
+                document.getElementById('communityNewsForm').reset();
+            });
+            
+            document.getElementById('communityNewsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('newsTitle').value;
+                const author = document.getElementById('newsAuthor').value;
+                const content = document.getElementById('newsContent').value;
+                
+                // Create new news item
+                const newsItem = document.createElement('div');
+                newsItem.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
+                newsItem.innerHTML = `
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-gray-800 text-lg">${title}</h3>
+                            <span class="text-xs text-gray-500">Just now</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">${content}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-blue-600 font-medium">By: ${author}</span>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-blue-500 transition">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 transition">
+                                    <i class="far fa-comment"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to news feed
+                document.getElementById('newsFeed').prepend(newsItem);
+                
+                // Reset and hide form
+                document.getElementById('communityNewsForm').reset();
+                document.getElementById('newsForm').classList.add('hidden');
+                
+                // Show success message
+                alert('News submitted successfully!');
+            });
+        });
+    </script>
+</body>
+</html>
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .logo-sub {
+            font-size: 11px;
+            font-weight: 600;
+        }
+       
+        /* Mobile navigation font sizes */
+        .mobile-nav-item {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .mobile-nav-item-active {
+            font-size: 15px;
+            font-weight: 600;
+        }
+       
         /* Enhanced animations */
         .fade-in {
             opacity: 0;
@@ -93,7 +915,7 @@
             opacity: 1;
             transform: translateY(0);
         }
-
+       
         /* Modal styles */
         .modal {
             display: none;
@@ -126,11 +948,7 @@
         .program-modal {
             max-width: 800px;
         }
-
-        .story-modal {
-            max-width: 700px;
-        }
-
+       
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
@@ -142,7 +960,7 @@
                 transform: scale(1) translateY(0);
             }
         }
-
+       
         /* Loading states */
         .btn-loading {
             position: relative;
@@ -163,7 +981,7 @@
             border-right-color: transparent;
             animation: spin 0.8s linear infinite;
         }
-
+       
         @keyframes spin {
             from {
                 transform: rotate(0deg);
@@ -173,7 +991,7 @@
                 transform: rotate(360deg);
             }
         }
-
+       
         /* Enhanced hover effects */
         .hover-lift {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -183,7 +1001,7 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-
+       
         /* Scroll progress bar */
         .scroll-progress {
             position: fixed;
@@ -195,7 +1013,7 @@
             z-index: 1002;
             transition: width 0.3s ease;
         }
-
+       
         /* Dropdown styles */
         .dropdown {
             position: relative;
@@ -218,7 +1036,11 @@
         .dropdown-content.active {
             display: block;
         }
-
+        .dropdown-content a {
+            font-size: 13px;
+            font-weight: 500;
+        }
+       
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -230,7 +1052,7 @@
                 transform: translateY(0);
             }
         }
-
+       
         /* Mobile menu */
         .mobile-menu {
             display: none;
@@ -246,7 +1068,7 @@
             display: block;
             animation: slideDown 0.3s ease-out;
         }
-
+       
         /* Mobile dropdown styles */
         .mobile-dropdown-content {
             display: none;
@@ -257,7 +1079,11 @@
         .mobile-dropdown-content.active {
             display: block;
         }
-
+        .mobile-dropdown-content a {
+            font-size: 14px;
+            font-weight: 500;
+        }
+       
         /* Notification System */
         .notification {
             position: fixed;
@@ -282,12 +1108,12 @@
         .notification.error {
             background-color: #EF4444;
         }
-
+       
         /* Counter styles */
         .counter {
             font-variant-numeric: tabular-nums;
         }
-
+       
         /* Gallery Styles */
         .gallery-grid {
             display: grid;
@@ -340,7 +1166,7 @@
             max-height: 70vh;
             object-fit: contain;
         }
-
+       
         /* Payment fields */
         .payment-fields {
             display: none;
@@ -349,7 +1175,7 @@
         .payment-fields.active {
             display: block;
         }
-
+       
         /* Line clamp utility */
         .line-clamp-2 {
             display: -webkit-box;
@@ -357,7 +1183,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
+       
         /* Hero background with overlay */
         .hero-background {
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
@@ -365,19 +1191,19 @@
             background-position: center;
             background-attachment: fixed;
         }
-
+       
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-
+       
         /* Professional button animations */
         .btn-professional {
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
+       
         .btn-professional::before {
             content: '';
             position: absolute;
@@ -388,76 +1214,118 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
-
+       
         .btn-professional:hover::before {
             left: 100%;
         }
 
-        /* Organization logos in navigation */
-        .org-logos {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
+        /* Responsive improvements */
+        @media (max-width: 1280px) {
+            .desktop-nav {
+                display: none !important;
+            }
+            .mobile-menu-btn {
+                display: block !important;
+            }
         }
 
-        .org-logo {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-            filter: grayscale(100%);
-            opacity: 0.8;
-            transition: all 0.3s ease;
+        @media (min-width: 1024px) and (max-width: 1280px) {
+            .lg-md\:flex {
+                display: flex !important;
+            }
+            .lg-md\:hidden {
+                display: none !important;
+            }
+            .desktop-nav {
+                display: flex !important;
+            }
+            .mobile-menu-btn {
+                display: none !important;
+            }
         }
 
-        .org-logo:hover {
-            filter: grayscale(0%);
-            opacity: 1;
+        @media (max-width: 768px) {
+            .hero-background {
+                background-attachment: scroll;
+            }
+            .hero-title {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+            }
+            .hero-subtitle {
+                font-size: 1.25rem !important;
+            }
+            .section-title {
+                font-size: 2rem !important;
+            }
+            .section-subtitle {
+                font-size: 1.125rem !important;
+            }
+            .program-card {
+                margin-bottom: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .btn-responsive {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
         }
 
-        /* Partner logo styles */
-        .partner-logo {
-            max-height: 60px;
-            width: auto;
-            object-fit: contain;
+        @media (max-width: 475px) {
+            .hero-title {
+                font-size: 2rem !important;
+            }
+            .hero-subtitle {
+                font-size: 1.125rem !important;
+            }
+            .section-title {
+                font-size: 1.75rem !important;
+            }
+            .logo-main {
+                font-size: 18px;
+            }
+            .logo-sub {
+                font-size: 10px;
+            }
+            .btn-text {
+                font-size: 0.875rem;
+            }
+            .counter {
+                font-size: 2rem !important;
+            }
+            .grid-responsive {
+                grid-template-columns: 1fr !important;
+            }
         }
 
-        .partner-item {
-            transition: all 0.3s ease;
-        }
-
-        .partner-item:hover {
-            transform: translateY(-5px);
-        }
-
-        /* HopeLink Logo Styles */
-        .hopelink-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .hopelink-icon {
-            background: linear-gradient(135deg, #3B82F6, #10B981);
-            padding: 8px;
-            border-radius: 8px;
-            margin-right: 12px;
-        }
-
-        .hopelink-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .hopelink-title {
-            font-weight: bold;
-            font-size: 1.25rem;
-            color: #1F2937;
-        }
-
-        .hopelink-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #10B981;
+        /* Touch-friendly improvements */
+        @media (hover: none) {
+            .hover-lift:hover {
+                transform: none;
+            }
+            .nav-item:hover::after {
+                width: 0;
+            }
+            .gallery-item:hover img {
+                transform: none;
+            }
+            .gallery-item:hover .gallery-overlay {
+                transform: translateY(100%);
+            }
+            .btn-professional:hover::before {
+                left: -100%;
+            }
         }
     </style>
 </head>
@@ -501,81 +1369,65 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html"
-                        class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Home</a>
-
-                    <!-- Programs Dropdown -->
-                    <div class="dropdown relative">
-                        <button
-                            class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center"
-                            data-dropdown="programs">
-                            Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-content" id="programs-dropdown">
-                            <a href="hunger-help.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger
-                                Help</a>
-                            <a href="./Youth Empowerment .html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth
-                                Empowerment</a>
-                            <a href="mental-wellness.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental
-                                Wellness</a>
+               
+                <!-- Desktop Navigation - All in one line with consistent spacing -->
+                <div class="desktop-nav hidden lg-md:flex items-center flex-1 justify-center">
+                    <div class="flex items-center space-x-3 lg-md:space-x-4 xl:space-x-5">
+                        <a href="index.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Home</a>
+                       
+                        <!-- Programs Dropdown -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center" data-dropdown="programs">
+                                Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="programs-dropdown">
+                                <a href="hunger-help.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger Help</a>
+                                <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth Empowerment</a>
+                                <a href="mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental Wellness</a>
+                            </div>
                         </div>
-                    </div>
-
-                    <a href="about-us.html"
-                        class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">who we are</a>
-                    <a href="get-involved.html"
-                        class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Get Involved</a>
-
-                    <!-- News & Updates -->
-                    <div class="dropdown relative">
-                        <button
-                            class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center"
-                            data-dropdown="news">
-                            News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-content" id="news-dropdown">
-                            <a href="news.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Latest
-                                News</a>
-                            <a href="./advertisement.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">advertisement</a>
-                            <a href="stories.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Success
-                                Stories</a>
+                       
+                        <a href="about-us.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">who we are</a>
+                        <a href="get-involved.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Get Involved</a>
+                       
+                        <!-- News & Updates -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center" data-dropdown="news">
+                                News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="news-dropdown">
+                                <a href="news.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Latest News</a>
+                                <a href="./advertisement.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">advertisement</a>
+                                <a href="stories.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Success Stories</a>
+                            </div>
                         </div>
-                    </div>
-
-                    <a href="contact.html"
-                        class="nav-item text-primary-blue font-semibold border-b-2 border-primary-blue">Contact</a>
-
-                    <!-- Opportunities -->
-                    <div class="dropdown relative">
-                        <button
-                            class="nav-item dropdown-btn bg-primary-yellow text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition duration-300 flex items-center"
-                            data-dropdown="opportunities">
-                            Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-content" id="opportunities-dropdown">
-                            <a href="volunteer.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Volunteer</a>
-                            <a href="careers.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
-                            <a href="partnerships.html"
-                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
+                       
+                        <a href="contact.html" class="nav-item text-primary-blue font-semibold border-b-2 border-primary-blue">Contact</a>
+                       
+                        <!-- Opportunities -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn opportunities-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition duration-300 flex items-center" data-dropdown="opportunities">
+                                Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="opportunities-dropdown">
+                                <a href="volunteer.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Volunteer</a>
+                                <a href="careers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
+                                <a href="partnerships.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <button onclick="openModal('donateModal')"
-                        class="donate-btn btn-professional bg-primary-green text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
-                        <i class="fas fa-heart mr-2"></i>Donate Now
+                <!-- Right Section with Login, Signup, and Donate -->
+                <div class="desktop-nav hidden lg-md:flex items-center space-x-2 lg-md:space-x-3 flex-shrink-0">
+                    <a href="login.html" class="login-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition flex items-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </a>
+                    <a href="signup.html" class="signup-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i>Sign Up
+                    </a>
+                    <button onclick="openModal('donateModal')" class="donate-btn btn-professional bg-primary-green text-white px-4 py-2 lg-md:px-5 lg-md:py-2 rounded-lg transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-heart mr-2"></i>Donate
                     </button>
                     <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-primary-blue transition">
                         <i class="fas fa-bars text-xl"></i>
@@ -587,13 +1439,12 @@
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
-
-            <!-- Mobile Menu -->
-            <div id="mobileMenu" class="mobile-menu">
+           
+            <!-- Mobile and Tablet Menu -->
+            <div id="mobileMenu" class="mobile-menu lg-md:hidden">
                 <div class="px-4 py-2 space-y-3">
-                    <a href="index.html"
-                        class="block py-2 text-primary-blue font-semibold border-b border-gray-200 transition">Home</a>
-
+                    <a href="index.html" class="block mobile-nav-item-active py-2 text-primary-blue font-semibold border-b border-gray-200 transition">Home</a>
+                   
                     <!-- Programs Mobile Dropdown -->
                     <div class="mobile-dropdown">
                         <button
@@ -611,12 +1462,10 @@
                                 Wellness</a>
                         </div>
                     </div>
-
-                    <a href="about-us.html"
-                        class="block py-2 text-gray-600 hover:text-primary-blue transition">About</a>
-                    <a href="get-involved.html" class="block py-2 text-gray-600 hover:text-primary-blue transition">Get
-                        Involved</a>
-
+                   
+                    <a href="about-us.html" class="block py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition">About</a>
+                    <a href="get-involved.html" class="block py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition">Get Involved</a>
+                   
                     <!-- News & Updates Mobile Dropdown -->
                     <div class="mobile-dropdown">
                         <button
@@ -633,10 +1482,9 @@
                                 Stories</a>
                         </div>
                     </div>
-
-                    <a href="contact.html"
-                        class="block py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition">Contact</a>
-
+                   
+                    <a href="contact.html" class="block py-2 mobile-nav-item-active text-primary-blue font-semibold border-b-2 border-primary-blue transition">Contact</a>
+                   
                     <!-- Opportunities Mobile Dropdown -->
                     <div class="mobile-dropdown">
                         <button
@@ -652,9 +1500,18 @@
                                 class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Partnerships</a>
                         </div>
                     </div>
-
-                    <button onclick="openModal('donateModal')"
-                        class="w-full donate-btn btn-professional bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 text-left flex items-center">
+                   
+                    <!-- Login and Signup buttons for mobile -->
+                    <div class="flex flex-col space-y-2 pt-2">
+                        <a href="login.html" class="login-btn px-4 py-2 rounded-lg transition flex items-center justify-center">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </a>
+                        <a href="signup.html" class="signup-btn px-4 py-2 rounded-lg transition flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i>Sign Up
+                        </a>
+                    </div>
+                   
+                    <button onclick="openModal('donateModal')" class="w-full donate-btn btn-professional bg-primary-green text-white px-6 py-2 rounded-lg transition transform hover:scale-105 text-left flex items-center">
                         <i class="fas fa-heart mr-2"></i>Donate Now
                     </button>
                 </div>
@@ -679,10 +1536,10 @@
             <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-white rounded-full animate-pulse"
                 style="animation-delay: 1s;"></div>
         </div>
-
+       
         <div class="max-w-7xl mx-auto px-4 py-20 text-center text-white relative z-10">
             <div class="fade-in">
-                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                <h1 class="hero-title text-4xl xs:text-5xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">
                     Empowering Refugees and Host Communities Through Technology and Hope
                 </h1>
                 <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
@@ -705,18 +1562,18 @@
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
+                <div class="stats-grid grid grid-cols-3 gap-4 md:gap-8 mt-12 md:mt-16 max-w-2xl mx-auto px-2">
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="1000">0</div>
-                        <div class="text-sm opacity-80">Youth Trained</div>
+                        <div class="text-2xl md:text-3xl font-bold counter" data-target="1000">0</div>
+                        <div class="text-xs md:text-sm opacity-80">Youth Trained</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="500">0</div>
-                        <div class="text-sm opacity-80">Families Supported</div>
+                        <div class="text-2xl md:text-3xl font-bold counter" data-target="500">0</div>
+                        <div class="text-xs md:text-sm opacity-80">Families Supported</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold counter" data-target="300">0</div>
-                        <div class="text-sm opacity-80">Wellness Participants</div>
+                        <div class="text-2xl md:text-3xl font-bold counter" data-target="300">0</div>
+                        <div class="text-xs md:text-sm opacity-80">Wellness Participants</div>
                     </div>
                 </div>
             </div>
@@ -731,7 +1588,7 @@
     </section>
 
     <!-- Mission & Vision -->
-    <section id="mission" class="py-20 bg-white">
+    <section id="mission" class="py-16 md:py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Mission & Vision</h2>
@@ -834,8 +1691,8 @@
                         class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-heart text-white text-2xl"></i>
                     </div>
-                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Compassion</h4>
-                    <p class="text-gray-600">Heart-centered approach to community service</p>
+                    <h4 class="text-lg md:text-xl font-semibold text-gray-800 mb-2">Compassion</h4>
+                    <p class="text-gray-600 text-sm md:text-base">Heart-centered approach to community service</p>
                 </div>
 
                 <div class="text-center fade-in hover-lift">
@@ -843,8 +1700,8 @@
                         class="w-20 h-20 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-lightbulb text-white text-2xl"></i>
                     </div>
-                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Innovation</h4>
-                    <p class="text-gray-600">Creative tech solutions for community challenges</p>
+                    <h4 class="text-lg md:text-xl font-semibold text-gray-800 mb-2">Innovation</h4>
+                    <p class="text-gray-600 text-sm md:text-base">Creative tech solutions for community challenges</p>
                 </div>
 
                 <div class="text-center fade-in hover-lift">
@@ -852,15 +1709,15 @@
                         class="w-20 h-20 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fas fa-globe text-white text-2xl"></i>
                     </div>
-                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Inclusion</h4>
-                    <p class="text-gray-600">Everyone has a place and a voice in our community</p>
+                    <h4 class="text-lg md:text-xl font-semibold text-gray-800 mb-2">Inclusion</h4>
+                    <p class="text-gray-600 text-sm md:text-base">Everyone has a place and a voice in our community</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Core Programs - Fully Clickable -->
-    <section id="programs" class="py-20 bg-gray-50">
+    <section id="programs" class="py-16 md:py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">What We Do</h2>
@@ -868,7 +1725,7 @@
                     address critical community needs</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid-responsive grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <!-- Hunger Help -->
                 <div class="program-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group fade-in hover-lift cursor-pointer"
                     data-program="hungerHelp">
@@ -886,7 +1743,7 @@
                             Providing access to food aid, nutrition support, and digital food request tools to fight
                             hunger and malnutrition.
                         </p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <div class="flex items-center text-xs md:text-sm text-gray-500 mb-4">
                             <i class="fas fa-users mr-2"></i>
                             <span>500+ families supported monthly</span>
                         </div>
@@ -914,7 +1771,7 @@
                             Creating training programs, digital skills hubs, and job opportunities for young people to
                             build their future.
                         </p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <div class="flex items-center text-xs md:text-sm text-gray-500 mb-4">
                             <i class="fas fa-graduation-cap mr-2"></i>
                             <span>1,000+ youth trained</span>
                         </div>
@@ -942,7 +1799,7 @@
                             Offering counseling, emotional support, and safe digital spaces for healing and sharing
                             stories of resilience.
                         </p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <div class="flex items-center text-xs md:text-sm text-gray-500 mb-4">
                             <i class="fas fa-hand-holding-heart mr-2"></i>
                             <span>300+ community members supported</span>
                         </div>
@@ -959,9 +1816,9 @@
     <!-- Enhanced Voices of Hope Section with Circular Images -->
     <section class="py-20 bg-white" id="voices-section">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Voices of Hope</h2>
-                <p class="text-xl text-gray-600">Real stories from our community members</p>
+            <div class="text-center mb-12 md:mb-16 fade-in">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-gray-800 mb-4">Voices of Hope</h2>
+                <p class="section-subtitle text-lg md:text-xl text-gray-600">Real stories from our community members</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="voices-container">
@@ -1298,12 +2155,12 @@
                     and host communities through innovation and compassion."
                 </p>
                 <div class="mt-6 flex items-center justify-center">
-                    <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center mr-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-blue rounded-full flex items-center justify-center mr-4">
                         <i class="fas fa-user text-white"></i>
                     </div>
                     <div class="text-left">
-                        <div class="font-semibold">Community Leader</div>
-                        <div class="text-gray-500">Mahama Refugee Camp</div>
+                        <div class="font-semibold text-sm md:text-base">Community Leader</div>
+                        <div class="text-gray-500 text-xs md:text-sm">Mahama Refugee Camp</div>
                     </div>
                 </div>
             </div>
@@ -1311,7 +2168,7 @@
     </section>
 
     <!-- Final CTA with Functional Buttons -->
-    <section class="py-20 bg-gradient-to-r from-primary-blue to-primary-green relative overflow-hidden">
+    <section class="py-16 md:py-20 bg-gradient-to-r from-primary-blue to-primary-green relative overflow-hidden">
         <!-- Background pattern -->
         <div class="absolute inset-0 opacity-10">
             <div class="absolute top-0 left-0 w-full h-full"
@@ -1325,10 +2182,10 @@
         </div>
 
         <div class="max-w-4xl mx-auto text-center text-white px-4 relative z-10">
-            <h2 class="text-4xl font-bold mb-6 fade-in">
+            <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 md:mb-6 fade-in">
                 Join us in building a future of hope, connection, and empowerment for Mahama and beyond.
             </h2>
-            <p class="text-xl opacity-90 mb-8 fade-in">
+            <p class="section-subtitle text-lg md:text-xl opacity-90 mb-6 md:mb-8 fade-in">
                 Together, we can create lasting change through technology, education, and community support.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8 fade-in">
@@ -1345,9 +2202,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
+    <footer class="bg-gray-800 text-white py-8 md:py-12">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
+            <div class="footer-grid grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <div>
                     <!-- HopeLink Logo in Footer -->
                     <div class="hopelink-logo mb-6">
@@ -1391,7 +2248,7 @@
 
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
-                    <div class="space-y-2 text-gray-400">
+                    <div class="space-y-2 text-gray-400 text-sm">
                         <p class="flex items-center">
                             <i class="fas fa-map-marker-alt mr-3"></i>
                             Mahama Camp, Kirehe District, Rwanda
@@ -1429,7 +2286,7 @@
                     </div>
 
                     <!-- Newsletter Signup -->
-                    <div class="mt-6">
+                    <div class="mt-4 md:mt-6">
                         <h5 class="text-sm font-semibold mb-2">Stay Updated</h5>
                         <div class="flex">
                             <input type="email" placeholder="Your email"
@@ -1703,8 +2560,8 @@
     <!-- Mental Wellness Modal -->
     <div id="mentalWellnessModal" class="modal">
         <div class="modal-content program-modal">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Mental Wellness Program</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Mental Wellness Program</h3>
                 <button onclick="closeModal('mentalWellnessModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -1722,15 +2579,15 @@
                         <h5 class="font-semibold mb-2">🧠 Individual Counseling</h5>
                         <p class="text-gray-600 text-sm">One-on-one sessions with trained counselors</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">👥 Support Groups</h5>
                         <p class="text-gray-600 text-sm">Peer-led groups for shared experiences</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">📱 Digital Support Platform</h5>
                         <p class="text-gray-600 text-sm">Anonymous online support and resources</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">🎨 Creative Therapy</h5>
                         <p class="text-gray-600 text-sm">Art, music, and writing for emotional expression</p>
                     </div>
@@ -1740,7 +2597,7 @@
                 <div class="pt-4 border-t border-gray-200">
                     <h4 class="font-semibold text-lg mb-4">Join Our Mental Wellness Program</h4>
                     <form id="mentalWellnessForm" class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid md:grid-cols-2 gap-3 md:gap-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">First Name</label>
                                 <input type="text" name="firstName" required
@@ -1799,8 +2656,8 @@
     <!-- Youth Empowerment Modal -->
     <div id="youthEmpowermentModal" class="modal">
         <div class="modal-content program-modal">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Youth Empowerment Program</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Youth Empowerment Program</h3>
                 <button onclick="closeModal('youthEmpowermentModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -1818,15 +2675,15 @@
                         <h5 class="font-semibold mb-2">💻 Digital Skills Training</h5>
                         <p class="text-gray-600 text-sm">Coding, web development, and digital literacy courses</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">🎓 Career Preparation</h5>
                         <p class="text-gray-600 text-sm">Resume building, interview skills, and job placement</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">🚀 Entrepreneurship</h5>
                         <p class="text-gray-600 text-sm">Support for starting small businesses and projects</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">👥 Mentorship</h5>
                         <p class="text-gray-600 text-sm">Guidance from professionals in various fields</p>
                     </div>
@@ -1836,7 +2693,7 @@
                 <div class="pt-4 border-t border-gray-200">
                     <h4 class="font-semibold text-lg mb-4">Join Our Youth Empowerment Program</h4>
                     <form id="youthEmpowermentForm" class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid md:grid-cols-2 gap-3 md:gap-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">First Name</label>
                                 <input type="text" name="firstName" required
@@ -1895,8 +2752,8 @@
     <!-- Hunger Help Modal -->
     <div id="hungerHelpModal" class="modal">
         <div class="modal-content program-modal">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Hunger Help Program</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Hunger Help Program</h3>
                 <button onclick="closeModal('hungerHelpModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -1915,15 +2772,15 @@
                         <h5 class="font-semibold mb-2">🍲 Food Distribution</h5>
                         <p class="text-gray-600 text-sm">Weekly food packages with nutritious staples for families</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">📱 Digital Request System</h5>
                         <p class="text-gray-600 text-sm">Mobile app for requesting food assistance</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">👩‍⚕️ Nutrition Education</h5>
                         <p class="text-gray-600 text-sm">Workshops on healthy eating and food preparation</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <div class="bg-white p-3 md:p-4 rounded-lg border border-gray-200">
                         <h5 class="font-semibold mb-2">🌱 Community Gardens</h5>
                         <p class="text-gray-600 text-sm">Training and resources for sustainable food production</p>
                     </div>
@@ -1933,7 +2790,7 @@
                 <div class="pt-4 border-t border-gray-200">
                     <h4 class="font-semibold text-lg mb-4">Join Our Hunger Help Program</h4>
                     <form id="hungerHelpForm" class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid md:grid-cols-2 gap-3 md:gap-4">
                             <div>
                                 <label class="block text-gray-700 mb-2">First Name</label>
                                 <input type="text" name="firstName" required
@@ -1992,15 +2849,15 @@
     <!-- Volunteer Modal -->
     <div id="volunteerModal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Become a Volunteer</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Become a Volunteer</h3>
                 <button onclick="closeModal('volunteerModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
 
             <form id="volunteerForm" class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
                         <label class="block text-gray-700 mb-2">First Name</label>
                         <input type="text" required
@@ -2078,8 +2935,8 @@
     <!-- Support Modal -->
     <div id="supportModal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Support Our Mission</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Support Our Mission</h3>
                 <button onclick="closeModal('supportModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -2129,8 +2986,8 @@
     <!-- Enhanced Donation Modal with Professional Payment -->
     <div id="donateModal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">Make a Donation</h3>
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Make a Donation</h3>
                 <button onclick="closeModal('donateModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
