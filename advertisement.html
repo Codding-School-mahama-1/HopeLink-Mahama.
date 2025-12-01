@@ -18,7 +18,9 @@
                             yellow: '#FBBF24',
                             light: '#FEF3C7'
                         }
-                    },
+                    },<!doctype html>
+2
+
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
@@ -49,7 +51,9 @@
                             'from': { opacity: '0', transform: 'translateY(-10px)' },
                             'to': { opacity: '1', transform: 'translateY(0)' }
                         },
-                        floating: {
+                        floating: {<!doctype html>
+2
+
                             '0%, 100%': { transform: 'translate(0, 0px)' },
                             '50%': { transform: 'translate(0, 15px)' }
                         },
@@ -695,7 +699,7 @@
         <div class="absolute top-0 left-0 w-full h-full bg-black/50 -z-10"></div>
         <div class="container mx-auto px-4 text-center relative z-10">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 text-white">Mahama Refugee Camp Information Portal</h1>
-            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white">Your central source for events, announcements, and essential services in the camp</p>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white">Your central source for events, announcements, and essential services in camp</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <a href="#events" class="bg-white text-primary-blue px-8 py-4 rounded-lg font-medium hover:bg-blue-50 transition text-lg">View Upcoming Events</a>
                 <a href="#announcements" class="bg-primary-blue text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-400 transition text-lg">Important Announcements</a>
@@ -725,7 +729,7 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="font-bold text-gray-800">Health Check-up Campaign</h3>
-                            <p class="text-gray-600 mt-2">Free medical check-ups available at the health center from Monday to Friday, 8 AM - 4 PM.</p>
+                            <p class="text-gray-600 mt-2">Free medical check-ups available at health center from Monday to Friday, 8 AM - 4 PM.</p>
                             <span class="inline-block mt-3 text-sm text-yellow-700 font-medium">Posted: 2 days ago</span>
                         </div>
                     </div>
@@ -739,7 +743,7 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="font-bold text-gray-800">Food Distribution Schedule</h3>
-                            <p class="text-gray-600 mt-2">New food distribution schedule effective from next week. Check the notice board for details.</p>
+                            <p class="text-gray-600 mt-2">New food distribution schedule effective from next week. Check notice board for details.</p>
                             <span class="inline-block mt-3 text-sm text-blue-700 font-medium">Posted: 1 week ago</span>
                         </div>
                     </div>
@@ -803,7 +807,7 @@
            
             <!-- News Feed -->
             <div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Sample News Item 1 -->
+                <!-- News items will be loaded here from Firebase -->
                 <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-3">
@@ -1177,6 +1181,9 @@
     <script>
         // ========== NAVIGATION FUNCTIONALITY ==========
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Firebase data loading
+            initializeFirebaseData();
+            
             // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const mobileMenu = document.getElementById('mobileMenu');

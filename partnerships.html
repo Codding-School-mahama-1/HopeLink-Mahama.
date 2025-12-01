@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Distribution & Nutrition Support - Mahama Refugee Camp</title>
+    <title>Partnerships - HopeLink Mahama</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -412,14 +412,14 @@
             transition: all 0.3s ease;
         }
 
-        /* Food specific styles */
-        .food-card {
+        /* Partnership card styles */
+        .partnership-card {
             transition: all 0.3s ease;
-            border-left: 4px solid;
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .partnership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         /* Responsive improvements */
@@ -527,7 +527,7 @@
     </style>
 </head>
 
-<body class="font-sans bg-gray-50">
+<body class="font-sans">
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -547,22 +547,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Home</a>
-                    
-                    <!-- Programs Dropdown -->
-                    <div class="dropdown relative">
-                        <button class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center" data-dropdown="programs">
-                            Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-content" id="programs-dropdown">
-                            <a href="hunger-help.html" class="block px-4 py-2 text-primary-blue font-semibold bg-blue-50">Hunger Help</a>
-                            <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth Empowerment</a>
-                            <a href="mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental Wellness</a>
-                            <!-- <a href="health-services.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Health Services</a> -->
-                            <!-- <a href="./advertisement.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Advertisement</a> -->
                
                 <!-- Desktop Navigation - All in one line with consistent spacing -->
                 <div class="desktop-nav hidden lg-md:flex items-center flex-1 justify-center">
@@ -575,7 +559,7 @@
                                 Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
                             </button>
                             <div class="dropdown-content" id="programs-dropdown">
-                                <a href="hunger-help.html" class="block px-4 py-2 text-primary-blue font-semibold bg-blue-50">Hunger Help</a>
+                                <a href="hunger-help.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger Help</a>
                                 <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth Empowerment</a>
                                 <a href="mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental Wellness</a>
                             </div>
@@ -606,7 +590,7 @@
                             <div class="dropdown-content" id="opportunities-dropdown">
                                 <a href="volunteer.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Volunteer</a>
                                 <a href="careers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
-                                <a href="partnerships.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
+                                <a href="partnerships.html" class="block px-4 py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition">Partnerships</a>
                             </div>
                         </div>
                     </div>
@@ -642,8 +626,7 @@
                             Programs <i class="fas fa-chevron-down text-xs"></i>
                         </button>
                         <div class="mobile-dropdown-content">
-                            <a href="hunger-help.html" class="block py-2 text-primary-blue font-semibold pl-4">Food & Nutrition</a>
-                            <a href="hunger-help.html" class="block py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition pl-4">Hunger Help</a>
+                            <a href="hunger-help.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Hunger Help</a>
                             <a href="./Youth Empowerment .html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Youth Empowerment</a>
                             <a href="mental-wellness.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Mental Wellness</a>
                         </div>
@@ -674,7 +657,7 @@
                         <div class="mobile-dropdown-content">
                             <a href="volunteer.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Volunteer</a>
                             <a href="careers.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Careers</a>
-                            <a href="partnerships.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Partnerships</a>
+                            <a href="partnerships.html" class="block py-2 text-primary-blue font-semibold border-b-2 border-primary-blue transition pl-4">Partnerships</a>
                         </div>
                     </div>
                    
@@ -704,475 +687,290 @@
         </div>
     </div>
 
-    <!-- Main Food & Nutrition Content -->
-    <main class="pt-32">
-        <!-- Header Section -->
-        <section class="bg-gradient-to-r from-orange-500 to-amber-500 py-20 text-white">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center fade-in">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-6">Food Distribution & Nutrition Support</h1>
-                    <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
-                        Ensuring food security and proper nutrition for vulnerable groups in Mahama Refugee Camp
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="scrollToSection('distribution-points')" class="btn-responsive btn-professional bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-map-marker-alt mr-2"></i>Distribution Points
-                        </button>
-                        <button onclick="scrollToSection('nutrition-support')" class="btn-responsive btn-professional bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-500 transition transform hover:scale-105">
-                            <i class="fas fa-apple-alt mr-2"></i>Nutrition Programs
-                        </button>
-                    </div>
+    <!-- Hero Section -->
+    <section class="pt-32 bg-gradient-to-r from-primary-blue to-primary-green min-h-[60vh] flex items-center relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-pulse"></div>
+            <div class="absolute top-40 right-20 w-16 h-16 bg-white rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+            <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-white rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 py-20 text-center text-white relative z-10">
+            <div class="fade-in">
+                <h1 class="hero-title text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    Partner With Us
+                </h1>
+                <p class="hero-subtitle text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
+                    Join forces with HopeLink Mahama to create lasting impact in the refugee community through strategic partnerships.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="scrollToSection('partnershipTypes')" class="btn-responsive btn-professional bg-white text-primary-blue px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-handshake mr-2"></i>Explore Partnership Types
+                    </button>
+                    <button onclick="openModal('partnershipModal')" class="btn-responsive btn-professional bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-blue transition transform hover:scale-105">
+                        <i class="fas fa-file-signature mr-2"></i>Become a Partner
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <button onclick="scrollToSection('partnershipTypes')" class="text-white text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+    </section>
 
-        <!-- Executive Summary -->
-        <section class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-12 fade-in">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Food Security in Mahama Refugee Camp</h2>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive food distribution and nutrition programs for 60,000+ refugees</p>
+    <!-- Why Partner With Us Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-4">Why Partner With HopeLink Mahama?</h2>
+                <p class="section-subtitle text-xl text-gray-600 max-w-3xl mx-auto">Together, we can amplify our impact and create sustainable change in the Mahama Refugee Camp community</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-bullseye text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Shared Mission</h3>
+                    <p class="text-gray-600">Align your organization's values with our humanitarian mission to create meaningful social impact.</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 mb-8 fade-in">
-                    <div class="flex items-start">
-                        <i class="fas fa-utensils text-3xl text-orange-500 mr-4 mt-1"></i>
-                        <div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Overview</h3>
-                            <p class="text-gray-700 text-lg leading-relaxed">
-                                Mahama Refugee Camp faces significant food security challenges with over 60,000 residents relying on humanitarian assistance. 
-                                Our comprehensive food distribution system ensures regular access to nutritious food while specialized nutrition programs 
-                                target the most vulnerable groups including children under 5, pregnant and lactating women, elderly, and individuals with 
-                                chronic illnesses. Through strategic partnerships and community-based approaches, we're working to eliminate malnutrition 
-                                and build food resilience.
-                            </p>
-                        </div>
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
                     </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Measurable Impact</h3>
+                    <p class="text-gray-600">Track and report on the tangible outcomes of your partnership through our transparent monitoring systems.</p>
                 </div>
+                
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Community Integration</h3>
+                    <p class="text-gray-600">Work directly with refugee communities to develop solutions that address their most pressing needs.</p>
+                </div>
+            </div>
 
-                <!-- Key Food Security Statistics -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="stat-card text-white text-center p-6 rounded-2xl shadow-lg">
-                        <div class="text-3xl font-bold mb-2 counter" data-target="58000">0</div>
-                        <div class="text-lg">People Served Monthly</div>
+            <!-- Partnership Stats -->
+            <div class="text-center max-w-4xl mx-auto fade-in">
+                <h3 class="text-2xl font-bold text-gray-800 mb-8">Our Partnership Impact</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-blue mb-2 counter" data-target="15">0</div>
+                        <div class="text-sm font-semibold text-gray-800">Active Partners</div>
                     </div>
-                    <div class="stat-card text-white text-center p-6 rounded-2xl shadow-lg">
-                        <div class="text-3xl font-bold mb-2 counter" data-target="12">0</div>
-                        <div class="text-lg">Distribution Points</div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-green mb-2">$2.5M+</div>
+                        <div class="text-sm font-semibold text-gray-800">Funding Leveraged</div>
                     </div>
-                    <div class="stat-card text-white text-center p-6 rounded-2xl shadow-lg">
-                        <div class="text-3xl font-bold mb-2 counter" data-target="2100">0</div>
-                        <div class="text-lg">Children in Nutrition Programs</div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-yellow mb-2 counter" data-target="50">0</div>
+                        <div class="text-sm font-semibold text-gray-800">Projects Completed</div>
                     </div>
-                    <div class="stat-card text-white text-center p-6 rounded-2xl shadow-lg">
-                        <div class="text-3xl font-bold mb-2 counter" data-target="96">0</div>
-                        <div class="text-lg">Food Security Rate %</div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-blue mb-2">10K+</div>
+                        <div class="text-sm font-semibold text-gray-800">Lives Impacted</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Food Distribution Points -->
-        <section id="distribution-points" class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-12 fade-in">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Regular Food Distribution Points</h2>
-                    <p class="text-xl text-gray-600">Strategic locations ensuring equitable access to food assistance</p>
+    <!-- Partnership Types Section -->
+    <section id="partnershipTypes" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Partnership Opportunities</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">We offer various partnership models to match your organization's capacity and strategic goals</p>
+            </div>
+            
+            <!-- Partnership Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Corporate Partnership -->
+                <div class="partnership-card bg-white rounded-2xl shadow-md p-6 border border-gray-200">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Corporate Partnership</h3>
+                    <p class="text-gray-600 mb-4">Align your corporate social responsibility with our mission through financial support, in-kind donations, or employee engagement.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Financial contributions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>In-kind donations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Employee volunteering</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Skills-based support</span>
+                        </li>
+                    </ul>
+                    <button onclick="openLearnMoreModal('corporate')" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                        <i class="fas fa-info-circle mr-2"></i>Learn More
+                    </button>
                 </div>
+                
+                <!-- NGO Partnership -->
+                <div class="partnership-card bg-white rounded-2xl shadow-md p-6 border border-gray-200">
+                    <div class="w-16 h-16 bg-primary-green rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-hands-helping text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">NGO Partnership</h3>
+                    <p class="text-gray-600 mb-4">Collaborate with us on program implementation, research, advocacy, or capacity building initiatives.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Program collaboration</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Joint funding proposals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Knowledge sharing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Advocacy campaigns</span>
+                        </li>
+                    </ul>
+                    <button onclick="openLearnMoreModal('ngo')" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                        <i class="fas fa-info-circle mr-2"></i>Learn More
+                    </button>
+                </div>
+                
+                <!-- Academic Partnership -->
+                <div class="partnership-card bg-white rounded-2xl shadow-md p-6 border border-gray-200">
+                    <div class="w-16 h-16 bg-primary-yellow rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Academic Partnership</h3>
+                    <p class="text-gray-600 mb-4">Partner with us for research, student internships, curriculum development, or community-based learning.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Research collaborations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Student internships</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Curriculum development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                            <span>Knowledge exchange</span>
+                        </li>
+                    </ul>
+                    <button onclick="openLearnMoreModal('academic')" class="w-full bg-primary-yellow text-gray-800 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center justify-center">
+                        <i class="fas fa-info-circle mr-2"></i>Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-orange-500 fade-in hover-lift mb-8">
-                    <div class="p-8">
-                        <div class="flex items-start justify-between mb-6">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-warehouse text-orange-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-bold text-gray-800">Main Distribution Centers</h3>
-                                    <p class="text-gray-600">Centralized food distribution hubs</p>
-                                </div>
-                            </div>
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">
-                                <i class="fas fa-truck mr-1"></i>4 Centers
-                            </span>
+    <!-- Current Partners Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Valued Partners</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">We're proud to collaborate with these organizations who share our commitment to creating positive change</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div class="bg-gray-100 p-6 rounded-lg flex items-center justify-center h-32">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-leaf text-white"></i>
                         </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div>
-                                <h4 class="font-semibold text-gray-700 mb-4 text-lg">Distribution Schedule & Process</h4>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                                        <span>Bi-weekly distributions on 1st and 15th of each month</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                                        <span>Digital registration and e-voucher system for efficiency</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                                        <span>Priority access for vulnerable groups and persons with disabilities</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                                        <span>Community volunteers assist with distribution logistics</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="bg-orange-50 rounded-lg p-6">
-                                <h4 class="font-semibold text-gray-700 mb-4 text-lg">Standard Food Basket</h4>
-                                <div class="space-y-2">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-wheat-alt text-orange-600 mr-3"></i>
-                                        <span>Maize flour (12kg per person/month)</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <i class="fas fa-seedling text-green-600 mr-3"></i>
-                                        <span>Beans (3kg per person/month)</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <i class="fas fa-oil-can text-yellow-600 mr-3"></i>
-                                        <span>Cooking oil (1L per person/month)</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <i class="fas fa-cube text-blue-600 mr-3"></i>
-                                        <span>Corn Soy Blend (2kg per child/month)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="font-semibold text-gray-800">Green Future</span>
                     </div>
                 </div>
-
-                <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-green-500 fade-in hover-lift">
-                    <div class="p-8">
-                        <div class="flex items-start justify-between mb-6">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-map-marked-alt text-green-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-bold text-gray-800">Neighborhood Distribution Points</h3>
-                                    <p class="text-gray-600">Decentralized access points for community convenience</p>
-                                </div>
-                            </div>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-                                <i class="fas fa-users mr-1"></i>8 Locations
-                            </span>
+                <div class="bg-gray-100 p-6 rounded-lg flex items-center justify-center h-32">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-heart text-white"></i>
                         </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div>
-                                <h4 class="font-semibold text-gray-700 mb-4 text-lg">Location Strategy</h4>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                                        <span>Strategic placement within 1km of all residential zones</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                                        <span>Mobile distribution for remote or inaccessible areas</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                                        <span>Extended hours during distribution days (6AM-6PM)</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                                        <span>Separate queues for vulnerable groups to reduce waiting time</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="bg-green-50 rounded-lg p-6">
-                                <h4 class="font-semibold text-gray-700 mb-4 text-lg">Community Benefits</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-700">Average Wait Time:</span>
-                                        <span class="font-semibold text-green-600">45 mins</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-700">Accessibility:</span>
-                                        <span class="font-semibold text-green-600">98% coverage</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-700">Satisfaction Rate:</span>
-                                        <span class="font-semibold text-green-600">94%</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <span class="font-semibold text-gray-800">Health First</span>
+                    </div>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg flex items-center justify-center h-32">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-book text-white"></i>
                         </div>
+                        <span class="font-semibold text-gray-800">EduConnect</span>
+                    </div>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg flex items-center justify-center h-32">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-laptop text-white"></i>
+                        </div>
+                        <span class="font-semibold text-gray-800">TechForGood</span>
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <div class="text-center">
+                <button onclick="openModal('partnershipModal')" class="btn-professional bg-primary-green text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-handshake mr-2"></i>Become Our Partner
+                </button>
+            </div>
+        </div>
+    </section>
 
-        <!-- Nutrition Support Programs -->
-        <section id="nutrition-support" class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-12 fade-in">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Nutrition Support for Vulnerable Groups</h2>
-                    <p class="text-xl text-gray-600">Specialized programs targeting those most at risk of malnutrition</p>
+    <!-- Partnership Process Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Partnership Process</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">We've designed a straightforward process to establish meaningful and impactful partnerships</p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">1</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Initial Discussion</h3>
+                    <p class="text-gray-600">We explore mutual interests and alignment between our organizations</p>
                 </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-purple-500 fade-in hover-lift p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-baby text-purple-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800">Child Nutrition Program</h3>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-purple-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Supplementary Feeding</h4>
-                                    <p class="text-gray-600 text-sm">Therapeutic food for moderately malnourished children (6-59 months)</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-purple-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Growth Monitoring</h4>
-                                    <p class="text-gray-600 text-sm">Monthly weight and height checks at community health posts</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-purple-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Nutrition Education</h4>
-                                    <p class="text-gray-600 text-sm">Cooking demonstrations and feeding practices for caregivers</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 bg-purple-50 rounded-lg p-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-700">Children Supported:</span>
-                                <span class="font-semibold text-purple-600">2,100+ monthly</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-pink-500 fade-in hover-lift p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-female text-pink-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800">Maternal Nutrition</h3>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-pink-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Pregnant Women Support</h4>
-                                    <p class="text-gray-600 text-sm">Extra rations and micronutrient supplements</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-pink-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Lactating Mothers</h4>
-                                    <p class="text-gray-600 text-sm">Enhanced food basket for first 6 months postpartum</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-pink-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Breastfeeding Support</h4>
-                                    <p class="text-gray-600 text-sm">Counseling and mother-to-mother support groups</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 bg-pink-50 rounded-lg p-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-700">Women Supported:</span>
-                                <span class="font-semibold text-pink-600">850+ monthly</span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">2</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Proposal Development</h3>
+                    <p class="text-gray-600">We co-create a partnership proposal outlining goals and expectations</p>
                 </div>
-
-                <!-- Additional Nutrition Programs -->
-                <div class="grid md:grid-cols-2 gap-8 mt-8">
-                    <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-blue-500 fade-in hover-lift p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-user-injured text-blue-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800">Medical Nutrition Therapy</h3>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-blue-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Chronic Illness Support</h4>
-                                    <p class="text-gray-600 text-sm">Specialized diets for TB, HIV/AIDS, and other chronic conditions</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-blue-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Elderly Nutrition</h4>
-                                    <p class="text-gray-600 text-sm">Softer foods and nutrient-dense options for seniors</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="food-card bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-yellow-500 fade-in hover-lift p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-seedling text-yellow-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800">Community Gardens</h3>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-yellow-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Food Production</h4>
-                                    <p class="text-gray-600 text-sm">15 community gardens producing fresh vegetables</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-yellow-500 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800">Nutrition Diversity</h4>
-                                    <p class="text-gray-600 text-sm">Increasing access to micronutrient-rich foods</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 bg-yellow-50 rounded-lg p-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-700">Gardens Active:</span>
-                                <span class="font-semibold text-yellow-600">15 locations</span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">3</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Agreement Finalization</h3>
+                    <p class="text-gray-600">We formalize our partnership through a mutually beneficial agreement</p>
+                </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">4</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Implementation & Review</h3>
+                    <p class="text-gray-600">We launch the partnership and regularly assess our collective impact</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Partner Organizations -->
-        <section class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-12 fade-in">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Partner Organizations</h2>
-                    <p class="text-xl text-gray-600">Collaborating for comprehensive food security solutions</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-gray-50 rounded-2xl p-6 text-center fade-in hover-lift">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-globe-africa text-orange-600 text-2xl"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">World Food Programme</h4>
-                        <p class="text-gray-600 text-sm">Primary food supplier and logistics coordination</p>
-                    </div>
-                    
-                    <div class="bg-gray-50 rounded-2xl p-6 text-center fade-in hover-lift">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-university text-green-600 text-2xl"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">UNHCR</h4>
-                        <p class="text-gray-600 text-sm">Coordination, protection, and overall camp management</p>
-                    </div>
-                    
-                    <div class="bg-gray-50 rounded-2xl p-6 text-center fade-in hover-lift">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-hands-helping text-blue-600 text-2xl"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">ARC</h4>
-                        <p class="text-gray-600 text-sm">Nutrition program implementation and monitoring</p>
-                    </div>
-                    
-                    <div class="bg-gray-50 rounded-2xl p-6 text-center fade-in hover-lift">
-                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-cross text-red-600 text-2xl"></i>
-                        </div>
-                        <h4 class="font-semibold text-gray-800 mb-2">Red Cross</h4>
-                        <p class="text-gray-600 text-sm">Emergency response and community mobilization</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Challenges & Opportunities -->
-        <section class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Challenges -->
-                    <div class="fade-in">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-3 text-orange-600"></i>
-                            Key Challenges
-                        </h2>
-                        <div class="space-y-4">
-                            <div class="flex items-start p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
-                                <i class="fas fa-truck-loading text-orange-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Supply Chain Disruptions</h4>
-                                    <p class="text-gray-700 mt-1">Delays in food deliveries due to logistical challenges and funding gaps</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
-                                <i class="fas fa-child text-red-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Persistent Malnutrition</h4>
-                                    <p class="text-gray-700 mt-1">12% global acute malnutrition rate among children under 5</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
-                                <i class="fas fa-tint text-purple-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Water & Sanitation</h4>
-                                    <p class="text-gray-700 mt-1">Limited clean water affecting food preparation and nutrition</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Opportunities -->
-                    <div class="fade-in">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                            <i class="fas fa-lightbulb mr-3 text-green-600"></i>
-                            Future Opportunities
-                        </h2>
-                        <div class="space-y-4">
-                            <div class="flex items-start p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
-                                <i class="fas fa-mobile-alt text-green-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Digital Food Vouchers</h4>
-                                    <p class="text-gray-700 mt-1">Expanding cash-based transfers for greater food choice</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-                                <i class="fas fa-industry text-blue-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Local Food Production</h4>
-                                    <p class="text-gray-700 mt-1">Scaling up community gardens and small-scale agriculture</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
-                                <i class="fas fa-graduation-cap text-yellow-600 mt-1 mr-4"></i>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 text-lg">Nutrition Education</h4>
-                                    <p class="text-gray-700 mt-1">Expanding community-based nutrition training programs</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
@@ -1190,32 +988,20 @@
                         </div>
                     </div>
                     <p class="text-gray-400 text-sm">
-                        Ensuring food security and nutrition for refugees in Mahama Camp, Rwanda.
+                        Empowering refugees through technology and innovation in Mahama Camp, Rwanda.
                     </p>
                 </div>
-                
+
                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Food Programs</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-center">
-                            <i class="fas fa-warehouse mr-3 text-xs"></i>
-                            Distribution Centers
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-baby mr-3 text-xs"></i>
-                            Child Nutrition
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-female mr-3 text-xs"></i>
-                            Maternal Support
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-seedling mr-3 text-xs"></i>
-                            Community Gardens
-                        </li>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-home mr-2 text-xs"></i>Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-info-circle mr-2 text-xs"></i>About</a></li>
+                        <li><a href="get-involved.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-handshake mr-2 text-xs"></i>Get Involved</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-envelope mr-2 text-xs"></i>Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
                     <div class="space-y-2 text-gray-400">
@@ -1225,7 +1011,7 @@
                         </p>
                         <p class="flex items-center">
                             <i class="fas fa-envelope mr-3"></i>
-                            foodsecurity.hopelink@gmail.com
+                            hopelink.mahama@gmail.com
                         </p>
                         <p class="flex items-center">
                             <i class="fas fa-phone mr-3"></i>
@@ -1233,7 +1019,7 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
                     <div class="flex space-x-4">
@@ -1250,15 +1036,136 @@
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
+
+                    <!-- Newsletter Signup -->
+                    <div class="mt-6">
+                        <h5 class="text-sm font-semibold mb-2">Stay Updated</h5>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded-l text-sm focus:outline-none">
+                            <button id="newsletterBtn" class="bg-primary-green text-white px-3 py-2 rounded-r text-sm hover:bg-green-600 transition">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 HopeLink Mahama — Ensuring Food Security for Refugees.</p>
-                <p class="text-xs mt-2">Data Sources: WFP, UNHCR, ARC, Red Cross, Camp Management</p>
+                <p>&copy; 2025 HopeLink Mahama — Empowering Refugees Through Innovation.</p>
+                <p class="text-xs mt-2">All rights reserved. Registered non-profit organization.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Partnership Modal -->
+    <div id="partnershipModal" class="modal">
+        <div class="modal-content program-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Become a Partner</h3>
+                <button class="close-modal text-gray-500 hover:text-gray-700" data-modal="partnershipModal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-lg text-blue-800 mb-2">Partnership Inquiry</h4>
+                    <p class="text-gray-700">We're excited about your interest in partnering with HopeLink Mahama! Please fill out the form below and our partnership team will contact you shortly.</p>
+                </div>
+                
+                <!-- Partnership Inquiry Form -->
+                <div class="pt-4">
+                    <form id="partnershipForm" class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Organization Name</label>
+                                <input type="text" name="organizationName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Organization Type</label>
+                                <select name="organizationType" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                                    <option value="">Select Type</option>
+                                    <option value="corporate">Corporate</option>
+                                    <option value="ngo">NGO/Non-profit</option>
+                                    <option value="academic">Academic Institution</option>
+                                    <option value="government">Government Agency</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Contact Person</label>
+                                <input type="text" name="contactPerson" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Position/Title</label>
+                                <input type="text" name="position" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" name="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" name="phone" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">Partnership Type of Interest</label>
+                            <select name="partnershipType" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                                <option value="">Select Partnership Type</option>
+                                <option value="corporate">Corporate Partnership</option>
+                                <option value="ngo">NGO Partnership</option>
+                                <option value="academic">Academic Partnership</option>
+                                <option value="not-sure">Not Sure - Would Like to Discuss</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">Tell Us About Your Organization</label>
+                            <textarea name="organizationInfo" rows="3" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue" placeholder="Brief description of your organization's mission and work..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">Partnership Ideas or Areas of Interest</label>
+                            <textarea name="partnershipIdeas" rows="3" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue" placeholder="How do you envision partnering with HopeLink Mahama? What specific areas interest you?"></textarea>
+                        </div>
+                        
+                        <div class="pt-4 flex gap-2">
+                            <button type="button" class="close-modal flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition flex items-center justify-center" data-modal="partnershipModal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="flex-1 bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                                <i class="fas fa-paper-plane mr-2"></i>Submit Inquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learn More Modal -->
+    <div id="learnMoreModal" class="modal">
+        <div class="modal-content program-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="learnMoreTitle" class="text-2xl font-bold text-gray-800">Partnership Details</h3>
+                <button class="close-modal text-gray-500 hover:text-gray-700" data-modal="learnMoreModal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="learnMoreContent" class="space-y-4">
+                <!-- Content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
 
     <!-- Donate Modal -->
     <div id="donateModal" class="modal">
@@ -1272,16 +1179,13 @@
 
             <form id="donationForm" class="space-y-4">
                 <div>
-                    <label class="block text-gray-700 mb-2">Donation Amount (RWF)</label>
+                    <label class="block text-gray-700 mb-2">Donation Amount</label>
                     <div class="grid grid-cols-3 gap-2 mb-2">
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="5000">5,000</button>
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="10000">10,000</button>
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="25000">25,000</button>
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="50000">50,000</button>
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="100000">100,000</button>
-                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="250000">250,000</button>
+                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="10">$10</button>
+                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="25">$25</button>
+                        <button type="button" class="donation-amount border border-gray-300 py-2 rounded hover:bg-gray-50 transition" data-amount="50">$50</button>
                     </div>
-                    <input type="number" id="customAmount" placeholder="Custom Amount" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
+                    <input type="text" id="customAmount" placeholder="Custom amount" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
                 </div>
 
                 <div>
@@ -1292,15 +1196,6 @@
                 <div>
                     <label class="block text-gray-700 mb-2">Email</label>
                     <input type="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 mb-2">Payment Method</label>
-                    <select class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-green">
-                        <option value="mobile">Mobile Money</option>
-                        <option value="bank">Bank Transfer</option>
-                        <option value="card">Credit Card</option>
-                    </select>
                 </div>
 
                 <div class="pt-4">
@@ -1408,6 +1303,12 @@
                 }
             });
 
+            // Partnership form submission
+            document.getElementById('partnershipForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitPartnershipInquiry();
+            });
+
             // Donation form functionality
             const donationForm = document.getElementById('donationForm');
             if (donationForm) {
@@ -1437,7 +1338,18 @@
                 });
             });
 
-            // Footer social media buttons
+            // Footer newsletter button
+            document.getElementById('newsletterBtn').addEventListener('click', function() {
+                const emailInput = this.parentElement.querySelector('input[type="email"]');
+                if (emailInput.value) {
+                    showNotification('Thank you for subscribing to our newsletter!', 'success');
+                    emailInput.value = '';
+                } else {
+                    showNotification('Please enter your email address.', 'error');
+                }
+            });
+
+            // Social media buttons
             document.querySelectorAll('footer a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1446,6 +1358,88 @@
                 });
             });
         });
+
+        // Partnership data for Learn More modals
+        const partnershipDetails = {
+            corporate: {
+                title: "Corporate Partnership",
+                description: "Corporate partnerships with HopeLink Mahama provide businesses with meaningful opportunities to align their corporate social responsibility initiatives with our humanitarian mission.",
+                benefits: [
+                    "Enhanced brand reputation and visibility",
+                    "Employee engagement and team building opportunities",
+                    "Positive social impact in refugee communities",
+                    "Networking with other socially responsible organizations",
+                    "Tax benefits for eligible contributions"
+                ],
+                examples: [
+                    "Financial sponsorship of specific programs",
+                    "In-kind donations of goods or services",
+                    "Employee volunteer programs",
+                    "Skills-based volunteering (pro bono services)",
+                    "Cause-related marketing campaigns"
+                ],
+                process: [
+                    "Initial consultation to identify shared goals",
+                    "Development of partnership proposal",
+                    "Agreement on deliverables and expectations",
+                    "Implementation and regular progress reviews",
+                    "Impact assessment and reporting"
+                ]
+            },
+            ngo: {
+                title: "NGO Partnership",
+                description: "NGO partnerships allow us to combine resources, expertise, and networks to create greater impact in the Mahama Refugee Camp community.",
+                benefits: [
+                    "Shared resources and reduced operational costs",
+                    "Expanded reach and program impact",
+                    "Knowledge sharing and capacity building",
+                    "Joint advocacy and policy influence",
+                    "Access to new funding opportunities"
+                ],
+                examples: [
+                    "Joint program implementation",
+                    "Collaborative research projects",
+                    "Shared training and capacity building",
+                    "Coordinated advocacy campaigns",
+                    "Resource and information sharing"
+                ],
+                process: [
+                    "Assessment of alignment and complementary strengths",
+                    "Development of joint work plan",
+                    "Resource mobilization and allocation",
+                    "Implementation with regular coordination",
+                    "Monitoring, evaluation, and learning"
+                ]
+            },
+            academic: {
+                title: "Academic Partnership",
+                description: "Academic partnerships bridge the gap between theory and practice, bringing research expertise and student energy to address real-world challenges in refugee settings.",
+                benefits: [
+                    "Access to cutting-edge research and expertise",
+                    "Opportunities for student learning and engagement",
+                    "Evidence-based program development",
+                    "Publication and knowledge dissemination",
+                    "Long-term capacity building"
+                ],
+                examples: [
+                    "Research collaborations on refugee issues",
+                    "Student internships and field placements",
+                    "Curriculum development and co-teaching",
+                    "Joint conferences and workshops",
+                    "Community-based participatory research"
+                ],
+                process: [
+                    "Identification of shared research or learning interests",
+                    "Development of collaboration framework",
+                    "Ethical review and approval processes",
+                    "Implementation with community engagement",
+                    "Dissemination of findings and learnings"
+                ]
+            }
+        };
+
+        // Track current partnership type for form pre-fill
+        let currentPartnershipType = '';
 
         // ========== MODAL FUNCTIONALITY ==========
         function openModal(modalId) {
@@ -1469,6 +1463,16 @@
             if (event.target.classList.contains('modal')) {
                 closeModal(event.target.id);
             }
+        });
+
+        // ========== BUTTON EVENT LISTENERS ==========
+        // Donate buttons
+        document.getElementById('donateBtn')?.addEventListener('click', function() {
+            openModal('donateModal');
+        });
+
+        document.getElementById('mobileDonateBtn')?.addEventListener('click', function() {
+            openModal('donateModal');
         });
 
         // ========== NOTIFICATION SYSTEM ==========
@@ -1550,6 +1554,133 @@
             }, 20);
         }
 
+        // ========== PARTNERSHIP FUNCTIONALITY ==========
+        // Open Learn More modal with specific partnership details
+        function openLearnMoreModal(partnershipType) {
+            const details = partnershipDetails[partnershipType];
+            if (!details) return;
+            
+            // Store current partnership type for form pre-fill
+            currentPartnershipType = partnershipType;
+            
+            // Set modal title
+            document.getElementById('learnMoreTitle').textContent = details.title;
+            
+            // Build modal content
+            const contentContainer = document.getElementById('learnMoreContent');
+            contentContainer.innerHTML = `
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-lg text-blue-800 mb-2">Overview</h4>
+                    <p class="text-gray-700">${details.description}</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-3">Key Benefits</h4>
+                    <ul class="space-y-2">
+                        ${details.benefits.map(benefit => `
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>${benefit}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-3">Partnership Examples</h4>
+                    <ul class="space-y-2">
+                        ${details.examples.map(example => `
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-primary-yellow mt-1 mr-2"></i>
+                                <span>${example}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-3">Partnership Process</h4>
+                    <ol class="space-y-2 list-decimal list-inside">
+                        ${details.process.map(step => `
+                            <li class="text-gray-700">${step}</li>
+                        `).join('')}
+                    </ol>
+                </div>
+                
+                <div class="pt-4">
+                    <button onclick="startPartnershipDiscussion('${partnershipType}')" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                        <i class="fas fa-handshake mr-2"></i>Start Partnership Discussion
+                    </button>
+                </div>
+            `;
+            
+            // Open the modal
+            openModal('learnMoreModal');
+        }
+
+        // Start partnership discussion - enhanced function
+        function startPartnershipDiscussion(partnershipType) {
+            // Close the Learn More modal
+            closeModal('learnMoreModal');
+            
+            // Open the partnership form modal
+            openModal('partnershipModal');
+            
+            // Pre-fill the partnership type in the form
+            const partnershipTypeSelect = document.querySelector('select[name="partnershipType"]');
+            if (partnershipTypeSelect) {
+                let valueToSelect = '';
+                switch(partnershipType) {
+                    case 'corporate':
+                        valueToSelect = 'corporate';
+                        break;
+                    case 'ngo':
+                        valueToSelect = 'ngo';
+                        break;
+                    case 'academic':
+                        valueToSelect = 'academic';
+                        break;
+                    default:
+                        valueToSelect = 'not-sure';
+                }
+                
+                partnershipTypeSelect.value = valueToSelect;
+                
+                // Show confirmation message
+                setTimeout(() => {
+                    showNotification(`Partnership type pre-filled to "${partnershipTypeSelect.options[partnershipTypeSelect.selectedIndex].text}"`, 'success');
+                }, 300);
+            }
+        }
+
+        // Submit partnership inquiry
+        function submitPartnershipInquiry() {
+            // In a real application, you would send this data to a server
+            const formData = {
+                organizationName: document.querySelector('input[name="organizationName"]').value,
+                organizationType: document.querySelector('select[name="organizationType"]').value,
+                contactPerson: document.querySelector('input[name="contactPerson"]').value,
+                position: document.querySelector('input[name="position"]').value,
+                email: document.querySelector('input[name="email"]').value,
+                phone: document.querySelector('input[name="phone"]').value,
+                partnershipType: document.querySelector('select[name="partnershipType"]').value,
+                organizationInfo: document.querySelector('textarea[name="organizationInfo"]').value,
+                partnershipIdeas: document.querySelector('textarea[name="partnershipIdeas"]').value
+            };
+            
+            console.log('Partnership inquiry submitted:', formData);
+            
+            // Show success message
+            showNotification(`Thank you for your partnership inquiry, ${formData.contactPerson}! Our team will contact you shortly.`, 'success');
+            
+            // Close modal and reset form
+            closeModal('partnershipModal');
+            document.getElementById('partnershipForm').reset();
+            
+            // Reset current partnership type
+            currentPartnershipType = '';
+        }
+
         // ========== INITIALIZATION ==========
         document.addEventListener('DOMContentLoaded', function() {
             // Observe counter elements and animate when visible
@@ -1584,7 +1715,7 @@
         // Show welcome notification after page loads
         window.addEventListener('load', function() {
             setTimeout(() => {
-                showNotification('Welcome to our Food Distribution & Nutrition Support page.', 'success');
+                showNotification('Welcome to our Partnerships page. Let\'s create meaningful impact together.', 'success');
             }, 1000);
         });
     </script>

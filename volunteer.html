@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer - HopeLink Mahama</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3B82F6',
+                        'primary-green': '#10B981',
+                        'primary-yellow': '#F59E0B',
+                        'primary-light': '#FEF3C7',
+                        'primary-dark': '#1E293B'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in-up': 'fadeInUp 0.6s ease forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Professional navigation styles */
+        .nav-professional {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .nav-item {
+            position: relative;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-item:hover::after {
+            width: 100%;
+        }
+        .donate-btn {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+       
+        /* Login and Signup button styles */
+        .login-btn {
+            background: transparent;
+            border: 2px solid #3B82F6;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .login-btn:hover {
+            background: #3B82F6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        .signup-btn {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+       
+        /* Opportunities button specific styling */
+        .opportunities-btn {
+            background: #F59E0B;
+            color: #1F2937;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .opportunities-btn:hover {
+            background: #D97706;
+        }
+       
+        /* Logo text sizing */
+        .logo-main {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .logo-sub {
+            font-size: 11px;
+            font-weight: 600;
+        }
+       
+        /* Mobile navigation font sizes */
+        .mobile-nav-item {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Animation Styles */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.success {
+            background-color: #10B981;
+        }
+        .notification.error {
+            background-color: #EF4444;
+        }
+        
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .dropdown-content.active {
+            display: block;
+        }
+        
+        /* Mobile dropdown styles */
+        .mobile-dropdown-content {
+            display: none;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+        .mobile-dropdown-content.active {
+            display: block;
+        }
+        
+        /* Scroll progress bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            z-index: 1002;
+            transition: width 0.3s ease;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Professional button animations */
+        .btn-professional {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-professional::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-professional:hover::before {
+            left: 100%;
+        }
+        
+        /* Modern card styles */
+        .card-modern {
+            background: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+        .card-modern:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Modern badges */
+        .badge-modern {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-remote {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .badge-onsite {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .badge-flexible {
+            background: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        /* Modern filter buttons */
+        .filter-btn-modern {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .volunteer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Modern section backgrounds */
+        .section-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .section-light {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 1280px) {
+            .desktop-nav {
+                display: none !important;
+            }
+            .mobile-menu-btn {
+                display: block !important;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .lg-md\:flex {
+                display: flex !important;
+            }
+            .lg-md\:hidden {
+                display: none !important;
+            }
+            .desktop-nav {
+                display: flex !important;
+            }
+            .mobile-menu-btn {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+            }
+            .section-title {
+                font-size: 2rem !important;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+
+        @media (max-width: 475px) {
+            .hero-title {
+                font-size: 2rem !important;
+            }
+            .section-title {
+                font-size: 1.75rem !important;
+            }
+            .logo-main {
+                font-size: 18px;
+            }
+            .logo-sub {
+                font-size: 10px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) {
+            .nav-item:hover::after {
+                width: 0;
+            }
+            .btn-professional:hover::before {
+                left: -100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 scroll-smooth">
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Section Indicator -->
+    <div class="section-indicator">
+        <div class="section-dot active" data-section="hero"></div>
+        <div class="section-dot" data-section="whyVolunteer"></div>
+        <div class="section-dot" data-section="volunteerRoles"></div>
+        <div class="section-dot" data-section="volunteerProcess"></div>
+        <div class="section-dot" data-section="testimonials"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-professional shadow-lg fixed w-full z-50 transition-all duration-300" id="mainNav">
+        <div class="max-w-full mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo Section -->
+                <div class="flex items-center flex-shrink-0">
+                    <div class="flex items-center">
+                        <div class="bg-gradient-to-r from-primary-blue to-primary-green p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="logo-main text-gray-800">HopeLink</div>
+                            <div class="logo-sub text-primary-green">Mahama Refugee Camp</div>
+                        </div>
+                    </div>
+                </div>
+               
+                <!-- Desktop Navigation -->
+                <div class="desktop-nav hidden lg-md:flex items-center flex-1 justify-center">
+                    <div class="flex items-center space-x-3 lg-md:space-x-4 xl:space-x-5">
+                        <a href="./index.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Home</a>
+                       
+                        <!-- Programs Dropdown -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center" data-dropdown="programs">
+                                Programs <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="programs-dropdown">
+                                <a href="./hunger-help.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Hunger Help</a>
+                                <a href="./Youth Empowerment .html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Youth Empowerment</a>
+                                <a href="./mental-wellness.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Mental Wellness</a>
+                            </div>
+                        </div>
+                       
+                        <a href="./about-us.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">who we are</a>
+                        <a href="./get-involved.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Get Involved</a>
+                       
+                        <!-- News & Updates -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn text-gray-600 hover:text-primary-blue transition duration-300 flex items-center" data-dropdown="news">
+                                News & Updates <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="news-dropdown">
+                                <a href="./advertisement.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Advertisement</a>
+                                <a href="stories.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Success Stories</a>
+                            </div>
+                        </div>
+                       
+                        <a href="./contact.html" class="nav-item text-gray-600 hover:text-primary-blue transition duration-300">Contact</a>
+                       
+                        <!-- Opportunities -->
+                        <div class="dropdown relative">
+                            <button class="nav-item dropdown-btn opportunities-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition duration-300 flex items-center" data-dropdown="opportunities">
+                                Opportunities <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="dropdown-content" id="opportunities-dropdown">
+                                <a href="volunteer.html" class="block px-4 py-2 text-primary-blue font-semibold hover:bg-blue-50 transition">Volunteer</a>
+                                <a href="careers.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Careers</a>
+                                <a href="partnerships.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition">Partnerships</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section with Login, Signup, and Donate -->
+                <div class="desktop-nav hidden lg-md:flex items-center space-x-2 lg-md:space-x-3 flex-shrink-0">
+                    <a href="login.html" class="login-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition flex items-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </a>
+                    <a href="signup.html" class="signup-btn px-3 py-2 lg-md:px-4 lg-md:py-2 rounded-lg transition flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i>Sign Up
+                    </a>
+                    <button onclick="openModal('donateModal')" class="donate-btn btn-professional bg-primary-green text-white px-4 py-2 lg-md:px-5 lg-md:py-2 rounded-lg transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-heart mr-2"></i>Donate
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="mobile-menu-btn lg-md:hidden text-gray-600 hover:text-primary-blue transition flex-shrink-0">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+           
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="mobile-menu lg-md:hidden">
+                <div class="px-4 py-2 space-y-3">
+                    <a href="./index.html" class="block mobile-nav-item text-gray-600 hover:text-primary-blue transition">Home</a>
+                   
+                    <!-- Programs Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
+                            Programs <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="./hunger-help.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Hunger Help</a>
+                            <a href="./Youth Empowerment .html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Youth Empowerment</a>
+                            <a href="./mental-wellness.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Mental Wellness</a>
+                        </div>
+                    </div>
+                   
+                    <a href="./about-us.html" class="block py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition">About</a>
+                    <a href="./get-involved.html" class="block py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition">Get Involved</a>
+                   
+                    <!-- News & Updates Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition flex items-center justify-between">
+                            News & Updates <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="./advertisement.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Advertisement</a>
+                            <a href="stories.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Success Stories</a>
+                        </div>
+                    </div>
+                   
+                    <a href="./contact.html" class="block py-2 mobile-nav-item text-gray-600 hover:text-primary-blue transition">Contact</a>
+                   
+                    <!-- Opportunities Mobile Dropdown -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-btn w-full text-left py-2 opportunities-btn rounded-lg transition flex items-center justify-between px-4">
+                            Opportunities <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="mobile-dropdown-content">
+                            <a href="volunteer.html" class="block py-2 text-primary-blue font-semibold hover:text-primary-blue transition pl-4">Volunteer</a>
+                            <a href="careers.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Careers</a>
+                            <a href="partnerships.html" class="block py-2 text-gray-600 hover:text-primary-blue transition pl-4">Partnerships</a>
+                        </div>
+                    </div>
+                   
+                    <!-- Login and Signup buttons for mobile -->
+                    <div class="flex flex-col space-y-2 pt-2">
+                        <a href="login.html" class="login-btn px-4 py-2 rounded-lg transition flex items-center justify-center">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </a>
+                        <a href="signup.html" class="signup-btn px-4 py-2 rounded-lg transition flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i>Sign Up
+                        </a>
+                    </div>
+                   
+                    <button onclick="openModal('donateModal')" class="w-full donate-btn btn-professional bg-primary-green text-white px-6 py-2 rounded-lg transition transform hover:scale-105 text-left flex items-center">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="pt-32 bg-gradient-to-r from-primary-blue to-primary-green min-h-[60vh] flex items-center relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-white rounded-full animate-float"></div>
+            <div class="absolute top-1/3 right-1/4 w-48 h-48 bg-white rounded-full animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-1/4 left-1/3 w-56 h-56 bg-white rounded-full animate-float" style="animation-delay: 4s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 py-20 text-center lg:text-left text-white relative z-10">
+            <div class="fade-in lg:w-1/2">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    Become a Volunteer
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl">
+                    Join our community of changemakers and make a direct impact in the lives of refugees at Mahama Camp.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button onclick="scrollToSection('volunteerRoles')" class="btn-professional bg-white text-primary-blue px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-search mr-2"></i>Explore Volunteer Roles
+                    </button>
+                    <button onclick="openModal('volunteerModal')" class="btn-professional bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-blue transition transform hover:scale-105">
+                        <i class="fas fa-user-plus mr-2"></i>Apply Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+            <button onclick="scrollToSection('whyVolunteer')" class="text-white text-2xl animate-bounce-slow">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Why Volunteer Section -->
+    <section id="whyVolunteer" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Volunteer With HopeLink Mahama?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Join a community dedicated to creating positive change through hands-on service and meaningful connections</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-heart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Direct Impact</h3>
+                    <p class="text-gray-600">See the immediate results of your work as you help improve lives in the refugee community.</p>
+                </div>
+                
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Community Building</h3>
+                    <p class="text-gray-600">Connect with like-minded individuals and build lasting relationships with community members.</p>
+                </div>
+                
+                <div class="text-center fade-in hover-lift p-6 rounded-2xl bg-primary-light">
+                    <div class="w-20 h-20 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Skill Development</h3>
+                    <p class="text-gray-600">Gain valuable experience and develop new skills in a supportive, cross-cultural environment.</p>
+                </div>
+            </div>
+
+            <!-- Volunteer Stats with Images -->
+            <div class="text-center max-w-4xl mx-auto fade-in">
+                <h3 class="text-2xl font-bold text-gray-800 mb-8">Our Volunteer Impact</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-blue mb-2">500+</div>
+                        <div class="text-sm font-semibold text-gray-800">Active Volunteers</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-green mb-2">50K+</div>
+                        <div class="text-sm font-semibold text-gray-800">Hours Contributed</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-yellow mb-2">100+</div>
+                        <div class="text-sm font-semibold text-gray-800">Projects Supported</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-3xl font-bold text-primary-blue mb-2">95%</div>
+                        <div class="text-sm font-semibold text-gray-800">Satisfaction Rate</div>
+                    </div>
+                </div>
+                
+                <!-- Impact Image -->
+                <div class="mt-12 img-container h-64">
+                    <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80" 
+                         alt="Volunteers making an impact" class="w-full h-full object-cover rounded-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Roles Section -->
+    <section id="volunteerRoles" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Volunteer Opportunities</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">We offer various volunteer roles to match your skills, interests, and availability</p>
+            </div>
+            
+            <!-- Role Filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn filter-active px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition" data-filter="all">All Roles</button>
+                <button class="filter-btn px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition" data-filter="education">Education</button>
+                <button class="filter-btn px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition" data-filter="health">Health & Wellness</button>
+                <button class="filter-btn px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition" data-filter="technology">Technology</button>
+                <button class="filter-btn px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition" data-filter="community">Community Support</button>
+            </div>
+            
+            <!-- Volunteer Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="volunteerContainer">
+                <!-- Education Tutor -->
+                <div class="volunteer-card bg-white rounded-2xl shadow-md overflow-hidden" data-category="education">
+                    <div class="img-container h-48">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1122&q=80" 
+                             alt="Education tutoring" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Education Tutor</h3>
+                            <span class="volunteer-badge badge-onsite">On-site</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>5-10 hours/week</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Provide academic support to children and youth in subjects like English, Math, and Science.</p>
+                        <ul class="text-gray-600 mb-6 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Teaching or tutoring experience</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Patience and good communication</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Background check required</span>
+                            </li>
+                        </ul>
+                        <button onclick="openRoleModal('educationTutor')" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition flex items-center justify-center">
+                            <i class="fas fa-info-circle mr-2"></i>Learn More & Apply
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mental Health Support -->
+                <div class="volunteer-card bg-white rounded-2xl shadow-md overflow-hidden" data-category="health">
+                    <div class="img-container h-48">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80" 
+                             alt="Mental health support" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Mental Health Support</h3>
+                            <span class="volunteer-badge badge-flexible">Flexible</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>3-8 hours/week</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Provide emotional support and facilitate wellness activities for community members.</p>
+                        <ul class="text-gray-600 mb-6 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Counseling or psychology background</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Active listening skills</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Cultural sensitivity training</span>
+                            </li>
+                        </ul>
+                        <button onclick="openRoleModal('mentalHealth')" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                            <i class="fas fa-info-circle mr-2"></i>Learn More & Apply
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tech Trainer -->
+                <div class="volunteer-card bg-white rounded-2xl shadow-md overflow-hidden" data-category="technology">
+                    <div class="img-container h-48">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" 
+                             alt="Digital skills training" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Digital Skills Trainer</h3>
+                            <span class="volunteer-badge badge-remote">Remote/On-site</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>4-12 hours/week</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Teach basic computer skills, coding, or digital literacy to youth and adults.</p>
+                        <ul class="text-gray-600 mb-6 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Technical proficiency</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Teaching experience preferred</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-green mt-1 mr-2"></i>
+                                <span>Patience with beginners</span>
+                            </li>
+                        </ul>
+                        <button onclick="openRoleModal('techTrainer')" class="w-full bg-primary-yellow text-gray-800 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition flex items-center justify-center">
+                            <i class="fas fa-info-circle mr-2"></i>Learn More & Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Process Section -->
+    <section id="volunteerProcess" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Volunteer Process</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">We've designed a straightforward process to ensure the best experience for both volunteers and the community</p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">1</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Application</h3>
+                    <p class="text-gray-600">Submit your application and tell us about your skills and interests</p>
+                </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-green rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">2</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Screening & Training</h3>
+                    <p class="text-gray-600">Complete orientation and any required training for your role</p>
+                </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-yellow rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">3</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Placement</h3>
+                    <p class="text-gray-600">Get matched with a role that fits your skills and availability</p>
+                </div>
+                
+                <div class="text-center fade-in">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">4</div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Ongoing Support</h3>
+                    <p class="text-gray-600">Receive continuous support and recognition for your contributions</p>
+                </div>
+            </div>
+            
+            <!-- Process Image -->
+            <div class="mt-12 img-container h-64">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                     alt="Volunteer training process" class="w-full h-full object-cover rounded-xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Testimonials -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Volunteer Stories</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Hear from our volunteers about their experiences making a difference</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                             alt="Alice Smith" class="testimonial-img rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Alice Smith</h4>
+                            <p class="text-sm text-gray-600">Education Tutor, 6 months</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Teaching English to children at Mahama Camp has been incredibly rewarding. Seeing their progress and enthusiasm for learning reminds me why I volunteer."</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-md fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                             alt="David Johnson" class="testimonial-img rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">David Johnson</h4>
+                            <p class="text-sm text-gray-600">Tech Trainer, 1 year</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"As a remote tech trainer, I've helped youth develop digital skills that open up new opportunities. The gratitude from students makes every session worthwhile."</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-md fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Maria Rodriguez" class="testimonial-img rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Maria Rodriguez</h4>
+                            <p class="text-sm text-gray-600">Community Outreach, 8 months</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Building relationships with families in the camp has taught me so much about resilience and community. This experience has changed my perspective on life."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary-dark to-gray-900 text-white">
+        <div class="max-w-4xl mx-auto text-center px-6">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Make a Difference?</h2>
+            <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">Join our volunteer community today and start your journey of impact and transformation.</p>
+            <button onclick="openModal('volunteerModal')" class="btn-professional bg-primary-green text-white px-10 py-4 rounded-lg font-semibold text-lg hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
+                <i class="fas fa-user-plus mr-3"></i>Become a Volunteer
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer - Matching mental wellness page -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <!-- Footer Logo -->
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-r from-primary-blue to-primary-green p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-white"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">HopeLink</div>
+                            <div class="text-xs text-primary-green font-semibold">Mahama Refugee Camp</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Empowering refugees through technology and innovation in Mahama Camp, Rwanda.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="./index.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-home mr-2 text-xs"></i>Home</a></li>
+                        <li><a href="./about-us.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-info-circle mr-2 text-xs"></i>About</a></li>
+                        <li><a href="./get-involved.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-handshake mr-2 text-xs"></i>Get Involved</a></li>
+                        <li><a href="./contact.html" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-envelope mr-2 text-xs"></i>Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            Mahama Camp, Kirehe District, Rwanda
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            hopelink.mahama@gmail.com
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            +250 123 456 789
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary-blue transition transform hover:scale-110">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition transform hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition transform hover:scale-110">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-500 transition transform hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="mt-6">
+                        <h5 class="text-sm font-semibold mb-2">Stay Updated</h5>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded-l text-sm focus:outline-none focus:ring-2 focus:ring-primary-green">
+                            <button class="bg-primary-green text-white px-3 py-2 rounded-r text-sm hover:bg-green-600 transition">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 HopeLink Mahama — Empowering Refugees Through Innovation.</p>
+                <p class="text-xs mt-2">All rights reserved. Registered non-profit organization.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div class="flex items-center">
+            <i id="notificationIcon" class="fas fa-check-circle mr-2"></i>
+            <span id="notificationMessage">Action completed successfully!</span>
+        </div>
+    </div>
+
+    <!-- Volunteer Application Modal -->
+    <div id="volunteerModal" class="modal">
+        <div class="bg-white p-8 rounded-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Become a Volunteer</h3>
+                <button onclick="closeModal('volunteerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="volunteerForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">First Name</label>
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Last Name</label>
+                        <input type="text" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Area of Interest</label>
+                    <select class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                        <option value="">Select an area</option>
+                        <option value="education">Education/Tutoring</option>
+                        <option value="tech">Technology Support</option>
+                        <option value="health">Health & Wellness</option>
+                        <option value="outreach">Community Outreach</option>
+                        <option value="fundraising">Fundraising</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-primary-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donateModal" class="modal">
+        <div class="bg-white p-8 rounded-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Make a Donation</h3>
+                <button onclick="closeModal('donateModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="donationForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Donation Amount</label>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="5000">RWF 5,000</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="10000">RWF 10,000</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="25000">RWF 25,000</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="50000">RWF 50,000</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="100000">RWF 100,000</button>
+                        <button type="button" class="donation-amount py-2 border border-gray-300 rounded hover:bg-primary-blue hover:text-white transition-colors" data-amount="250000">RWF 250,000</button>
+                    </div>
+                    <input type="number" id="customAmount" placeholder="Custom Amount (RWF)" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="donorName" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="donorEmail" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Payment Method</label>
+                    <select id="paymentMethod" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                        <option value="mobile">Mobile Money</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="card">Credit Card</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                        Process Donation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ========== MODAL MANAGEMENT ==========
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside content
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ========== NAVIGATION FUNCTIONALITY ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuButton').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('active');
+            });
+
+            // Desktop dropdown functionality
+            document.querySelectorAll('.dropdown-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdownId = this.getAttribute('data-dropdown');
+                    const dropdown = document.getElementById(`${dropdownId}-dropdown`);
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-content').forEach(d => {
+                        if (d.id !== `${dropdownId}-dropdown`) {
+                            d.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            // Mobile dropdown functionality
+            document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdownContent = this.nextElementSibling;
+                    dropdownContent.classList.toggle('active');
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                // Close desktop dropdowns
+                if (!event.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                // Close mobile dropdowns
+                if (!event.target.closest('.mobile-dropdown')) {
+                    document.querySelectorAll('.mobile-dropdown-content').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                // Close mobile menu
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuButton = document.getElementById('mobileMenuButton');
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+
+            // ========== FORM HANDLING ==========
+            // Donation form
+            document.getElementById('donationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get donation amount
+                let amount = document.getElementById('customAmount').value;
+                if (!amount) {
+                    // Check if a preset amount was selected
+                    const selectedAmount = document.querySelector('.donation-amount.active');
+                    if (selectedAmount) {
+                        amount = selectedAmount.getAttribute('data-amount');
+                    }
+                }
+                
+                if (!amount || amount <= 0) {
+                    showNotification('Please select or enter a valid donation amount', 'error');
+                    return;
+                }
+                
+                const name = document.getElementById('donorName').value;
+                const email = document.getElementById('donorEmail').value;
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                
+                if (!name || !email) {
+                    showNotification('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    showNotification('Please enter a valid email address', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                submitButton.disabled = true;
+                
+                // Simulate payment processing
+                setTimeout(() => {
+                    showNotification(`Thank you for your donation of RWF ${amount}! A receipt has been sent to ${email}.`);
+                    closeModal('donateModal');
+                    
+                    // Reset form
+                    document.getElementById('donationForm').reset();
+                    document.querySelectorAll('.donation-amount').forEach(btn => {
+                        btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+                    });
+                    
+                    // Reset button state
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                }, 2000);
+            });
+
+            // Volunteer form
+            document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real application, you would send this data to a server
+                showNotification('Thank you for your volunteer application! We will contact you soon.');
+                closeModal('volunteerModal');
+                
+                // Reset form
+                this.reset();
+            });
+
+            // Donation amount buttons
+            document.querySelectorAll('.donation-amount').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.donation-amount').forEach(btn => {
+                        btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active', 'bg-primary-blue', 'text-white');
+                    
+                    // Clear custom amount
+                    document.getElementById('customAmount').value = '';
+                });
+            });
+
+            // Clear preset amount when custom amount is entered
+            document.getElementById('customAmount').addEventListener('input', function() {
+                document.querySelectorAll('.donation-amount').forEach(btn => {
+                    btn.classList.remove('active', 'bg-primary-blue', 'text-white');
+                });
+                
+                // Update active section indicator
+                updateActiveSection();
+            });
+        }
+
+        // Setup section indicator
+        function setupSectionIndicator() {
+            const dots = document.querySelectorAll('.section-dot');
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    scrollToSection(sectionId);
+                });
+            });
+        }
+
+        // Update active section
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('section[id]');
+            const dots = document.querySelectorAll('.section-dot');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = section.id;
+                }
+            });
+            
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === currentSection) {
+                    dot.classList.add('active');
+                }
+            });
+
+            // ========== FILTER BUTTONS ==========
+            const filterButtons = document.querySelectorAll('.filter-btn-modern');
+            const volunteerCards = document.querySelectorAll('.card-modern[data-category]');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('filter-active'));
+                    // Add active class to clicked button
+                    this.classList.add('filter-active');
+                    
+                    // Filter cards
+                    const filter = this.getAttribute('data-filter');
+                    volunteerCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // ========== ANIMATIONS ==========
+            // Intersection Observer for fade-in animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            // Observe fade-in elements
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.getElementById('mainNav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('nav-scrolled');
+                } else {
+                    nav.classList.remove('nav-scrolled');
+                }
+                
+                // Update scroll progress bar
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('scrollProgress').style.width = scrolled + '%';
+            });
+
+            // ========== ROLE MODALS ==========
+            // Volunteer role data
+            const volunteerRoles = {
+                educationTutor: {
+                    title: "Education Tutor",
+                    description: "As an Education Tutor, you will provide academic support to children and youth in the Mahama Refugee Camp, helping them build essential skills in subjects like English, Math, and Science.",
+                    responsibilities: [
+                        "Provide one-on-one or small group tutoring sessions",
+                        "Develop engaging lesson plans and learning activities",
+                        "Assess student progress and provide feedback",
+                        "Create a supportive and inclusive learning environment"
+                    ]
+                },
+                mentalHealth: {
+                    title: "Mental Health Support",
+                    description: "Provide emotional support and facilitate wellness activities for community members dealing with trauma, stress, and displacement-related challenges.",
+                    responsibilities: [
+                        "Facilitate support groups and wellness workshops",
+                        "Provide one-on-one emotional support sessions",
+                        "Help develop and implement mental health resources",
+                        "Collaborate with mental health professionals"
+                    ]
+                },
+                techTrainer: {
+                    title: "Digital Skills Trainer",
+                    description: "Teach basic computer skills, coding, or digital literacy to youth and adults in the Mahama Camp, helping them develop valuable skills for education and employment.",
+                    responsibilities: [
+                        "Teach digital literacy classes",
+                        "Provide coding or software training",
+                        "Develop curriculum and learning materials",
+                        "Assess participant progress and provide feedback"
+                    ]
+                },
+                communityOutreach: {
+                    title: "Community Outreach",
+                    description: "Engage directly with community members, identify needs, build relationships, and connect people with appropriate resources and services.",
+                    responsibilities: [
+                        "Conduct community needs assessments",
+                        "Build relationships with community members",
+                        "Connect individuals with services and resources",
+                        "Organize community events and information sessions"
+                    ]
+                },
+                nutritionEducator: {
+                    title: "Nutrition Educator",
+                    description: "Teach nutrition basics and healthy cooking practices to families, helping improve dietary habits and overall health in the community.",
+                    responsibilities: [
+                        "Conduct nutrition education workshops",
+                        "Demonstrate healthy cooking techniques",
+                        "Develop culturally appropriate nutrition materials",
+                        "Provide one-on-one nutrition guidance"
+                    ]
+                },
+                virtualMentor: {
+                    title: "Virtual Mentor",
+                    description: "Provide career guidance, academic support, and mentorship to youth via online sessions, helping them plan for their future and develop important life skills.",
+                    responsibilities: [
+                        "Conduct regular virtual mentoring sessions",
+                        "Provide career and educational guidance",
+                        "Help mentees set and work toward goals",
+                        "Share professional experiences and insights"
+                    ]
+                }
+            };
+
+            // Open role modal
+            window.openRoleModal = function(roleId) {
+                const role = volunteerRoles[roleId];
+                if (!role) return;
+                
+                // Create modal HTML
+                const modalContent = `
+                    <div class="bg-white p-8 rounded-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800">${role.title}</h3>
+                            <button onclick="closeModal('roleModal')" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-lg text-blue-800 mb-2">Role Description</h4>
+                                <p class="text-gray-700">${role.description}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-lg mb-3">Key Responsibilities</h4>
+                                <ul class="space-y-2">
+                                    ${role.responsibilities.map(resp => `<li class="flex items-start"><i class="fas fa-check text-primary-green mt-1 mr-2"></i><span>${resp}</span></li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="pt-4">
+                                <button onclick="openModal('volunteerModal')" class="w-full bg-primary-green text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                                    Apply for This Role
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Create modal if it doesn't exist
+                let modal = document.getElementById('roleModal');
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = 'roleModal';
+                    modal.className = 'modal';
+                    modal.innerHTML = modalContent;
+                    document.body.appendChild(modal);
+                } else {
+                    modal.innerHTML = modalContent;
+                }
+                
+                openModal('roleModal');
+            };
+
+            // ========== UTILITY FUNCTIONS ==========
+            window.scrollToSection = function(sectionId) {
+                document.getElementById(sectionId).scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            };
+
+            window.isValidEmail = function(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            };
+
+            // ========== NOTIFICATION SYSTEM ==========
+            window.showNotification = function(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const notificationIcon = document.getElementById('notificationIcon');
+                const notificationMessage = document.getElementById('notificationMessage');
+                
+                // Set notification content and style
+                notificationMessage.textContent = message;
+                notification.className = 'notification ' + type;
+                
+                if (type === 'success') {
+                    notificationIcon.className = 'fas fa-check-circle mr-2';
+                    notification.classList.add('bg-primary-green');
+                } else {
+                    notificationIcon.className = 'fas fa-exclamation-circle mr-2';
+                    notification.classList.add('bg-red-500');
+                }
+                
+                // Show notification
+                notification.classList.add('show');
+                
+                // Hide after 5 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            };
+
+            // ========== INITIALIZATION ==========
+            // Show welcome notification after page loads
+            setTimeout(() => {
+                showNotification('Welcome to HopeLink Mahama Volunteer Program!', 'success');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
